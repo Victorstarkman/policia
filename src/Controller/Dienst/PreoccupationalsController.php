@@ -122,22 +122,19 @@ class PreoccupationalsController extends AppController
 		if ($this->request->is('post')) {
 			$data = $this->request->getData();
 			$preoccupational = $this->Preoccupationals->get($data['preoccupational_id']);
-			if (is_null($preoccupational->aptitude_id)) {
-				$data['aptitud_id'] = $data['aptitud'];
-				if ($this->Preoccupationals->needObservations($data['aptitud']) and empty($data['observations'])) {
-					$this->Flash->error(__('Ups, faltaron las observaciones. Intente nuevamente.'));
-				} else {
-					$preoccupational->aptitude_id = $data['aptitud'];
-					$preoccupational->observations = $data['observations'];
-					if ($this->Preoccupationals->save($preoccupational)) {
-						$this->Flash->success(__('Se grabo correctamente.'));
-					} else {
-						$this->Flash->error(__('Ups, hubo un problema al grabar, intente nuevamente.'));
-					}
-				}
+			$data['aptitud_id'] = $data['aptitud'];
+			if ($this->Preoccupationals->needObservations($data['aptitud']) and empty($data['observations'])) {
+				$this->Flash->error(__('Ups, faltaron las observaciones. Intente nuevamente.'));
 			} else {
-				$this->Flash->error(__('Ups, hubo un problema. La aptitud del preocupacional ya fue verificada anteriormente.'));
+				$preoccupational->aptitude_id = $data['aptitud'];
+				$preoccupational->observations = $data['observations'];
+				if ($this->Preoccupationals->save($preoccupational)) {
+					$this->Flash->success(__('Se grabo correctamente.'));
+				} else {
+					$this->Flash->error(__('Ups, hubo un problema al grabar, intente nuevamente.'));
+				}
 			}
+
 		}
 		return $this->redirect(strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
 	}

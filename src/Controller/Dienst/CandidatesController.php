@@ -85,11 +85,11 @@ class CandidatesController extends AppController
 			if (!$candidateExistence['exists']) {
 				$candidate = $this->Candidates->patchEntity($candidate, $data);
 				if ($this->Candidates->save($candidate)) {
-					$this->Flash->success(__('The candidate has been saved.'));
+					$this->Flash->success(__('El aspirante fue creado. Asigne Turno.'));
 
 					return $this->redirect(strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id);
 				}
-				$this->Flash->error(__('The candidate could not be saved. Please, try again.'));
+				$this->Flash->error(__('El aspirante no pudo ser creado.'));
 			}
 	        $this->Flash->error($candidateExistence['error'], ['escape' => false]);
         }

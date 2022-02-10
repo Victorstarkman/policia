@@ -57,7 +57,7 @@ class Preoccupational extends Entity
 		return !in_array($this->status, $PreoccupationalsTable->noNeedOtherDateStatus());
 	}
 
-	public function presentOrAbsent() {
+	public function presentOrAbsent($action = null) {
 		$text = false;
 		if ($this->status == PreoccupationalsTable::PRESENT) {
 			$text = "Presente";
@@ -65,8 +65,12 @@ class Preoccupational extends Entity
 			$text = "Ausente";
 		} elseif ($this->status == PreoccupationalsTable::CANCELLED) {
 			$text = "Cancelado";
-		} elseif ($this->status == PreoccupationalsTable::ACTIVE) {
-			$text = "Activo";
+		}
+
+		if(!is_null($action) and $action == 'view') {
+			if ($this->status == PreoccupationalsTable::ACTIVE) {
+				$text = "Activo";
+			}
 		}
 
 		return $text;
@@ -81,8 +85,12 @@ class Preoccupational extends Entity
 	}
 
 	public function readyForAptitud() {
-		return $this->status == PreoccupationalsTable::PRESENT and is_null($this->aptitude_id);
+		return $this->status == PreoccupationalsTable::PRESENT and is_null($this->aptitude_id) || !is_null($this->aptitude_id);
 	}
+	public function esApto() {
+		return !is_null($this->aptitude_id) and $this->aptitude_id == PreoccupationalsTable::APTO;
+	}
+
 
 	public function haveObservations() {
 		return in_array($this->aptitude_id, PreoccupationalsTable::APTITUD_ID_NEED_OBSERVATION);

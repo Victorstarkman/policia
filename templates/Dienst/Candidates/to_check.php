@@ -26,12 +26,12 @@
 		<table class="table table-bordered" id="tabla_actualizaciones">
 			<thead>
 			<tr>
-				<th><?= $this->Paginator->sort('id') ?></th>
-				<th><?= $this->Paginator->sort('name') ?></th>
-				<th><?= $this->Paginator->sort('lastname') ?></th>
-				<th><?= $this->Paginator->sort('cuil') ?></th>
-				<th><?= $this->Paginator->sort('Turno') ?></th>
-				<th><?= $this->Paginator->sort('Tipo') ?></th>
+                <th><?= $this->Paginator->sort('id', __('#')) ?></th>
+                <th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
+                <th><?= $this->Paginator->sort('lastname', __('Apellido')) ?></th>
+                <th><?= $this->Paginator->sort('cuil', __('CUIL')) ?></th>
+                <th><?= $this->Paginator->sort('appoitment', __('Turno')) ?></th>
+                <th><?= $this->Paginator->sort('preocuppationalstype_id', __('Tipo')) ?></th>
 				<th class="actions"><?= __('Acciones') ?></th>
 			</tr>
 			</thead>

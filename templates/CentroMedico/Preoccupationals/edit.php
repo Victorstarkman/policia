@@ -100,8 +100,7 @@
             fileCounterStyle: ') ',
             deleteStr: 'Eliminar',
             showDelete: true,
-            onLoad:function(obj)
-            {
+            onLoad:function(obj) {
                 $.ajax({
                     cache: false,
                     url: '<?php echo $this->Url->build(['controller' => 'Files','action' => 'viewFiles', $preoccupational->candidate->id, 'candidate' ]); ?>',
@@ -142,8 +141,11 @@
             },
             onSuccess:function(files,data,xhr,pd) {
                 var getNumber = pd.statusbar[0].innerText.split(')')[0];
+                console.log(data);
                 if (typeof  data === 'string') {
+
                     data = $.parseJSON(data);
+
                     if (data.name) {
                         pd.filename.html(getNumber + ') ' + data.name);
                     }
@@ -167,6 +169,7 @@
             fileCounterStyle: ') ',
             deleteStr: 'Eliminar',
             showDelete: true,
+            returnType: 'json',
             onLoad:function(obj)
             {
                 $.ajax({
@@ -215,6 +218,16 @@
                         pd.filename.html(getNumber + ') ' + data.name);
                     }
                 }
+            },
+            onError: function(files,status,errMsg,pd)
+            {
+                console.log('a');
+                //files: list of files
+                //status: error status
+                //errMsg: error message
+            },
+            afterUploadAll:function(obj)
+            {
             }
         });
     });

@@ -34,13 +34,13 @@
         <table class="table table-bordered" id="tabla_actualizaciones">
             <thead>
             <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('name') ?></th>
-                <th><?= $this->Paginator->sort('lastname') ?></th>
-                <th><?= $this->Paginator->sort('cuil') ?></th>
-                <th><?= $this->Paginator->sort('Turno') ?></th>
-                <th><?= $this->Paginator->sort('Tipo') ?></th>
-                <th><?= $this->Paginator->sort('Apto') ?></th>
+                <th><?= $this->Paginator->sort('id', __('#')) ?></th>
+                <th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
+                <th><?= $this->Paginator->sort('lastname', __('Apellido')) ?></th>
+                <th><?= $this->Paginator->sort('cuil', __('CUIL')) ?></th>
+                <th><?= $this->Paginator->sort('appoitment', __('Turno')) ?></th>
+                <th><?= $this->Paginator->sort('preocuppationalstype_id', __('Tipo')) ?></th>
+                <th><?= $this->Paginator->sort('aptitude_id', __('Apto')) ?></th>
                 <th class="actions"><?= __('Acciones') ?></th>
             </tr>
             </thead>
@@ -63,13 +63,13 @@
                         <?= ($needDate) ? $this->Html->link(__('Asignar turno'),   strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id, ['fullBase' => true]) : (($presentorAbsentDate) ? $presentorAbsentDate : $candidate->preoccupationals[$getPos]->showDate()); ?>
                     </td>
                     <td>
-                        <?= (!is_null($candidate->preoccupationals[$getPos]->preocuppationalstype)) ? $candidate->preoccupationals[$getPos]->preocuppationalstype->name : '-' ?>
+                        <?= (!empty($candidate->preoccupationals) and !is_null($candidate->preoccupationals[$getPos]->preocuppationalstype)) ? $candidate->preoccupationals[$getPos]->preocuppationalstype->name : '-' ?>
                     </td>
                     <td>
-                        <?= (!is_null($candidate->preoccupationals[$getPos]->aptitude_id)) ? $candidate->preoccupationals[$getPos]->aptitude->name : '-' ?>
+                        <?= (!empty($candidate->preoccupationals) and !is_null($candidate->preoccupationals[$getPos]->aptitude_id)) ? $candidate->preoccupationals[$getPos]->aptitude->name : '-' ?>
                     </td>
                     <td class="actions">
-                        <?php if ($candidate->preoccupationals[$getPos]->readyForAptitud()) : ?>
+                        <?php if (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->readyForAptitud()) : ?>
 	                        <?= $this->Html->link('Dar apto',   strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
                         <?php else : ?>
 	                        <?= $this->Html->link('Ver',   strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>

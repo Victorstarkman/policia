@@ -28,10 +28,10 @@
             <thead>
             <tr>
                 <th><?= $this->Paginator->sort('#') ?></th>
-                <th><?= $this->Paginator->sort('Nombre') ?></th>
-                <th><?= $this->Paginator->sort('Apellido') ?></th>
-                <th><?= $this->Paginator->sort('CUIL') ?></th>
-                <th><?= $this->Paginator->sort('Turno') ?></th>
+                <th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
+                <th><?= $this->Paginator->sort('lastname', __('Nombre')) ?></th>
+                <th><?= $this->Paginator->sort('cuil', __('Nombre')) ?></th>
+                <th><?= $this->Paginator->sort('$appoitment', __('Turno')) ?></th>
                 <th class="actions"><?= __('Acciones') ?></th>
             </tr>
             </thead>

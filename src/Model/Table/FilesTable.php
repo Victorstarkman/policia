@@ -87,4 +87,10 @@ class FilesTable extends Table
 
         return $rules;
     }
+
+	public function checkDocument($filename, $preocupationalID) {
+
+		$countOfFiles = $this->find()->where(['name' => $filename, 'preoccupational_id' => $preocupationalID])->all()->count();
+		return $countOfFiles > 0;
+	}
 }

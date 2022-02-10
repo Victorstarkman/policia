@@ -41,6 +41,7 @@ class PreoccupationalsTable extends Table
 	const PRESENT = 4;
 
 	const APTITUD_ID_NEED_OBSERVATION = [2, 3];
+	const APTO = 1;
     /**
      * Initialize method
      *
@@ -163,7 +164,7 @@ class PreoccupationalsTable extends Table
 	public function getToCheck($search = null) {
 		$toCheck = $this->find()
 			->contain(['Candidates', 'Aptitudes', 'Preocuppationalstypes'])
-			->where(['status NOT IN' => self::PRESENT])
+			->where(['status' => self::PRESENT])
 			->where(['aptitude_id IS NULL']);
 
 		if (!is_null($search)) {

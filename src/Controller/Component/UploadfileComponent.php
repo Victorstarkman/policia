@@ -24,13 +24,14 @@ class UploadfileComponent extends Component
 			$fileNameWithOutExtension = rand ();
 			$fileName = $fileNameWithOutExtension . '.' . $ext;
 			$output_dir = $moveTo . $fileNameWithOutExtension;
+			$finalOutput = $moveTo . $file->getClientFilename();
 			if ($this->isImage($ext)) {
 				try {
 					$file->moveTo($this->pathToTmp .  $fileName);
 					$imgWidthHeight = getimagesize($this->pathToTmp .  $fileName);
 					$thumber = new ThumbCreator(ROOT . '/tmp/thumbs/' .  $fileName);
 					$thumber->resize($imgWidthHeight['0'], $imgWidthHeight['1']);
-					$thumber->save(['target' => $output_dir . '.' . $ext ]);
+					$thumber->save(['target' => $finalOutput ]);
 					if (!empty($this->sizes)) {
 						foreach ($this->sizes as $size) {
 							$thumber->resize($size[0], $size[1]);
@@ -38,7 +39,7 @@ class UploadfileComponent extends Component
 						}
 					}
 					unlink($this->pathToTmp .  $fileName);
-					$returnMsg['filename'] = $fileName;
+					$returnMsg['filename'] = $file->getClientFilename();
 					$returnMsg['ext'] = $ext;
 					$returnMsg['success'] = true;
 				}catch (\Exception $e) {
@@ -46,8 +47,8 @@ class UploadfileComponent extends Component
 				}
 			} else {
 				try {
-					$file->moveTo($output_dir . '.' . $ext);
-					$returnMsg['filename'] = $fileName;
+					$file->moveTo($finalOutput);
+					$returnMsg['filename'] = $file->getClientFilename();
 					$returnMsg['ext'] = $ext;
 					$returnMsg['success'] = true;
 				} catch (\Exception $e) {

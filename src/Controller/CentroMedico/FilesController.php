@@ -5,6 +5,8 @@ namespace App\Controller\CentroMedico;
 
 use App\Controller\AppController;
 use Cake\Core\Configure;
+use Cake\Http\Exception\NotFoundException;
+use Laminas\Diactoros\Exception\UploadedFileAlreadyMovedException;
 
 /**
  * Files Controller
@@ -35,28 +37,31 @@ class FilesController extends AppController
 			if (!file_exists($path) && !is_dir($path)) {
 				mkdir($path);
 			}
+			if (!$this->Files->checkDocument($attachment->getClientFilename(), $preoccupationID)) {
+				try {
+					$this->loadComponent('Uploadfile');
+					$uploadStatus = $this->Uploadfile->upload($attachment, $path);
+				}catch (\Exception $e) {
+					$uploadStatus['success'] = false;
+				}
+				if($uploadStatus['success']) {
+					$file = $this->Files->newEmptyEntity();
+					$data['name'] = $uploadStatus['filename'];
+					$file = $this->Files->patchEntity($file, $data);
 
-			try {
-				$this->loadComponent('Uploadfile');
-				$uploadStatus = $this->Uploadfile->upload($attachment, $path);
-			}catch (\Exception $e) {
-				$uploadStatus['success'] = false;
-			}
-
-			if($uploadStatus['success']) {
-				$file = $this->Files->newEmptyEntity();
-				$data['name'] = $uploadStatus['filename'];
-				$file = $this->Files->patchEntity($file, $data);
-
-				if ($this->Files->save($file)) {
-					$ret['name'] =  'ID-' . $file->id . '(' . $uploadStatus['ext'] . ')';
-					$ret['success'] = true;
+					if ($this->Files->save($file)) {
+						$ret['name'] =  'ID-' . $file->id . '(' . $uploadStatus['ext'] . ')';
+						$ret['success'] = true;
+					} else {
+						$ret['msg'] = 'Hubo un problema al guardar la imagen';
+					}
 				} else {
-					$ret['msg'] = 'Hubo un problema al guardar la imagen';
+					$ret['msg'] = 'La imagen no se pudo subir o ya existe la imagen con el mismo nombre';
 				}
 			} else {
-				$ret['msg'] = 'La imagen no se pudo subir o ya existe la imagen con el mismo nombre';
+				$ret['msg'] = 'Ya existe la imagen con el mismo nombre';
 			}
+
 		}
 
 		$this->set(compact('ret'));
@@ -96,6 +101,7 @@ class FilesController extends AppController
 					'contain' => [],
 				]);
 				$data['photo'] = $uploadStatus['filename'];
+
 				$candidate = $this->Files->Preoccupationals->Candidates->patchEntity($candidate, $data);
 
 				if ($this->Files->Preoccupationals->Candidates->save($candidate)) {
@@ -126,7 +132,7 @@ class FilesController extends AppController
 			$this->loadComponent('Uploadfile');
 			foreach($files as $file) {
 				$details = array();
-				$details['name'] =   'ID-' . $file->id . '(' . pathinfo($file->name, PATHINFO_EXTENSION) . ')';
+				$details['name'] =   'ID-' . $file->id . ' (' . pathinfo($file->name, PATHINFO_EXTENSION) . ')<br/>' . $file->name;
 				if ($this->Uploadfile->isImage(pathinfo($file->name, PATHINFO_EXTENSION))) {
 					$details['path'] = DS . $output_dir . $file->preoccupational->id  . DS . $file->name;
 					$details['absolutePath'] = $output_full_path  . $file->preoccupational->id . DS . $file->name;
@@ -150,7 +156,7 @@ class FilesController extends AppController
 			if (!is_null($candidatePhoto->photo)) {
 				$output_dir =  '/img/candidates' . DS .  $candidatePhoto->id . DS;
 				$details = [
-					'name' => 'ID-' . $candidatePhoto->id,
+					'name' => 'ID-' . $candidatePhoto->id . '<br/>' . $candidatePhoto->photo,
 					'path' => $output_dir . $candidatePhoto->photo,
 					'absolutePath' => WWW_ROOT . $output_dir . $candidatePhoto->photo
 				];

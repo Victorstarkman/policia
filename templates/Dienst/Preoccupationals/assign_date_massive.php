@@ -10,7 +10,9 @@
 	</div>
 	<div class="results">
 		<p class="title-results">Aspirantes</p>
-		<div class="mx-auto form-group row col-lg-12 col-md-12">
+        <div class="alert alert-info col-lg-12 text-center msg" role="alert" style="display: none;"></div>
+
+        <div class="mx-auto form-group row col-lg-12 col-md-12">
 			<div class="pl-0 col-4">
 				<?= $this->Form->control('appointment', ['label'=> false, 'type' => 'datetime', 'class' => 'form-control form-control-blue m-0 col-12 dateToAssign', 'requiered' => true]); ?>
                 <small>Seleccione la fecha que desea asignar a todos los turnos.</small>
@@ -27,10 +29,10 @@
 		<table class="table table-bordered" id="tabla_actualizaciones">
 			<thead>
 			<tr>
-				<th><?= $this->Paginator->sort('id') ?></th>
-				<th><?= $this->Paginator->sort('name') ?></th>
-				<th><?= $this->Paginator->sort('lastname') ?></th>
-				<th><?= $this->Paginator->sort('cuil') ?></th>
+				<th><?= $this->Paginator->sort('id', __('#')) ?></th>
+				<th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
+				<th><?= $this->Paginator->sort('lastname', __('Apellido')) ?></th>
+				<th><?= $this->Paginator->sort('cuil', __('CUIL')) ?></th>
 				<th class="actions"><?= __('Seleccione') ?></th>
 			</tr>
 			</thead>
@@ -67,20 +69,35 @@ $('input.appointment').change(function(){
         $(".assignDate").attr("disabled", true)
     }
 });
-<div class="loading"></div>
 $(".assignDate").on("click", function(){
     dateInput = $(".dateToAssign").val();
     preocuppationalstype_id = $(".preocuppationalstype_id option").filter(':selected').val();
-
-    $.ajax({
-        cache: false,
-        url: '<?php echo $this->Url->build(['controller' => 'Preoccupationals', 'action' => 'addMasive']); ?>/',
-        data: {candidatesID: candidateID, date:  dateInput, preocuppationalstype_id: preocuppationalstype_id},
-        dataType: "json",
-        success: function(data) {
-            location.reload();
+    $msg = "";
+    now = new Date();
+    varDate = new Date(dateInput);
+    if (dateInput === "" || preocuppationalstype_id === "" || varDate < now) {
+        if (dateInput === "" ) {
+            $msg = "La fecha es obligatoria<br/> ";
+        } else if (varDate < now) {
+            $msg += "La fecha tiene que ser mayor a: " + now.toISOString().substring(0,10) + "<br/> ";
         }
-    });
+        if (preocuppationalstype_id === "") {
+            $msg += "El tipo de preocupacional es obligatorio."
+        }
+        $('.msg').show();
+        $('.msg').html($msg);
+    } else {
+        $.ajax({
+            cache: false,
+            url: '<?php echo $this->Url->build(['controller' => 'Preoccupationals', 'action' => 'addMasive']); ?>/',
+            data: {candidatesID: candidateID, date:  dateInput, preocuppationalstype_id: preocuppationalstype_id},
+            dataType: "json",
+            success: function(data) {
+                location.reload();
+            }
+        });
+    }
+
 })
 </script>
 <?php $this->end(); ?>
