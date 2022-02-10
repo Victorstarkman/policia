@@ -94,6 +94,11 @@ return static function (RouteBuilder $routes) {
 		$routes->scope('/', function (RouteBuilder $builder) {
 			$builder->connect('/', ['controller' => 'Candidates', 'action' => 'index']);
 			$builder->connect('/aspirantes', ['controller' => 'Candidates', 'action' => 'index']);
+			$builder->connect('/aspirantes/editar/{id}', ['controller' => 'Candidates', 'action' => 'edit'])
+				->setPass(['id'])
+				->setPatterns([
+					'id' => '[0-9]+',
+				]);;
 			$builder->connect('/aspirantes/agregar', ['controller' => 'Candidates', 'action' => 'add']);
 			$builder->connect('/aspirantes/importar', ['controller' => 'Candidates', 'action' => 'importar']);
 

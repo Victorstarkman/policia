@@ -132,7 +132,7 @@ class CandidatesTable extends Table
 		return $query;
 	}
 
-	public function checkExistence($data) {
+	public function checkExistence($data, $id = null) {
 		$userExistence = [
 			'exists' => false,
 			'candidate_id' => null,
@@ -140,8 +140,12 @@ class CandidatesTable extends Table
 		];
 		$userExistenceData = $this->find()
 							->select(['id', 'cuil', 'email'])
-							->where(['OR' => ['cuil' => $data['cuil'], 'email' => $data['email']]])->first();
-		if (!empty($userExistenceData)) {
+							->where(['OR' => ['cuil' => $data['cuil'], 'email' => $data['email']]]);
+		if (!is_null($id)) {
+			$userExistenceData->where(['id !=' => $id]);
+		}
+		$userExistenceData->first();
+		if ($userExistenceData->count() > 0) {
 			$userExistence['exists'] = true;
 			$userExistence['candidate_id'] = $userExistenceData->id;
 			if ($userExistenceData->cuil == $data['cuil']) {

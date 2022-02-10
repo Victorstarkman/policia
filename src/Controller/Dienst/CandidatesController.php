@@ -97,4 +97,27 @@ class CandidatesController extends AppController
         $genders = $this->Candidates->Users->getGendersList();
         $this->set(compact('candidate', 'users', 'genders'));
     }
+
+	public function edit($id) {
+		$candidate = $this->Candidates->get($id);
+
+		if ($this->request->is('put') || $this->request->is('post')) {
+			$data = $this->request->getData();
+			$data['user_id'] = $this->Authentication->getIdentity()->id;
+			$candidateExistence = $this->Candidates->checkExistence($data, $id);
+
+			if (!$candidateExistence['exists']) {
+				$candidate = $this->Candidates->patchEntity($candidate, $data);
+				if ($this->Candidates->save($candidate)) {
+					$this->Flash->success(__('El aspirante fue actualizado.'));
+					return $this->redirect(strtolower($this->request->getParam('prefix')) . '/aspirantes/editar/' . $candidate->id);
+				}
+				$this->Flash->error(__('El aspirante no pudo ser creado.'));
+			}
+			$this->Flash->error($candidateExistence['error'], ['escape' => false]);
+		}
+		$users = $this->Candidates->Users->find('list', ['limit' => 200])->all();
+		$genders = $this->Candidates->Users->getGendersList();
+		$this->set(compact('candidate', 'users', 'genders'));
+	}
 }

@@ -69,7 +69,9 @@
                         <?= (!empty($candidate->preoccupationals) and !is_null($candidate->preoccupationals[$getPos]->aptitude_id)) ? $candidate->preoccupationals[$getPos]->aptitude->name : '-' ?>
                     </td>
                     <td class="actions">
-                        <?php if (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->readyForAptitud()) : ?>
+	                    <?= $this->Html->link('Editar',   strtolower($this->request->getParam('prefix')) . '/aspirantes/editar/' . $candidate->id, ['fullBase' => true]); ?>
+                        |
+	                    <?php if (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->readyForAptitud()) : ?>
 	                        <?= $this->Html->link('Dar apto',   strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
                         <?php else : ?>
 	                        <?= $this->Html->link('Ver',   strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
