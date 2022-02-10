@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Table\UsersTable;
 use Cake\ORM\Entity;
 
 /**
@@ -44,6 +45,11 @@ class Candidate extends Entity
         'modified' => true,
         'user_id' => true,
         'user' => true,
+        'photo' => true,
         'preoccupationals' => true,
     ];
+
+	public function getGender() {
+		return (isset(UsersTable::GENDERS[$this->gender])) ? UsersTable::GENDERS[$this->gender] : 'No especificado';
+	}
 }

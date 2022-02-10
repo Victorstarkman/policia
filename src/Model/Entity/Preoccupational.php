@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+use App\Model\Table\AptitudesTable;
 use App\Model\Table\PreoccupationalsTable;
 use Cake\ORM\Entity;
 use Cake\ORM\Locator\LocatorAwareTrait;
@@ -47,6 +48,7 @@ class Preoccupational extends Entity
         'candidate' => true,
         'aptitude' => true,
         'preocuppationals_type' => true,
+        'observations' => true,
         'files' => true,
     ];
 
@@ -61,6 +63,10 @@ class Preoccupational extends Entity
 			$text = "Presente";
 		} elseif ($this->status == PreoccupationalsTable::ABSENT) {
 			$text = "Ausente";
+		} elseif ($this->status == PreoccupationalsTable::CANCELLED) {
+			$text = "Cancelado";
+		} elseif ($this->status == PreoccupationalsTable::ACTIVE) {
+			$text = "Activo";
 		}
 
 		return $text;
@@ -68,5 +74,17 @@ class Preoccupational extends Entity
 
 	public function showDate() {
 		return $this->appointment->format('d/m/Y H:m');
+	}
+
+	public function isPresent() {
+		return $this->status == PreoccupationalsTable::PRESENT;
+	}
+
+	public function readyForAptitud() {
+		return $this->status == PreoccupationalsTable::PRESENT and is_null($this->aptitude_id);
+	}
+
+	public function haveObservations() {
+		return in_array($this->aptitude_id, PreoccupationalsTable::APTITUD_ID_NEED_OBSERVATION);
 	}
 }

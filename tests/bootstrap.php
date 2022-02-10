@@ -35,6 +35,8 @@ if (empty($_SERVER['HTTP_HOST'])) {
     Configure::write('App.fullBaseUrl', 'http://localhost');
 }
 
+
+
 // DebugKit skips settings these connection config if PHP SAPI is CLI / PHPDBG.
 // But since PagesControllerTest is run with debug enabled and DebugKit is loaded
 // in application, without setting up these config DebugKit errors out.

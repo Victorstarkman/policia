@@ -31,12 +31,12 @@
 <body class="text-center login">
 <div class="m-0 row h-100">
 	<div class="mx-auto mt-5 mb-5 show-md col-12">
-		<?= $this->Html->image('logo-blue.png', ['alt' => 'Logo Dienst', 'class' => 'logo']); ?>
+		<?= $this->Html->image('logo-blue.png', ['alt' => 'Logo Dienst']); ?>
 	</div>
 	<div class="hide-md col-lg-6 col-md-6 col-sm-12 left-column">
 		<div class="row align-items-center vh-100">
 			<div class="mx-auto col-12">
-				<?= $this->Html->image('logo-white.png', ['alt' => 'Logo Dienst', 'class' => 'logo']); ?>
+				<?= $this->Html->image('logo-white.png', ['alt' => 'Logo Dienst']); ?>
 			</div>
 		</div>
 	</div>

@@ -47,10 +47,10 @@ class PreoccupationalsController extends AppController
 			$data['status'] = $this->Preoccupationals->activeStatus();
 			$preoccupational = $this->Preoccupationals->patchEntity($preoccupational, $data);
 			if ($this->Preoccupationals->save($preoccupational)) {
-				$this->Flash->success(__('The preoccupational has been saved.'));
-				return $this->redirect(['action' => 'index']);
+				$this->Flash->success(__('Se le asigno correctamente el turno.'));
+				return $this->redirect('/dienst/aspirantes/');
 			}
-			$this->Flash->error(__('The preoccupational could not be saved. Please, try again.'));
+			$this->Flash->error(__('Upps, hubo un problema. Intente nuevamente.'));
 		}
 		$preocuppationalsTypes = $this->Preoccupationals->Preocuppationalstypes->find('list', ['limit' => 200])->all();
 		$this->set(compact('preoccupational', 'candidateID', 'preocuppationalsTypes'));
@@ -117,4 +117,30 @@ class PreoccupationalsController extends AppController
 		}
 		$this->set(compact('stringToReturn'));
 	}
+
+	public function changeAptitud() {
+		if ($this->request->is('post')) {
+			$data = $this->request->getData();
+			$preoccupational = $this->Preoccupationals->get($data['preoccupational_id']);
+			if (is_null($preoccupational->aptitude_id)) {
+				$data['aptitud_id'] = $data['aptitud'];
+				if ($this->Preoccupationals->needObservations($data['aptitud']) and empty($data['observations'])) {
+					$this->Flash->error(__('Ups, faltaron las observaciones. Intente nuevamente.'));
+				} else {
+					$preoccupational->aptitude_id = $data['aptitud'];
+					$preoccupational->observations = $data['observations'];
+					if ($this->Preoccupationals->save($preoccupational)) {
+						$this->Flash->success(__('Se grabo correctamente.'));
+					} else {
+						$this->Flash->error(__('Ups, hubo un problema al grabar, intente nuevamente.'));
+					}
+				}
+			} else {
+				$this->Flash->error(__('Ups, hubo un problema. La aptitud del preocupacional ya fue verificada anteriormente.'));
+			}
+		}
+		return $this->redirect(strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
+	}
+
+
 }

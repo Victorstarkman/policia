@@ -39,6 +39,8 @@ class PreoccupationalsTable extends Table
 	const ABSENT = 2;
 	const CANCELLED = 3;
 	const PRESENT = 4;
+
+	const APTITUD_ID_NEED_OBSERVATION = [2, 3];
     /**
      * Initialize method
      *
@@ -60,8 +62,7 @@ class PreoccupationalsTable extends Table
             'joinType' => 'INNER',
         ]);
         $this->belongsTo('Aptitudes', [
-            'foreignKey' => 'aptitude_id',
-            'joinType' => 'INNER',
+            'foreignKey' => 'aptitude_id'
         ]);
         $this->belongsTo('Preocuppationalstypes', [
             'foreignKey' => 'preocuppationalsType_id',
@@ -127,6 +128,8 @@ class PreoccupationalsTable extends Table
 		];
 	}
 
+
+
 	public function checkPreviousPreoccupationals($candidateID) {
 		$previousPreoccupationals = [
 			'exist' => false
@@ -143,14 +146,45 @@ class PreoccupationalsTable extends Table
 		return $previousPreoccupationals;
 	}
 
-	public function getThisDate($date) {
-		return $appointmentForTheDate = $this->find()->where([
+	public function getThisDate($date, $search = null) {
+		$appointmentForTheDate = $this->find()->where([
 			'appointment >=' => $date->startOfDay(),
 			'appointment <=' => $date->endOfDay(),
 			'status NOT IN' => $this->inactiveStatuses()
 			]);
+
+		if (!is_null($search)) {
+			$appointmentForTheDate->where(['OR' => ['Candidates.cuil' => $search, 'Candidates.email' => $search]]);
+		}
+
+		return $appointmentForTheDate;
 	}
 
+	public function getToCheck($search = null) {
+		$toCheck = $this->find()
+			->contain(['Candidates', 'Aptitudes', 'Preocuppationalstypes'])
+			->where(['status NOT IN' => self::PRESENT])
+			->where(['aptitude_id IS NULL']);
 
+		if (!is_null($search)) {
+			$toCheck->where(['OR' => ['Candidates.cuil' => $search, 'Candidates.email' => $search]]);
+		}
+
+		return $toCheck;
+	}
+
+	public function absent($preoccupational) {
+		$preoccupational->status = self::ABSENT;
+		return $this->save($preoccupational);
+	}
+
+	public function present($preoccupational) {
+		$preoccupational->status = self::PRESENT;
+		return $this->save($preoccupational);
+	}
+
+	public function needObservations($aptitudID) {
+		return in_array($aptitudID, self::APTITUD_ID_NEED_OBSERVATION);
+	}
 
 }

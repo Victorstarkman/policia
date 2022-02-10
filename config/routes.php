@@ -102,7 +102,14 @@ return static function (RouteBuilder $routes) {
 				->setPatterns([
 					'id' => '[0-9]+',
 				]);
+
+			$builder->connect('/preocupacionales/ver/{id}', ['controller' => 'Candidates', 'action' => 'View'])
+				->setPass(['id'])
+				->setPatterns([
+					'id' => '[0-9]+',
+				]);
 			$builder->connect('/preocupacionales/asignarTurnoMasivo', ['controller' => 'Preoccupationals', 'action' => 'assignDateMassive']);
+			$builder->connect('/preocupacionales/sin-revisar', ['controller' => 'Candidates', 'action' => 'toCheck']);
 
 			$builder->fallbacks();
 		});
@@ -126,6 +133,11 @@ return static function (RouteBuilder $routes) {
 
 		$routes->scope('/', function (RouteBuilder $builder) {
 			$builder->connect('/', ['controller' => 'Candidates', 'action' => 'index']);
+			$builder->connect('/preocupacionales/presente/{id}', ['controller' => 'Preoccupationals', 'action' => 'edit'])
+				->setPass(['id'])
+				->setPatterns([
+					'id' => '[0-9]+',
+				]);
 			$builder->fallbacks();
 		});
 

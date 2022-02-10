@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Controller\CentroMedico;
 
 use App\Controller\AppController;
+use App\Model\Table\PreoccupationalsTable;
+use Cake\Http\Exception\UnauthorizedException;
 
 /**
  * Preoccupationals Controller
@@ -13,59 +15,7 @@ use App\Controller\AppController;
  */
 class PreoccupationalsController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Candidates', 'Aptitudes', 'Preocuppationalstypes'],
-        ];
-        $preoccupationals = $this->paginate($this->Preoccupationals);
 
-        $this->set(compact('preoccupationals'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Preoccupational id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $preoccupational = $this->Preoccupationals->get($id, [
-            'contain' => ['Candidates', 'Aptitudes', 'Preocuppationalstypes', 'Files'],
-        ]);
-
-        $this->set(compact('preoccupational'));
-    }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $preoccupational = $this->Preoccupationals->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $preoccupational = $this->Preoccupationals->patchEntity($preoccupational, $this->request->getData());
-            if ($this->Preoccupationals->save($preoccupational)) {
-                $this->Flash->success(__('The preoccupational has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The preoccupational could not be saved. Please, try again.'));
-        }
-        $candidates = $this->Preoccupationals->Candidates->find('list', ['limit' => 200])->all();
-        $aptitudes = $this->Preoccupationals->Aptitudes->find('list', ['limit' => 200])->all();
-        $preocuppationalstypes = $this->Preoccupationals->Preocuppationalstypes->find('list', ['limit' => 200])->all();
-        $this->set(compact('preoccupational', 'candidates', 'aptitudes', 'preocuppationalstypes'));
-    }
 
     /**
      * Edit method
@@ -77,40 +27,40 @@ class PreoccupationalsController extends AppController
     public function edit($id = null)
     {
         $preoccupational = $this->Preoccupationals->get($id, [
-            'contain' => [],
+            'contain' => [
+				'Candidates'
+            ],
         ]);
+		if (!$preoccupational->appointment->isToday()) {
+			throw new UnauthorizedException('No tiene turno para hoy.');
+		}
+
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $preoccupational = $this->Preoccupationals->patchEntity($preoccupational, $this->request->getData());
-            if ($this->Preoccupationals->save($preoccupational)) {
-                $this->Flash->success(__('The preoccupational has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The preoccupational could not be saved. Please, try again.'));
+			if ($this->request->getData('status') == PreoccupationalsTable::PRESENT) {
+				if ($this->Preoccupationals->present($preoccupational)) {
+					$this->Flash->success(__('Marcado como presente.'));
+				} else {
+					$this->Flash->error(__('Ups, hubo un problema y no se pudo marcar como presente. Intente nuevamente.'));
+				}
+			}
         }
-        $candidates = $this->Preoccupationals->Candidates->find('list', ['limit' => 200])->all();
-        $aptitudes = $this->Preoccupationals->Aptitudes->find('list', ['limit' => 200])->all();
-        $preocuppationalstypes = $this->Preoccupationals->Preocuppationalstypes->find('list', ['limit' => 200])->all();
-        $this->set(compact('preoccupational', 'candidates', 'aptitudes', 'preocuppationalstypes'));
+	    $present = PreoccupationalsTable::PRESENT;
+        $this->set(compact('preoccupational', 'present'));
     }
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Preoccupational id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $preoccupational = $this->Preoccupationals->get($id);
-        if ($this->Preoccupationals->delete($preoccupational)) {
-            $this->Flash->success(__('The preoccupational has been deleted.'));
-        } else {
-            $this->Flash->error(__('The preoccupational could not be deleted. Please, try again.'));
-        }
+	public function markAsAbsent($id)
+	{
+		$this->request->allowMethod(['post', 'delete']);
+		$preoccupationCandidate = $this->Preoccupationals->get($id);
+		if ($this->Preoccupationals->absent($preoccupationCandidate)) {
+			$this->Flash->success(__('El turno fue marcado como ausente.'));
+		} else {
+			$this->Flash->error(__('Ups, hubo un problema al intentar modificar el turno. Intente nuevamente.'));
+		}
 
-        return $this->redirect(['action' => 'index']);
-    }
+		return $this->redirect('/centro-medico/');
+
+	}
+
+
 }

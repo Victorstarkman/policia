@@ -10,14 +10,27 @@
     </div>
     <div class="results">
         <p class="title-results">Aspirantes</p>
+        <div class="mx-auto form-group row col-lg-12 col-md-12">
+	        <?= $this->Form->create($candidatesWithAppoitment, ['type' => 'GET', 'class' => 'col-lg-12 col-md-12 row']) ?>
+            <div class="pt-0 col-lg-6 col-sm-12">
+                <div class="form-group">
+			        <?= $this->Form->control('search', ['label'=> false, 'placeholder' => 'Buscar por CUIL o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' =>     $search]); ?>
+                </div>
+            </div>
+            <div class="pl-0 col-6">
+	            <?= $this->Form->button(__('Buscar'), ['class' => 'btn btn-outline-primary col-12']) ?>
+            </div>
+
+	        <?= $this->Form->end() ?>
+        </div>
 		<?= $this->Flash->render() ?>
         <table class="table table-bordered" id="tabla_actualizaciones">
             <thead>
             <tr>
-                <th><?= $this->Paginator->sort('id') ?></th>
-                <th><?= $this->Paginator->sort('name') ?></th>
-                <th><?= $this->Paginator->sort('lastname') ?></th>
-                <th><?= $this->Paginator->sort('cuil') ?></th>
+                <th><?= $this->Paginator->sort('#') ?></th>
+                <th><?= $this->Paginator->sort('Nombre') ?></th>
+                <th><?= $this->Paginator->sort('Apellido') ?></th>
+                <th><?= $this->Paginator->sort('CUIL') ?></th>
                 <th><?= $this->Paginator->sort('Turno') ?></th>
                 <th class="actions"><?= __('Acciones') ?></th>
             </tr>
@@ -32,9 +45,13 @@
                     <td><?= $appoitment->showDate(); ?>
                     </td>
                     <td class="actions">
-						<?= $this->Html->link('<i class="mr-2 fas fa-eye" aria-hidden="true"></i>', ['action' => 'view', $appoitment->id], [ 'escape' => false]); ?>
-						<?= $this->Html->link(__('Edit'), ['action' => 'edit', $appoitment->id]) ?>
-						<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $appoitment->id], ['confirm' => __('Are you sure you want to delete # {0}?', $appoitment->id)]) ?>
+                        <?php if ($appoitment->isPresent()) : ?>
+	                        <?= $this->Html->link('Subir Documentos',  '/centro-medico/preocupacionales/presente/' . $appoitment->id, [ 'escape' => false]); ?>
+                        <?php else : ?>
+	                        <?= $this->Html->link('Presente',  '/centro-medico/preocupacionales/presente/' . $appoitment->id, [ 'escape' => false]); ?>
+                            /
+	                        <?= $this->Form->postLink(__('Ausente'), ['controller' => 'Preoccupationals', 'action' => 'markAsAbsent', $appoitment->id], ['confirm' => __('Desea marcar como ausente a {1} {2} (#{0})?', $appoitment->id, $appoitment->candidate->name, $appoitment->candidate->lastname)]) ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
 			<?php endforeach;?>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller\Dienst;
 
 use App\Controller\AppController;
+use App\Model\Table\PreoccupationalsTable;
 
 /**
  * Candidates Controller
@@ -20,15 +21,32 @@ class CandidatesController extends AppController
      */
     public function index()
     {
+	    $search = $this->request->getQuery('search');
+
         $this->paginate = [
             'contain' => [
-				'Preoccupationals'
+				'Preoccupationals' => [
+					'Preocuppationalstypes',
+					'Aptitudes'
+				]
             ],
         ];
-        $candidates = $this->paginate($this->Candidates);
-        $this->set(compact('candidates'));
+		$candidates = $this->Candidates->find();
+		if (!empty($search)) {
+			$candidates->where(['OR' => ['cuil' => $search, 'email' => $search]]);
+		}
+        $candidates = $this->paginate($candidates);
+        $this->set(compact('candidates', 'search'));
     }
 
+	public function toCheck()
+	{
+		$search = $this->request->getQuery('search');
+		$candidatesToCheck = $this->Candidates->Preoccupationals->getToCheck($search);
+		$candidatesToCheck = $this->paginate($candidatesToCheck);
+
+		$this->set(compact('candidatesToCheck', 'search'));
+	}
     /**
      * View method
      *
@@ -39,7 +57,14 @@ class CandidatesController extends AppController
     public function view($id = null)
     {
         $candidate = $this->Candidates->get($id, [
-            'contain' => ['Users', 'Preoccupationals'],
+            'contain' => [
+				'Users',
+	            'Preoccupationals' => [
+					'Preocuppationalstypes',
+		            'Aptitudes',
+		            'Files'
+	            ]
+            ],
         ]);
 
         $this->set(compact('candidate'));
@@ -71,50 +96,5 @@ class CandidatesController extends AppController
         $users = $this->Candidates->Users->find('list', ['limit' => 200])->all();
         $genders = $this->Candidates->Users->getGendersList();
         $this->set(compact('candidate', 'users', 'genders'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Candidate id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $candidate = $this->Candidates->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $candidate = $this->Candidates->patchEntity($candidate, $this->request->getData());
-            if ($this->Candidates->save($candidate)) {
-                $this->Flash->success(__('The candidate has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The candidate could not be saved. Please, try again.'));
-        }
-        $users = $this->Candidates->Users->find('list', ['limit' => 200])->all();
-        $this->set(compact('candidate', 'users'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Candidate id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $candidate = $this->Candidates->get($id);
-        if ($this->Candidates->delete($candidate)) {
-            $this->Flash->success(__('The candidate has been deleted.'));
-        } else {
-            $this->Flash->error(__('The candidate could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
     }
 }

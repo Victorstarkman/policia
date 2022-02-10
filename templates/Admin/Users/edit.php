@@ -25,7 +25,7 @@
                 <div class="form-group">
 					<?= $this->Form->control('name', ['label'=> 'Nombre*', 'class' => 'form-control form-control-blue m-0 col-12']); ?>
                 </div>
-            </div>
+            </div>Apellido
             <div class="pt-0 col-lg-6 col-sm-12">
                 <div class="form-group">
 					<?= $this->Form->control('lastname', ['label'=> 'Apellido*', 'class' => 'form-control form-control-blue m-0 col-12']); ?>

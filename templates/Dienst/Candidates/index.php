@@ -9,7 +9,6 @@
         <h4>Lista de aspirantes</h4>
     </div>
     <div class="results">
-        <p class="title-results">Aspirantes</p>
         <div class="mx-auto form-group row col-lg-12 col-md-12">
             <div class="pl-0 col-6">
                 <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/aspirantes/agregar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Agregar aspirante</a>
@@ -18,7 +17,20 @@
                 <a href="<?= $this->Url->build(strtolower($this->request->getParam('prefix')).  '/aspirantes/importar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Subir excel</a>
             </div>
         </div>
+        <p class="title-results">Aspirantes</p>
+
 	    <?= $this->Flash->render() ?>
+	    <?= $this->Form->create(null, ['type' => 'GET', 'class' => 'col-lg-12 col-md-12 row']) ?>
+            <div class="pt-0 col-lg-6 col-sm-12">
+                <div class="form-group">
+                    <?= $this->Form->control('search', ['label'=> false, 'placeholder' => 'Buscar por CUIL o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => $search]); ?>
+                </div>
+            </div>
+            <div class="pl-0 col-6">
+                <?= $this->Form->button(__('Buscar'), ['class' => 'btn btn-outline-primary col-12']) ?>
+            </div>
+
+	    <?= $this->Form->end() ?>
         <table class="table table-bordered" id="tabla_actualizaciones">
             <thead>
             <tr>
@@ -27,6 +39,8 @@
                 <th><?= $this->Paginator->sort('lastname') ?></th>
                 <th><?= $this->Paginator->sort('cuil') ?></th>
                 <th><?= $this->Paginator->sort('Turno') ?></th>
+                <th><?= $this->Paginator->sort('Tipo') ?></th>
+                <th><?= $this->Paginator->sort('Apto') ?></th>
                 <th class="actions"><?= __('Acciones') ?></th>
             </tr>
             </thead>
@@ -37,20 +51,29 @@
                     <td><?= h($candidate->name) ?></td>
                     <td><?= h($candidate->lastname) ?></td>
                     <td><?= h($candidate->cuil) ?></td>
-                    <td><?php if (empty($candidate->preoccupationals) ) {
+                    <td><?php
+	                    $getPos = count($candidate->preoccupationals) - 1;
+                        if (empty($candidate->preoccupationals) ) {
 		                    $needDate = true;
                         } else {
-		                    $getPos = count($candidate->preoccupationals) - 1;
 		                    $needDate = $candidate->preoccupationals[$getPos]->noNeedForNewDate();
 		                    $presentorAbsentDate = $candidate->preoccupationals[$getPos]->presentOrAbsent();
 
                         }  ?>
                         <?= ($needDate) ? $this->Html->link(__('Asignar turno'),   strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id, ['fullBase' => true]) : (($presentorAbsentDate) ? $presentorAbsentDate : $candidate->preoccupationals[$getPos]->showDate()); ?>
                     </td>
+                    <td>
+                        <?= (!is_null($candidate->preoccupationals[$getPos]->preocuppationalstype)) ? $candidate->preoccupationals[$getPos]->preocuppationalstype->name : '-' ?>
+                    </td>
+                    <td>
+                        <?= (!is_null($candidate->preoccupationals[$getPos]->aptitude_id)) ? $candidate->preoccupationals[$getPos]->aptitude->name : '-' ?>
+                    </td>
                     <td class="actions">
-						<?= $this->Html->link('<i class="mr-2 fas fa-eye" aria-hidden="true"></i>', ['action' => 'view', $candidate->id], [ 'escape' => false]); ?>
-						<?= $this->Html->link(__('Edit'), ['action' => 'edit', $candidate->id]) ?>
-						<?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $candidate->id], ['confirm' => __('Are you sure you want to delete # {0}?', $candidate->id)]) ?>
+                        <?php if ($candidate->preoccupationals[$getPos]->readyForAptitud()) : ?>
+	                        <?= $this->Html->link('Dar apto',   strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
+                        <?php else : ?>
+	                        <?= $this->Html->link('Ver',   strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
 			<?php endforeach;?>

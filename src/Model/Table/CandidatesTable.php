@@ -120,11 +120,16 @@ class CandidatesTable extends Table
 			->where(['OR' => ['appointment > NOW()', 'status NOT IN' => $this->Preoccupationals->inactiveStatuses()]]);
 
 		$candidatesWithAppoitmentID = [];
+
 		foreach ($candidatesWithAppoitment as $candidateWithAppoitment) {
 			$candidatesWithAppoitmentID[$candidateWithAppoitment->candidate_id] = $candidateWithAppoitment->candidate_id;
 		}
 
-		return $query->where(['id not in' => $candidatesWithAppoitmentID]);
+		if (!empty($candidatesWithAppoitmentID)) {
+			$query->where(['id not in' => $candidatesWithAppoitmentID]);
+		}
+
+		return $query;
 	}
 
 	public function checkExistence($data) {
