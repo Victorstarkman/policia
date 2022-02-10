@@ -76,7 +76,6 @@ class FilesController extends AppController
 
 			$data = [
 				'preoccupational_id' => $candidateID,
-				'name' => '',
 				'type' => $attachment->getClientMediaType(),
 			];
 
