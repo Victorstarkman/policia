@@ -148,6 +148,20 @@ return static function (RouteBuilder $routes) {
 
 		$routes->fallbacks(DashedRoute::class);
 	});
+
+	$routes->prefix('api', function (RouteBuilder $routes) {
+		$routes->setExtensions(['json']);
+		$routes->resources('Preoccupationals');
+		$routes->scope('/', function (RouteBuilder $builder) {
+			$builder->setExtensions(['json']);
+			$builder->resources('Preoccupationals');
+			$builder->fallbacks();
+		});
+
+		$routes->fallbacks(DashedRoute::class);
+	});
+
+
 };
 
 
