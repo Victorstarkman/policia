@@ -14,21 +14,6 @@ use Cake\Routing\Router;
  */
 class PreoccupationalsController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Candidates', 'Aptitudes', 'Preocuppationalstypes'],
-        ];
-        $preoccupationals = $this->paginate($this->Preoccupationals);
-
-        $this->set(compact('preoccupationals'));
-    }
-
 	public function assignDate($candidateID)
 	{
 		if (is_null($candidateID)) {

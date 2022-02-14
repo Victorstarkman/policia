@@ -152,7 +152,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 
 	public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
 	{
-		if ($request->is('json')) {
+		if (is_null($request->getParam('prefix')) && $request->is('json')) {
 			$authenticationService = new AuthenticationService();
 
 			$fields = [
