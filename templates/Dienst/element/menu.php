@@ -11,13 +11,13 @@
         <div class="card-body">
             <ul class="sub-menu">
                 <li>
-                    <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/aspirantes/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de aspirantes</a>
+                    <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de aspirantes</a>
                 </li>
                 <li>
-                    <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurnoMasivo', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Asignación masiva de turnos</a>
+                    <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurnoMasivo', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Asignación masiva de turnos</a>
                 </li>
                 <li>
-                    <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/preocupacionales/sin-revisar', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de presentes sin revisar</a>
+                    <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/sin-revisar', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de presentes sin revisar</a>
                 </li>
             </ul>
         </div>

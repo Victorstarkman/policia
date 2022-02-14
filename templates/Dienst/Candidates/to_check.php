@@ -45,7 +45,7 @@
                     <td><?= $candidateToCheck->showDate(); ?>
                     <td><?= h($candidateToCheck->preocuppationalstype->name) ?></td>
                     <td>
-	                    <?= $this->Html->link('Dar apto',   strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidateToCheck->candidate->id, ['fullBase' => true]); ?>
+	                    <?= $this->Html->link('Dar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidateToCheck->candidate->id, ['fullBase' => true]); ?>
 
                     </td>
 				</tr>

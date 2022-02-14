@@ -38,7 +38,6 @@ class PreoccupationalsController extends AppController
 			$this->response = $this->response->withStatus(401);
 			$json = [];
 		}
-
 		$this->set(compact('json'));
 		$this->viewBuilder()->setOption('serialize', 'json');
 	}

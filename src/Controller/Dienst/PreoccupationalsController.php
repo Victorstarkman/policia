@@ -32,13 +32,13 @@ class PreoccupationalsController extends AppController
 	public function assignDate($candidateID)
 	{
 		if (is_null($candidateID)) {
-			return $this->redirect(strtolower($this->request->getParam('prefix')) . '/aspirantes');
+			return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/aspirantes');
 		}
 		$checkPreviousPreoccupationals = $this->Preoccupationals->checkPreviousPreoccupationals($candidateID);
 
 		if ($checkPreviousPreoccupationals['exist']) {
 			$this->Flash->error(__('El aspirante ya cuenta con un turno vigente'));
-			return $this->redirect(strtolower($this->request->getParam('prefix')) . '/aspirantes');
+			return $this->redirect(DS .strtolower($this->request->getParam('prefix')) . '/aspirantes');
 		}
 		$preoccupational = $this->Preoccupationals->newEmptyEntity();
 		if ($this->request->is('post')) {
@@ -136,7 +136,7 @@ class PreoccupationalsController extends AppController
 			}
 
 		}
-		return $this->redirect(strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
+		return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
 	}
 
 
