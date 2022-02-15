@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Authentication\Identity;
+use Cake\Http\Exception\MethodNotAllowedException;
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\Http\Response;
 
 /**
@@ -30,15 +32,19 @@ class UsersController extends AppController
 		if ($result->isValid()) {
 			$userID = $this->Authentication->getIdentity()->id;
 			$data = $this->Users->setGroupIdentity($userID);
-			$identity = new Identity($data);
-			$this->Authentication->setIdentity($identity);
-			// redirect to /articles after login success
-			$redirect = $this->request->getQuery('redirect', [
-				'controller' => 'Users',
-				'action' => 'redirectTo',
-			]);
-
-			return $this->redirect($redirect);
+			if ($data->groupIdentity['login_access']) {
+				$identity = new Identity($data);
+				$this->Authentication->setIdentity($identity);
+				// redirect to /articles after login success
+				$redirect = $this->request->getQuery('redirect', [
+					'controller' => 'Users',
+					'action' => 'redirectTo',
+				]);
+				return $this->redirect($redirect);
+			} else {
+				$this->Authentication->logout();
+				throw new UnauthorizedException('No tenes permisos suficientes');
+			}
 		}
 		// display error if user submitted and authentication failed
 		if ($this->request->is('post') && !$result->isValid()) {

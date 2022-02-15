@@ -36,18 +36,30 @@ class UsersTable extends Table
 		1 => [
 			'name' => 'Admin',
 			'redirect' => '/admin/usuarios',
-			'prefix' => 'Admin'
+			'prefix' => 'Admin',
+			'login_access' => true,
+			'api_access' => true,
 		],
 		2 => [
 			'name' => 'Dienst',
 			'redirect' => '/dienst/',
-			'prefix' => 'Dienst'
+			'prefix' => 'Dienst',
+			'login_access' => true,
+			'api_access' => false,
 		],
 		3 => [
 			'name' => 'Centro médico',
 			'redirect' => '/centro-medico/',
-			'prefix' => 'CentroMedico'
-		]
+			'prefix' => 'CentroMedico',
+			'login_access' => true,
+			'api_access' => false,
+		],
+		4 => [
+			'name' => 'API USER',
+			'prefix' => 'api',
+			'login_access' => false,
+			'api_access' => true,
+		],
 	];
 
 	const GENDERS = [

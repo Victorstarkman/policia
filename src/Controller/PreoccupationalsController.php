@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Authentication\Identity;
 use Cake\Event\EventInterface;
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 /**
@@ -25,15 +27,26 @@ class PreoccupationalsController extends AppController
 		$this->request->allowMethod(['post']);
 		$result = $this->Authentication->getResult();
 		if ($result->isValid()) {
-			$user = $result->getData();
-			$payload = [
-				'sub' => $user->id,
-				'exp' => time() + 600,
-			];
-
-			$json = [
-				'token' => JWT::encode($payload, Security::getSalt(), 'HS256'),
-			];
+			$userID = $this->Authentication->getIdentity()->id;
+			$data = $this->Preoccupationals->Candidates->Users->setGroupIdentity($userID);
+			if ($data->groupIdentity['api_access']) {
+				$user = $result->getData();
+				$identity = new Identity($data);
+				$this->Authentication->setIdentity($identity);
+				$payload = [
+					'sub' => $user->id,
+					'exp' => time() + 600,
+				];
+				$json = [
+					'token' => JWT::encode($payload, Security::getSalt(), 'HS256'),
+				];
+			} else {
+				$this->response = $this->response->withStatus(401);
+				$json = [
+					'error' => 'No tenes permisos suficientes.',
+					'status_code' => 401,
+				];
+			}
 		} else {
 			$this->response = $this->response->withStatus(401);
 			$json = [];
