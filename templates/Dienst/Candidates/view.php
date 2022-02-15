@@ -167,7 +167,7 @@
             <?php else : ?>
                 <?php if ($needDate) : ?>
                 <div class="alert alert-info col-lg-12 text-center" role="alert">
-	                <?= ($needDate) ? $this->Html->link(__('Asignar turno'),   strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id, ['fullBase' => true]) : (($presentorAbsentDate) ? $presentorAbsentDate : $candidate->preoccupationals[$getPos]->showDate()); ?>
+	                <?= ($needDate) ? $this->Html->link(__('Asignar turno'),   strtolower(DS . $this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id, ['fullBase' => true]) : (($presentorAbsentDate) ? $presentorAbsentDate : $candidate->preoccupationals[$getPos]->showDate()); ?>
                 </div>
                  <?php endif; ?>
             <?php endif; ?>
