@@ -151,8 +151,8 @@ return static function (RouteBuilder $routes) {
 
 	$routes->scope('/api', function (RouteBuilder $builder) {
 		$builder->setExtensions(['json', 'xml']);
-		$builder->connect('/preocupacional/login', ['controller' => 'Preoccupationals', 'action' => 'login', '_ext' => 'json']);
-		$builder->connect('/preocupacional', ['controller' => 'Preoccupationals', 'action' => 'index', '_ext' => 'json']);
+		$builder->connect('/login', ['controller' => 'Preoccupationals', 'action' => 'login', '_ext' => 'json']);
+		$builder->connect('/preocupacionales', ['controller' => 'Preoccupationals', 'action' => 'index', '_ext' => 'json']);
 		$builder->fallbacks();
 	});
 
