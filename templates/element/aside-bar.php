@@ -10,7 +10,7 @@
 			<?= $this->element('menu'); ?>
             <a href="<?= $this->Url->build(  '/salir', ['fullBase' => true]); ?>" class="btn btn-link">
                 <i class="fas fa-sign-out-alt"></i>
-                Cerrar sesi贸n
+                Cerrar sesi&oacute;n
             </a>
         </div>
     </div>
