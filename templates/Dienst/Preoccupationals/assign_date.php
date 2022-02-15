@@ -31,7 +31,7 @@
             </div>
             <div class="mx-auto form-group row col-lg-6 col-md-12">
                 <div class="pl-0 col-12">
-                    <a href="/" class="btn btn-outline-primary col-12"><i class="far fa-clock"></i> Asignar más tarde</a>
+                    <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="far fa-clock"></i> Asignar más tarde</a>
                 </div>
             </div>
             <div class="mx-auto form-group row col-lg-6 col-md-12">

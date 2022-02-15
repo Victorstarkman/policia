@@ -87,6 +87,11 @@ class Preoccupational extends Entity
 	public function readyForAptitud() {
 		return $this->status == PreoccupationalsTable::PRESENT and is_null($this->aptitude_id) || !is_null($this->aptitude_id);
 	}
+
+	public function haveAptitudAssign() {
+		return !is_null($this->aptitude_id);
+	}
+
 	public function esApto() {
 		return !is_null($this->aptitude_id) and $this->aptitude_id == PreoccupationalsTable::APTO;
 	}

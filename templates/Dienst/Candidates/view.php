@@ -11,7 +11,7 @@
             <?php if (!is_null($candidate->photo)) : ?>
             <div class="pt-0 col-lg-12 col-sm-12 text-center">
                 <div class="form-group">
-                    <img src="/img/candidates/<?= $candidate->id . DS . $candidate->photo; ?>" alt="Foto Perfil" width="250px" />
+                    <?=  $this->Html->image('candidates/' . $candidate->id . DS . $candidate->photo, ['alt' => 'Foto Perfil', 'width'=> '250px']); ?>
                 </div>
             </div>
             <?php endif; ?>

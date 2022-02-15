@@ -7,6 +7,7 @@ use App\Controller\AppController;
 use Cake\Core\Configure;
 use Cake\Http\Exception\NotFoundException;
 use Laminas\Diactoros\Exception\UploadedFileAlreadyMovedException;
+use Cake\Routing\Router;
 
 /**
  * Files Controller
@@ -83,6 +84,8 @@ class FilesController extends AppController
 			if (!file_exists($path) && !is_dir($path)) {
 				mkdir($path);
 			}
+			//echo  WWW_ROOT . 'img/candidates/';
+			//exit();
 			$path .= $candidateID . '/';
 			if (!file_exists($path) && !is_dir($path)) {
 				mkdir($path);
@@ -119,6 +122,7 @@ class FilesController extends AppController
 
 	public function viewFiles($id = null, $type = "file")
 	{
+		$url = Router::url('/', true);
 		$this->viewBuilder()->setLayout('ajax');
 		$response = array();
 		if ($type == 'file') {
@@ -133,13 +137,13 @@ class FilesController extends AppController
 				$details = array();
 				$details['name'] =   'ID-' . $file->id . ' (' . pathinfo($file->name, PATHINFO_EXTENSION) . ')<br/>' . $file->name;
 				if ($this->Uploadfile->isImage(pathinfo($file->name, PATHINFO_EXTENSION))) {
-					$details['path'] = DS . $output_dir . $file->preoccupational->id  . DS . $file->name;
+					$details['path'] =  $url . $output_dir . $file->preoccupational->id  . DS . $file->name;
 					$details['absolutePath'] = $output_full_path  . $file->preoccupational->id . DS . $file->name;
 				} else {
-					$details['path'] = DS . $output_dir . pathinfo($file->name, PATHINFO_EXTENSION) . '.jpg';
+					$details['path'] = $url . $output_dir . pathinfo($file->name, PATHINFO_EXTENSION) . '.jpg';
 					$details['absolutePath'] = $output_full_path  .  pathinfo($file->name, PATHINFO_EXTENSION) . '.jpg';
 					if (!file_exists($details['absolutePath'])) {
-						$details['path'] = DS . $output_dir . 'default.jpg';
+						$details['path'] = $url . $output_dir . 'default.jpg';
 						$details['absolutePath'] = $output_full_path  . 'default.jpg';
 					}
 				}
@@ -153,7 +157,7 @@ class FilesController extends AppController
 		} elseif ($type == "candidate") {
 			$candidatePhoto = $this->Files->Preoccupationals->Candidates->find()->select(['id', 'photo'])->where(['id' => $id])->first();
 			if (!is_null($candidatePhoto->photo)) {
-				$output_dir =  '/img/candidates' . DS .  $candidatePhoto->id . DS;
+				$output_dir =  $url . 'img/candidates' . DS .  $candidatePhoto->id . DS;
 				$details = [
 					'name' => 'ID-' . $candidatePhoto->id . '<br/>' . $candidatePhoto->photo,
 					'path' => $output_dir . $candidatePhoto->photo,
