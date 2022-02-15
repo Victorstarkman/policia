@@ -120,4 +120,25 @@ class CandidatesController extends AppController
 		$genders = $this->Candidates->Users->getGendersList();
 		$this->set(compact('candidate', 'users', 'genders'));
 	}
+
+	public function delete($id = null)
+	{
+		$this->request->allowMethod(['post', 'delete']);
+		$candidate = $this->Candidates->get($id,[
+			'contain' => [
+				'Preoccupationals'
+			]
+		]);
+		if (empty($candidate->preoccupationals)) {
+			if ($this->Candidates->delete($candidate)) {
+				$this->Flash->success(__('El aspirante se elimino.'));
+			} else {
+				$this->Flash->error(__('El aspirante no pudo ser eliminado, intente nuevamente.'));
+			}
+		} else {
+			$this->Flash->error(__('No se puede eliminar aspirantes con Preocupacionales activos.'));
+		}
+
+		return $this->redirect(['action' => 'index']);
+	}
 }

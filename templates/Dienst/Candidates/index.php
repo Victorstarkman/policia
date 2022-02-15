@@ -77,7 +77,9 @@
 	                        <?= $this->Html->link('Dar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
                         <?php else : ?>
 	                        <?= $this->Html->link('Ver',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
-                        <?php endif; ?>
+		                    |
+		                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $candidate->id], ['confirm' => __('Estas seguro que queres eliminar al apirante # {0}?', $candidate->id)]) ?>
+	                    <?php endif; ?>
                     </td>
                 </tr>
 			<?php endforeach;?>

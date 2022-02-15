@@ -49,7 +49,8 @@ class AppController extends Controller
 	    $auth = $this->Authentication->getResult();
 		if ($auth->isValid()) {
 			$actualPrefix = $this->request->getParam('prefix');
-			if (!is_null($actualPrefix) && $actualPrefix != $this->Authentication->getIdentity()->groupIdentity['prefix']) {
+			if (!is_null($actualPrefix)
+				&& $actualPrefix != $this->Authentication->getIdentity()->groupIdentity['prefix']) {
 				throw new UnauthorizedException('No tenes permisos suficientes');
 			}
 		}
