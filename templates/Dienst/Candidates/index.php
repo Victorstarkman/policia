@@ -71,7 +71,7 @@
                     <td class="actions">
 	                    <?= $this->Html->link('Editar',   DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/editar/' . $candidate->id, ['fullBase' => true]); ?>
                         |
-	                    <?php if ($candidate->preoccupationals[$getPos]->haveAptitudAssign()) : ?>
+	                    <?php if (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->haveAptitudAssign()) : ?>
 		                    <?= $this->Html->link('Actualizar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
 	                    <?php elseif (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->readyForAptitud()) : ?>
 	                        <?= $this->Html->link('Dar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
