@@ -17,17 +17,17 @@
 			<?= $this->Form->create($user, ['class' => 'col-lg-12 col-md-12 row']) ?>
             <div class="pt-0 col-lg-6 col-sm-12">
                 <div class="form-group">
-					<?= $this->Form->control('name', ['label'=> 'Nombre*', 'class' => 'form-control form-control-blue m-0 col-12']); ?>
+					<?= $this->Form->control('name', ['label'=> 'Nombre *', 'class' => 'form-control form-control-blue m-0 col-12']); ?>
                 </div>
             </div>
             <div class="pt-0 col-lg-6 col-sm-12">
                 <div class="form-group">
-					<?= $this->Form->control('lastname', ['label'=> 'Apellido*', 'class' => 'form-control form-control-blue m-0 col-12']); ?>
+					<?= $this->Form->control('lastname', ['label'=> 'Apellido *', 'class' => 'form-control form-control-blue m-0 col-12']); ?>
                 </div>
             </div>
             <div class="pt-0 col-lg-6 col-sm-12">
                 <div class="form-group">
-					<?= $this->Form->control('email', ['label'=> 'Email*', 'class' => 'form-control form-control-blue m-0 col-12']); ?>
+					<?= $this->Form->control('email', ['label'=> 'Email *', 'class' => 'form-control form-control-blue m-0 col-12']); ?>
                 </div>
             </div>
             <div class="pt-0 col-lg-6 col-sm-12">

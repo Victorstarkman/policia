@@ -7,6 +7,6 @@
 			<?= $this->Paginator->next(__('next') . ' >') ?>
 			<?= $this->Paginator->last(__('last') . ' >>') ?>
 		</ul>
-		<p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
+		<p><?= $this->Paginator->counter(__('P&aacute;gina {{page}} de {{pages}}, mostrando {{current}} aspirante(s) de {{count}} aspirantes')) ?></p>
 	</div>
 </div>

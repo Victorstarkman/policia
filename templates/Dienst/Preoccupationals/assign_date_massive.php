@@ -6,7 +6,7 @@
 ?>
 <div class="mx-auto mt-5 col-12">
 	<div class="col-12 title-section">
-		<h4>Turnos Masivos</h4>
+		<h4>Turnos Grupales</h4>
 	</div>
 	<div class="results">
 		<p class="title-results">Aspirantes</p>

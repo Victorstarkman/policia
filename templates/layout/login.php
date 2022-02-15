@@ -45,7 +45,7 @@
 			<?= $this->fetch('content') ?>
 		</div>
 		<footer class="mt-1 mb-1 text-right">
-			<span class="text-muted">2021 Dienst Consulting. Todos los derechos reservados.</span>
+			<span class="text-muted">2022 Dienst Consulting. Todos los derechos reservados.</span>
 		</footer>
 	</div>
 </div>

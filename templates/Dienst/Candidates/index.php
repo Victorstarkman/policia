@@ -14,7 +14,7 @@
                 <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/aspirantes/agregar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Agregar aspirante</a>
             </div>
             <div class="pl-0 col-6">
-                <a href="<?= $this->Url->build(strtolower($this->request->getParam('prefix')).  '/aspirantes/importar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Subir excel</a>
+                <a href="#"<?php //echo $this->Url->build(strtolower($this->request->getParam('prefix')).  '/aspirantes/importar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12" ><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Subir excel</a>
             </div>
         </div>
         <p class="title-results">Aspirantes</p>

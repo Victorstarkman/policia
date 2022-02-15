@@ -1,11 +1,11 @@
 <div class="mx-auto mt-5 col-12">
     <div class="col-12 title-section">
-        <h4>Actualización de Aspirante</h4>
+        <h4>Actualizaci&oacute;n de Aspirante</h4>
     </div>
     <div class="results">
         <div class="container mx-auto row">
             <div class="col-12">
-                <p class="title-results">Datos de aspirante: <?= $candidate->name . ' ' . $candidate->lastname; ?></p>
+                <p class="title-results">Datos del aspirante: <?= $candidate->name . ' ' . $candidate->lastname; ?></p>
             </div>
 			<?= $this->Flash->render() ?>
             <?php if (!is_null($candidate->photo)) : ?>
@@ -51,7 +51,7 @@
             <?php $lastPreoc = 0; $getPos = -1;
             foreach($candidate->preoccupationals as $preoccupational) : $lastPreoc = $preoccupational->id; $getPos++;?>
                 <div class="col-12">
-                    <p class="title-results">Preocupacional #<?= $preoccupational->id; ?></p>
+                    <p class="title-results">Preocupacional </p>
                 </div>
                 <table class="table table-bordered">
                     <thead>
@@ -74,7 +74,7 @@
                     <?php if (!empty($preoccupational->files)) : ?>
                     <div class="container row">
                         <div class="col-12">
-                            <p class="title-results">Archivos para preocupacional #<?= $preoccupational->id; ?></p>
+                            <p class="title-results">Archivos para preocupacional </p>
                         </div>
                         <table class="table table-bordered">
                             <thead>

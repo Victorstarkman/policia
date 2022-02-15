@@ -7,12 +7,16 @@
     border-radius: 4px;
     padding: 5px 5px 5px 15px;
     display: inline-block;
-}
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    font-size:12px;
+    }
 
 .ajax-file-upload-filename {
     width: 300px;
     height: auto;
-    margin: 0 5px 5px 0;
+    margin: 0 5px 5px 0; 
 
 }
 
