@@ -14,10 +14,10 @@
                     <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de aspirantes</a>
                 </li>
                 <li>
-                    <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurnoMasivo', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Asignaci&oacute;n Grupal de turnos</a>
+                    <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurnoMasivo', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Asignaci&oacute;n Grupal de turnos</a>
                 </li>
                 <li>
-                    <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/preocupacionales/sin-revisar', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de aspirantes a diagnosticar</a>
+                    <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/sin-revisar', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de presentes sin diagnosticar</a>
                 </li>
             </ul>
         </div>
