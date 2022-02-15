@@ -13,7 +13,7 @@
         <p class="title-results">Usuarios</p>
         <div class="mx-auto form-group row col-lg-12 col-md-12">
             <div class="pl-0 col-12">
-                <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/usuarios/agregar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-plus-circle" aria-hidden="true"></i>Agregar usuario</a>
+                <a href="<?= $this->Url->build( DS . strtolower($this->request->getParam('prefix')) . '/usuarios/agregar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-plus-circle" aria-hidden="true"></i>Agregar usuario</a>
             </div>
         </div>
 		<?= $this->Flash->render() ?>

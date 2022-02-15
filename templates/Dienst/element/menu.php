@@ -11,7 +11,7 @@
         <div class="card-body">
             <ul class="sub-menu">
                 <li>
-                    <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/aspirantes/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de aspirantes</a>
+                    <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de aspirantes</a>
                 </li>
                 <li>
                     <a href="<?= $this->Url->build( strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurnoMasivo', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Asignaci&oacute;n Grupal de turnos</a>

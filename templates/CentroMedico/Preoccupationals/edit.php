@@ -132,7 +132,7 @@
                 }
 
                 if (name !== "") {
-                    $.post("/centro-medico/files/delete/", {'type': 'candidate', op: "delete",name: name, "_csrfToken": '<?= $this->request->getAttribute('csrfToken'); ?>'},
+                    $.post('<?php echo $this->Url->build(['controller' => 'Files','action' => 'delete']); ?>', {'type': 'candidate', op: "delete",name: name, "_csrfToken": '<?= $this->request->getAttribute('csrfToken'); ?>'},
                         function (resp, textStatus, jqXHR) {
                             alert(resp);
                         });
@@ -203,7 +203,7 @@
                 }
 
                 if (name !== "") {
-                    $.post("/centro-medico/files/delete/", {op: "delete",name: name, "_csrfToken": '<?= $this->request->getAttribute('csrfToken'); ?>'},
+                    $.post('<?php echo $this->Url->build(['controller' => 'Files','action' => 'delete']); ?>', {op: "delete",name: name, "_csrfToken": '<?= $this->request->getAttribute('csrfToken'); ?>'},
                         function (resp, textStatus, jqXHR) {
                             alert(resp);
                         });

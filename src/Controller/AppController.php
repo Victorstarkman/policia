@@ -46,13 +46,13 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 	    $this->loadComponent('Authentication.Authentication');
-	    $auth = $this->Authentication->getResult();
+	  /*  $auth = $this->Authentication->getResult();
 		if ($auth->isValid()) {
 			$actualPrefix = $this->request->getParam('prefix');
 			if (!is_null($actualPrefix) && $actualPrefix != $this->Authentication->getIdentity()->groupIdentity['prefix']) {
 				throw new UnauthorizedException('No tenes permisos suficientes');
 			}
-		}
+		}*/
         /*
          * Enable the following component for recommended CakePHP form protection settings.
          * see https://book.cakephp.org/4/en/controllers/components/form-protection.html

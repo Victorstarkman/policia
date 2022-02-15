@@ -14,31 +14,16 @@ use Cake\Routing\Router;
  */
 class PreoccupationalsController extends AppController
 {
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|null|void Renders view
-     */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Candidates', 'Aptitudes', 'Preocuppationalstypes'],
-        ];
-        $preoccupationals = $this->paginate($this->Preoccupationals);
-
-        $this->set(compact('preoccupationals'));
-    }
-
 	public function assignDate($candidateID)
 	{
 		if (is_null($candidateID)) {
-			return $this->redirect(strtolower($this->request->getParam('prefix')) . '/aspirantes');
+			return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/aspirantes');
 		}
 		$checkPreviousPreoccupationals = $this->Preoccupationals->checkPreviousPreoccupationals($candidateID);
 
 		if ($checkPreviousPreoccupationals['exist']) {
 			$this->Flash->error(__('El aspirante ya cuenta con un turno vigente'));
-			return $this->redirect(strtolower($this->request->getParam('prefix')) . '/aspirantes');
+			return $this->redirect(DS .strtolower($this->request->getParam('prefix')) . '/aspirantes');
 		}
 		$preoccupational = $this->Preoccupationals->newEmptyEntity();
 		if ($this->request->is('post')) {
@@ -136,7 +121,7 @@ class PreoccupationalsController extends AppController
 			}
 
 		}
-		return $this->redirect(strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
+		return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
 	}
 
 

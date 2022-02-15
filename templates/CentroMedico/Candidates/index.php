@@ -29,8 +29,8 @@
             <tr>
                 <th><?= $this->Paginator->sort('#') ?></th>
                 <th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
-                <th><?= $this->Paginator->sort('lastname', __('Nombre')) ?></th>
-                <th><?= $this->Paginator->sort('cuil', __('Nombre')) ?></th>
+                <th><?= $this->Paginator->sort('lastname', __('Apellido')) ?></th>
+                <th><?= $this->Paginator->sort('cuil', __('CUIL')) ?></th>
                 <th><?= $this->Paginator->sort('$appoitment', __('Turno')) ?></th>
                 <th class="actions"><?= __('Acciones') ?></th>
             </tr>
@@ -46,9 +46,9 @@
                     </td>
                     <td class="actions">
                         <?php if ($appoitment->isPresent()) : ?>
-	                        <?= $this->Html->link('Subir Documentos',  '/centro-medico/preocupacionales/presente/' . $appoitment->id, [ 'escape' => false]); ?>
+	                        <?= $this->Html->link('Subir Documentos',   '/centro-medico/preocupacionales/presente/' . $appoitment->id, [ 'escape' => false]); ?>
                         <?php else : ?>
-	                        <?= $this->Html->link('Presente',  '/centro-medico/preocupacionales/presente/' . $appoitment->id, [ 'escape' => false]); ?>
+	                        <?= $this->Html->link('Presente',   '/centro-medico/preocupacionales/presente/' . $appoitment->id, [ 'escape' => false]); ?>
                             /
 	                        <?= $this->Form->postLink(__('Ausente'), ['controller' => 'Preoccupationals', 'action' => 'markAsAbsent', $appoitment->id], ['confirm' => __('Desea marcar como ausente a {1} {2} (#{0})?', $appoitment->id, $appoitment->candidate->name, $appoitment->candidate->lastname)]) ?>
                         <?php endif; ?>

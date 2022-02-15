@@ -87,7 +87,7 @@ class CandidatesController extends AppController
 				if ($this->Candidates->save($candidate)) {
 					$this->Flash->success(__('El aspirante fue creado. Asigne Turno.'));
 
-					return $this->redirect(strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id);
+					return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id);
 				}
 				$this->Flash->error(__('El aspirante no pudo ser creado.'));
 			}
@@ -110,7 +110,7 @@ class CandidatesController extends AppController
 				$candidate = $this->Candidates->patchEntity($candidate, $data);
 				if ($this->Candidates->save($candidate)) {
 					$this->Flash->success(__('El aspirante fue actualizado.'));
-					return $this->redirect(strtolower($this->request->getParam('prefix')) . '/aspirantes/editar/' . $candidate->id);
+					return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/editar/' . $candidate->id);
 				}
 				$this->Flash->error(__('El aspirante no pudo ser creado.'));
 			}
