@@ -91,9 +91,7 @@
                                 <td><?= h($file->name) ?></td>
                                 <td><img src="<?= $file->getUrl(); ?>" height="100px"/></td>
                                 <td>
-                                    <a href="<?= $file->getUrl(); ?>" target="_blank">
-                                        <p class="text-center">Descargar</p>
-                                    </a>
+	                                <?= $this->Html->link(__('Descargar'),   strtolower(DS . $this->request->getParam('prefix')) . '/files/' . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center']); ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
