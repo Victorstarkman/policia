@@ -36,7 +36,7 @@ class PreoccupationalsController extends AppController
 				$identity = new Identity($data);
 				$this->Authentication->setIdentity($identity);
 				$payload = [
-					'sub' => $user->id,
+					'user_id' => $user->id,
 					'exp' => time() + 600,
 				];
 				$date = new FrozenTime($payload['exp']);
@@ -104,7 +104,7 @@ class PreoccupationalsController extends AppController
 			and $beginDate > $endDate) {
 			$this->response = $this->response->withStatus(400);
 			$json = [
-				'message' => 'La fecha de inicio no puede ser mas grande que la de inicio',
+				'message' => 'La fecha de inicio no puede ser mas grande que la de final',
 				'code' => 400,
 				"url" => "/api/preocupacionales",
 				"line" => 94,
