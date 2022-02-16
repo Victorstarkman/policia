@@ -191,7 +191,7 @@ class FilesController extends AppController
 				]);
 			} catch (\Exception $e) {
 				$photoExist = false;
-				$response = __('La imagen no existe');
+				$response = __('La imagen no existe.');
 			}
 
 			if ($photoExist) {
