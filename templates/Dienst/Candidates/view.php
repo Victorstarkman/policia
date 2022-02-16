@@ -164,6 +164,9 @@
                 <div class="alert alert-info col-lg-12 text-center" role="alert">
                     El aspirante no esta marcado como presente.
                 </div>
+                <div class="alert alert-info col-lg-12 text-center" role="alert">
+		            <?= $this->Html->link(__('Modificar turno'),   strtolower(DS . $this->request->getParam('prefix')) . '/preocupacionales/modificarTurno/' . $candidate->id, ['fullBase' => true]); ?>
+                </div>
             <?php else : ?>
                 <?php if ($needDate) : ?>
                 <div class="alert alert-info col-lg-12 text-center" role="alert">

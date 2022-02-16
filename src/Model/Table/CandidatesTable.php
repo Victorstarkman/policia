@@ -147,6 +147,7 @@ class CandidatesTable extends Table
 		$userExistenceData->first();
 		if ($userExistenceData->count() > 0) {
 			$userExistence['exists'] = true;
+			$userExistenceData = $userExistenceData->first();
 			$userExistence['candidate_id'] = $userExistenceData->id;
 			if ($userExistenceData->cuil == $data['cuil']) {
 				$userExistence['error'] = "Existe aspirante con el mismo cuil.";

@@ -188,4 +188,7 @@ class PreoccupationalsTable extends Table
 		return in_array($aptitudID, self::APTITUD_ID_NEED_OBSERVATION);
 	}
 
+	public function getLastAppointment($candidateID) {
+		return $this->find()->where(['candidate_id' => $candidateID])->all()->last();
+	}
 }

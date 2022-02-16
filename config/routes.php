@@ -108,6 +108,12 @@ return static function (RouteBuilder $routes) {
 					'id' => '[0-9]+',
 				]);
 
+			$builder->connect('/preocupacionales/modificarTurno/{id}', ['controller' => 'Preoccupationals', 'action' => 'modifyDate'])
+				->setPass(['id'])
+				->setPatterns([
+					'id' => '[0-9]+',
+				]);
+
 			$builder->connect('/preocupacionales/ver/{id}', ['controller' => 'Candidates', 'action' => 'View'])
 				->setPass(['id'])
 				->setPatterns([

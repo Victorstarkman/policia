@@ -14,6 +14,33 @@ use Cake\Routing\Router;
  */
 class PreoccupationalsController extends AppController
 {
+
+	public function modifyDate($candidateID) {
+
+		if (is_null($candidateID)) {
+			return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/aspirantes');
+		}
+
+		$lastAppointment = $this->Preoccupationals->getLastAppointment($candidateID);
+		if ($lastAppointment->readyForAptitud()) {
+			$this->Flash->error(__('El turno del preocupacional no puede ser modificado'));
+			return $this->redirect(DS .strtolower($this->request->getParam('prefix')) . '/aspirantes');
+		}
+
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$data = $this->request->getData();
+			$data['status'] = $this->Preoccupationals->activeStatus();
+			$lastAppointment = $this->Preoccupationals->patchEntity($lastAppointment, $data);
+			if ($this->Preoccupationals->save($lastAppointment)) {
+				$this->Flash->success(__('Se le modifico el turno correctamente.'));
+				return $this->redirect('/dienst/preocupacionales/ver/' . $candidateID);
+			}
+			$this->Flash->error(__('Upps, hubo un problema. Intente nuevamente.'));
+		}
+		$preocuppationalsTypes = $this->Preoccupationals->Preocuppationalstypes->find('list', ['limit' => 200])->all();
+		$this->set(compact('lastAppointment', 'preocuppationalsTypes'));
+	}
+
 	public function assignDate($candidateID)
 	{
 		if (is_null($candidateID)) {
