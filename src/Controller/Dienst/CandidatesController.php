@@ -35,7 +35,11 @@ class CandidatesController extends AppController
 		if (!empty($search)) {
 			$candidates->where(['OR' => ['cuil' => $search, 'email' => $search]]);
 		}
-        $candidates = $this->paginate($candidates);
+		$settings= [
+			'order'=>['created'=>'desc']	
+		];
+			
+        $candidates = $this->paginate($candidates,$settings);
         $this->set(compact('candidates', 'search'));
     }
 
