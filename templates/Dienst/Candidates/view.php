@@ -91,7 +91,7 @@
                                 <td><?= h($file->name) ?></td>
                                 <td><img src="<?= $file->getUrl(); ?>" height="100px"/></td>
                                 <td>
-	                                <?= $this->Html->link(__('Descargar'),   DS . 'files/' . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'taget' => '_blank']); ?>
+	                                <?= $this->Html->link(__('Descargar'),   DS . 'files/' . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
