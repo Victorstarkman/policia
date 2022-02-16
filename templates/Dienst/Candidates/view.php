@@ -90,7 +90,8 @@
 
                                 <td><?= h($file->name) ?></td>
                                 <td><img src="<?= $file->getUrl(); ?>" height="100px"/></td>
-                                <td><a href="/files/<?= $preoccupational->id . DS . $file->name; ?>" target="_blank">
+                                <td>
+                                    <a href="<?= $file->getUrl(); ?>" target="_blank">
                                         <p class="text-center">Descargar</p>
                                     </a>
                                 </td>
