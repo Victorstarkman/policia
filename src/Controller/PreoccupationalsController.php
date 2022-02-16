@@ -6,6 +6,8 @@ namespace App\Controller;
 use Authentication\Identity;
 use Cake\Event\EventInterface;
 use Cake\Http\Exception\UnauthorizedException;
+use Cake\I18n\FrozenTime;
+use Cake\I18n\Time;
 use Cake\Utility\Security;
 use Firebase\JWT\JWT;
 /**
@@ -37,19 +39,29 @@ class PreoccupationalsController extends AppController
 					'sub' => $user->id,
 					'exp' => time() + 600,
 				];
+				$date = new FrozenTime($payload['exp']);
 				$json = [
 					'token' => JWT::encode($payload, Security::getSalt(), 'HS256'),
+					'code' => 200,
+					'expiration' => $date
 				];
 			} else {
 				$this->response = $this->response->withStatus(401);
 				$json = [
-					'error' => 'No tenes permisos suficientes.',
-					'status_code' => 401,
+					'message' => 'No tenes permisos suficientes.',
+					'code' => 401,
+					"url" => "/api/login",
+					"line" => 45,
 				];
 			}
 		} else {
 			$this->response = $this->response->withStatus(401);
-			$json = [];
+			$json = [
+				'message' => 'Error al conectarse a la api',
+				'code' => 401,
+				"url" => "/api/login",
+				"line" => 54,
+			];
 		}
 		$this->set(compact('json'));
 		$this->viewBuilder()->setOption('serialize', 'json');
@@ -63,50 +75,80 @@ class PreoccupationalsController extends AppController
 	public function index() {
 		$this->request->allowMethod(['get']);
 		$this->viewBuilder()->setLayout('ajax');
+		$json = [];
 		$preoccupationals = $this->Preoccupationals->find()
 			->contain(['Candidates', 'Preocuppationalstypes', 'Files', 'Aptitudes'])
 			->where(['aptitude_id is not null']);
-		$data = [];
-		$key = 0;
-		$actualLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
-		foreach($preoccupationals as $preoccupational) {
-			$data[$key] =[
-				'nombre' => $preoccupational->candidate->name,
-				'apellido' => $preoccupational->candidate->lastname,
-				'cuil' => $preoccupational->candidate->cuil,
-				'telefono' => $preoccupational->candidate->phone,
-				'email' => $preoccupational->candidate->email,
-				'genero' => $preoccupational->candidate->getGender(),
-				'foto_perfil' => $actualLink . '/img/candidates/' . $preoccupational->candidate->id . DS . $preoccupational->candidate->photo,
-				'preocupacional' => [
-					'turno' => $preoccupational->appointment->format('d/m/Y H:m'),
-					'tipo' => $preoccupational->preocuppationalstype->name,
-					'tieneObservaciones' => !empty($preoccupational->observations),
-					'observaciones' => $preoccupational->observations,
-					'estado' => $preoccupational->aptitude->name
-
-				],
-				'archivos' => []
+		$getFilter = $this->request->getQueryParams();
+		$beginDate = null;
+		$endDate = null;
+		$filtros = [];
+		if (isset($getFilter['begin_date'])) {
+			$beginDate = new FrozenTime($getFilter['begin_date']);
+			$filtros[] = [
+				'begin_date' => $beginDate
 			];
-
-			foreach($preoccupational->files as $file) {
-				$data[$key]['archivos'][] = [
-					'nombre' => $file->name,
-					'url' => $actualLink . $file->getUrl()
-				];
-			}
-			$key++;
+			$preoccupationals->where(['appointment >=' => $beginDate]);
 		}
-		$json = ['data' => $data];
-		$this->set(compact('json'));
-		$this->viewBuilder()->setOption('serialize', 'json');
-	}
 
-	public function logout() {
-		$json = [];
+		if (isset($getFilter['end_date'])) {
+			$endDate = new FrozenTime($getFilter['end_date']);
+			$endDate = $endDate->endOfDay();
+			$filtros[] = [
+				'end_date' => $endDate
+			];
+			$preoccupationals->where(['appointment <=' => $endDate]);
+		}
 
-		$this->Authentication->logout();
+		if ((!is_null($beginDate) && !is_null($endDate))
+			and $beginDate > $endDate) {
+			$this->response = $this->response->withStatus(400);
+			$json = [
+				'message' => 'La fecha de inicio no puede ser mas grande que la de inicio',
+				'code' => 400,
+				"url" => "/api/preocupacionales",
+				"line" => 94,
+			];
+		}
+		if (empty($json)) {
+			$json = [
+				'registros_totales' => $preoccupationals->count(),
+				'code' => 200,
+				'url' => "/api/preocupacionales",
+				'filtros' => $filtros,
+				'data' => []
+			];
+			$key = 0;
+			$actualLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+			foreach($preoccupationals as $preoccupational) {
+				$json['data'][$key] = [
+					'nombre' => $preoccupational->candidate->name,
+					'apellido' => $preoccupational->candidate->lastname,
+					'cuil' => $preoccupational->candidate->cuil,
+					'telefono' => $preoccupational->candidate->phone,
+					'email' => $preoccupational->candidate->email,
+					'genero' => $preoccupational->candidate->getGender(),
+					'foto_perfil' => $actualLink . '/img/candidates/' . $preoccupational->candidate->id . DS . $preoccupational->candidate->photo,
+					'preocupacional' => [
+						'turno' => $preoccupational->appointment->format('d/m/Y H:m'),
+						'tipo' => $preoccupational->preocuppationalstype->name,
+						'tieneObservaciones' => !empty($preoccupational->observations),
+						'observaciones' => $preoccupational->observations,
+						'estado' => $preoccupational->aptitude->name
 
+					],
+					'archivos' => []
+				];
+
+				foreach($preoccupational->files as $file) {
+					$json['data'][$key]['archivos'][] = [
+						'nombre' => $file->name,
+						'url' => $actualLink . $file->getUrl()
+					];
+				}
+				$key++;
+			}
+		}
 		$this->set(compact('json'));
 		$this->viewBuilder()->setOption('serialize', 'json');
 	}
