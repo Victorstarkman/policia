@@ -13,10 +13,19 @@
             <div class="pl-0 col-6">
                 <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/agregar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Agregar aspirante</a>
             </div>
-            <div class="pl-0 col-6">
-                <a href="#<?php //echo $this->Url->build( DS . strtolower($this->request->getParam('prefix')).  '/aspirantes/importar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Subir excel</a>
+
+            <?= $this->Form->create(null,['type' => 'file','url' => [
+                                                                    'controller' => 'Candidates',
+                                                                    'action' => 'excelphp'
+        ]]  )?>
+                <div class="custom-input-file pl-0 col-6">
+                    <input  type="file" class="input-file form-control-blue" name="import file" > 
+                </div>
             </div>
-        </div>
+            <div class="mx-auto form-group col-lg-12 col-md-12 my-4">
+                <button type="submit" class="btn btn-outline-primary btn-block"><i class="mr-2 fas fa-save" aria-hidden="true"></i>Guardar excel</button>
+            </div>
+            <?= $this->Form->end()?>
         <p class="title-results">Aspirantes</p>
 
 	    <?= $this->Flash->render() ?>

@@ -5,7 +5,8 @@ namespace App\Controller\Dienst;
 
 use App\Controller\AppController;
 use App\Model\Table\PreoccupationalsTable;
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 /**
  * Candidates Controller
  *
@@ -145,4 +146,62 @@ class CandidatesController extends AppController
 
 		return $this->redirect(['action' => 'index']);
 	}
-}
+	public function excelphp(){
+		$filename= $_FILES['import_file']['name'];
+		if(isset($filename)){
+			$file_ext= pathinfo($filename,PATHINFO_EXTENSION);
+		}
+        
+		$allowed_files= array('xls','csv','xlsx');
+		if(in_array($file_ext,$allowed_files)){
+			$inputFileNamePath = $_FILES['import_file']['tmp_name'];
+			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
+			$data= $spreadsheet->getActiveSheet()->toArray();
+			//debug($data);
+			for($i=9;$i<count($data);$i++){
+				if(isset($data[$i][1])){
+					$cuil=$data[$i][1];
+					$lastname=$data[$i][4];
+					$name= $data[$i][6];
+					$gender=$data[$i][8];
+					$phone=$data[$i][10];
+					$email=$data[$i][19];
+					//query 
+					$genders = $this->Candidates->Users->getGendersList();
+					$keyGender=intval(array_search($gender,$genders));
+			
+					$t= time();
+					$created= date('Y-m-d H:m:s',$t);
+					$name=isset($name)?$this->Upper->upper(trim($name)):'';
+					$lastname=isset($lastname)?$this->Upper->upper(trim($lastname)):'';
+					//debug( $name);
+					$query= $this->Candidates->query();
+					$query->insert(['name','lastname','cuil','phone','email','gender','created','modified','user_id'])
+						->values([
+							'name' => $name,
+							'lastname' =>$lastname,
+							'cuil'=>$cuil,
+							'phone'=>$phone,
+							'email'=>$email,
+							'gender'=>$keyGender,
+							'created'=>$created,
+							'modified'=>$created,
+							'user_id'=>2
+
+						])
+						->execute();
+						if($query){
+							$this->Flash->success(_('El archivo se actualiz&oacute; correctamente'));
+						}else{
+							$this->Flash->error(_('El archivo no se actualiz&oacute; correctamente'));
+						} 
+				}//if isset
+			}//for  
+			$this->setAction('index'); 	
+		}else{
+			$this->Flash->error(_('El archivo no es v&aacute;lido'));
+			
+			}//if inarray;
+		$this->setAction('index'); 
+		}//fin de funcion
+	}//fin de clase

@@ -46,6 +46,7 @@ class AppController extends Controller
         $this->loadComponent('RequestHandler');
         $this->loadComponent('Flash');
 	    $this->loadComponent('Authentication.Authentication');
+        $this->loadComponent('Upper');
 	    $auth = $this->Authentication->getResult();
 		if ($auth->isValid()) {
 			$actualPrefix = $this->request->getParam('prefix');

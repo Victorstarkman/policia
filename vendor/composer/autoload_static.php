@@ -51,12 +51,17 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
         '5b0b8dd596fc4a21b07530ad8f418433' => __DIR__ . '/..' . '/mirko-pagliai/me-tools/src/Core/global_functions.php',
         '7317fff51357ce585aa7b52f2f8376c9' => __DIR__ . '/..' . '/mirko-pagliai/me-tools/src/Core/request_detectors.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
+        ),
+        'Z' => 
+        array (
+            'ZipStream\\' => 10,
         ),
         'W' => 
         array (
@@ -110,14 +115,17 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
             'Psr\\Container\\' => 14,
             'Prophecy\\' => 9,
             'PhpParser\\' => 10,
+            'PhpOffice\\PhpSpreadsheet\\' => 25,
             'Phinx\\' => 6,
             'PHPStan\\PhpDocParser\\' => 21,
         ),
         'M' => 
         array (
+            'MyCLabs\\Enum\\' => 13,
             'Muffin\\Trash\\' => 13,
             'Migrations\\' => 11,
             'MeTools\\' => 8,
+            'Matrix\\' => 7,
             'M1\\Env\\' => 7,
         ),
         'L' => 
@@ -161,6 +169,7 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
             'Composer\\MetadataMinifier\\' => 26,
             'Composer\\CaBundle\\' => 18,
             'Composer\\' => 9,
+            'Complex\\' => 8,
             'Cake\\TwigView\\' => 14,
             'Cake\\Test\\' => 10,
             'Cake\\Composer\\' => 14,
@@ -187,6 +196,10 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'ZipStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
         ),
         'Webmozart\\Assert\\' => 
         array (
@@ -342,6 +355,10 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'PhpOffice\\PhpSpreadsheet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
         'Phinx\\' => 
         array (
             0 => __DIR__ . '/..' . '/robmorgan/phinx/src/Phinx',
@@ -349,6 +366,10 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
         'PHPStan\\PhpDocParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpstan/phpdoc-parser/src',
+        ),
+        'MyCLabs\\Enum\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
         ),
         'Muffin\\Trash\\' => 
         array (
@@ -361,6 +382,10 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
         'MeTools\\' => 
         array (
             0 => __DIR__ . '/..' . '/mirko-pagliai/me-tools/src',
+        ),
+        'Matrix\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
         'M1\\Env\\' => 
         array (
@@ -450,6 +475,10 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
         array (
             0 => __DIR__ . '/..' . '/composer/composer/src/Composer',
         ),
+        'Complex\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+        ),
         'Cake\\TwigView\\' => 
         array (
             0 => __DIR__ . '/..' . '/cakephp/twig-view/src',
@@ -505,6 +534,13 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
                 1 => __DIR__ . '/..' . '/josegonzalez/dotenv/tests',
             ),
         ),
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
+            ),
+        ),
         'D' => 
         array (
             'Detection' => 
@@ -516,6 +552,7 @@ class ComposerStaticInit782a45a24a7cba14a44f427609ad85af
 
     public static $classMap = array (
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',

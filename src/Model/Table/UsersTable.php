@@ -63,8 +63,8 @@ class UsersTable extends Table
 	];
 
 	const GENDERS = [
-		1 => 'Masculino',
-		2 => 'Femenino',
+		1 => 'Hombre',
+		2 => 'Mujer',
 		3 => 'Otro'
 	];
 
