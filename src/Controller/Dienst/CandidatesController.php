@@ -147,19 +147,15 @@ class CandidatesController extends AppController
 		return $this->redirect(['action' => 'index']);
 	}
 	public function excelphp(){
-		$filename= $_FILES['import_file']['name'];
-		if(isset($filename)){
+		if(isset( $_FILES['import_file']['name'])){
+			$filename=$_FILES['import_file']['name'];
 			$file_ext= pathinfo($filename,PATHINFO_EXTENSION);
-		}
-        
-		$allowed_files= array('xls','csv','xlsx');
-		if(in_array($file_ext,$allowed_files)){
-			$inputFileNamePath = $_FILES['import_file']['tmp_name'];
-			$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
-			$data= $spreadsheet->getActiveSheet()->toArray();
-			//debug($data);
-			for($i=9;$i<count($data);$i++){
-				if(isset($data[$i][1])){
+			$allowed_files= array('xls','csv','xlsx');
+			if(in_array($file_ext,$allowed_files)){
+				$inputFileNamePath = $_FILES['import_file']['tmp_name'];
+				$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
+				$data= $spreadsheet->getActiveSheet()->toArray();
+				for($i=9;$i<count($data)-1;$i++){
 					$cuil=$data[$i][1];
 					$lastname=$data[$i][4];
 					$name= $data[$i][6];
@@ -174,34 +170,36 @@ class CandidatesController extends AppController
 					$created= date('Y-m-d H:m:s',$t);
 					$name=isset($name)?$this->Upper->upper(trim($name)):'';
 					$lastname=isset($lastname)?$this->Upper->upper(trim($lastname)):'';
-					//debug( $name);
+					//debug($cuil.' '.$lastname.' '.$name.' '.$keyGender.' '.$phone.' '.$email.' '.$created);
+					//------------------query de guardado--------------------------------
 					$query= $this->Candidates->query();
 					$query->insert(['name','lastname','cuil','phone','email','gender','created','modified','user_id'])
-						->values([
-							'name' => $name,
-							'lastname' =>$lastname,
-							'cuil'=>$cuil,
-							'phone'=>$phone,
-							'email'=>$email,
-							'gender'=>$keyGender,
-							'created'=>$created,
-							'modified'=>$created,
-							'user_id'=>2
+					->values([
+						'name' => $name,
+						'lastname' =>$lastname,
+						'cuil'=>$cuil,
+						'phone'=>$phone,
+						'email'=>$email,
+						'gender'=>$keyGender,
+						'created'=>$created,
+						'modified'=>$created,
+						'user_id'=>2
 
-						])
-						->execute();
-						if($query){
-							$this->Flash->success(_('El archivo se actualiz&oacute; correctamente'));
-						}else{
-							$this->Flash->error(_('El archivo no se actualiz&oacute; correctamente'));
+					])
+					->execute();
+					if($query){
+						$this->Flash->success(_('El archivo se actualiz&oacute; correctamente'));
+					}else{
+						$this->Flash->error(_('El archivo no se actualiz&oacute; correctamente'));
+						
 						} 
-				}//if isset
-			}//for  
-			$this->setAction('index'); 	
-		}else{
-			$this->Flash->error(_('El archivo no es v&aacute;lido'));
-			
-			}//if inarray;
-		$this->setAction('index'); 
-		}//fin de funcion
-	}//fin de clase
+				}//fin de for
+			}//fin de in array	
+			$this->setAction('index');
+			return;
+		}//fin de isset files
+		else{
+			$this->setAction('index');
+		}
+	}//fin de funcion
+}//fin de clase
