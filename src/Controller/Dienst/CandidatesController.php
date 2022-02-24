@@ -85,6 +85,8 @@ class CandidatesController extends AppController
         $candidate = $this->Candidates->newEmptyEntity();
         if ($this->request->is('post')) {
         	$data = $this->request->getData();
+			$cuil=$this->Upper->getCuil($data['cuil']);
+			$data['cuil']=$cuil;
         	$data['user_id'] = $this->Authentication->getIdentity()->id;
 			$candidateExistence = $this->Candidates->checkExistence($data);
 			if (!$candidateExistence['exists']) {
@@ -100,7 +102,7 @@ class CandidatesController extends AppController
         }
         $users = $this->Candidates->Users->find('list', ['limit' => 200])->all();
         $genders = $this->Candidates->Users->getGendersList();
-        $this->set(compact('candidate', 'users', 'genders'));
+        $this->set(compact('candidate', 'users', 'genders'));  
     }
 
 	public function edit($id) {
@@ -156,43 +158,45 @@ class CandidatesController extends AppController
 				$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
 				$data= $spreadsheet->getActiveSheet()->toArray();
 				for($i=9;$i<count($data)-1;$i++){
-					$cuil=$data[$i][1];
-					$lastname=$data[$i][4];
-					$name= $data[$i][6];
-					$gender=$data[$i][8];
-					$phone=$data[$i][10];
-					$email=$data[$i][19];
-					//query 
-					$genders = $this->Candidates->Users->getGendersList();
-					$keyGender=intval(array_search($gender,$genders));
-			
-					$t= time();
-					$created= date('Y-m-d H:m:s',$t);
-					$name=isset($name)?$this->Upper->upper(trim($name)):'';
-					$lastname=isset($lastname)?$this->Upper->upper(trim($lastname)):'';
-					//debug($cuil.' '.$lastname.' '.$name.' '.$keyGender.' '.$phone.' '.$email.' '.$created);
-					//------------------query de guardado--------------------------------
-					$query= $this->Candidates->query();
-					$query->insert(['name','lastname','cuil','phone','email','gender','created','modified','user_id'])
-					->values([
-						'name' => $name,
-						'lastname' =>$lastname,
-						'cuil'=>$cuil,
-						'phone'=>$phone,
-						'email'=>$email,
-						'gender'=>$keyGender,
-						'created'=>$created,
-						'modified'=>$created,
-						'user_id'=>2
-
-					])
-					->execute();
-					if($query){
-						$this->Flash->success(_('El archivo se actualiz&oacute; correctamente'));
-					}else{
-						$this->Flash->error(_('El archivo no se actualiz&oacute; correctamente'));
-						
-						} 
+					if(isset($data[$i][1])){
+						$cuil=$data[$i][1];
+						$lastname=$data[$i][4];
+						$name= $data[$i][6];
+						$gender=$data[$i][8];
+						$phone=$data[$i][10];
+						$email=$data[$i][19];
+						//query 
+						$cuil=$this->Upper->getCuil($cuil);
+						$genders = $this->Candidates->Users->getGendersList();
+						$keyGender=intval(array_search($gender,$genders));
+						$t= time();
+						$created= date('Y-m-d H:m:s',$t);
+						$name=isset($name)?$this->Upper->upper(trim($name)):'';
+						$lastname=isset($lastname)?$this->Upper->upper(trim($lastname)):'';
+						/* debug($cuil.' '.$lastname.' '.$name.' '.$keyGender.' '.$phone.' '.$email.' '.$created);
+						exit; */
+						//------------------query de guardado--------------------------------
+						$query= $this->Candidates->query();
+						$query->insert(['name','lastname','cuil','phone','email','gender','created','modified','user_id'])
+						->values([
+							'name' => $name,
+							'lastname' =>$lastname,
+							'cuil'=>$cuil,
+							'phone'=>$phone,
+							'email'=>$email,
+							'gender'=>$keyGender,
+							'created'=>$created,
+							'modified'=>$created,
+							'user_id'=>2
+	
+						])
+						->execute();
+						if($query){
+							$this->Flash->success(_('El archivo se actualizó; correctamente'));
+						}else{
+							$this->Flash->error(_('El archivo no se actualizó; correctamente'));
+							}   
+					}
 				}//fin de for
 			}//fin de in array	
 			$this->setAction('index');

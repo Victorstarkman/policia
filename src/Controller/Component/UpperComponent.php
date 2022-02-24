@@ -34,4 +34,24 @@ class UpperComponent extends Component
         return  ucfirst( mb_convert_case($string, MB_CASE_LOWER, "UTF-8"));  
         }
     }
+    public function getCuil($string){
+       /*  echo var_dump($string);
+        exit; */
+        $cuil='';
+        $arrayChar=[46,45,32];
+        if((isset($string))){
+            $coincidencia=preg_match('/[-.\s]/',$string);
+            if ($coincidencia){
+                $stringarray=str_split($string);
+                foreach($stringarray as $char){
+                    //echo $char.'-'.ord($char).'<br/>';
+                    if(!(in_array(ord($char),$arrayChar))){
+                        $cuil.=$char;
+                    }
+                } 
+            }
+            return $cuil;
+        }
+       
+    } 
 }

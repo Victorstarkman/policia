@@ -80,7 +80,7 @@
                             <thead>
                             <tr>
                                 <th><?= __('Nombre') ?></th>
-                                <th><?= __('Preview') ?></th>
+                                <th><?= __('Documentos') ?></th>
                                 <th><?= __('Descargar') ?></th>
                             </tr>
                             </thead>
