@@ -52,6 +52,5 @@ class UpperComponent extends Component
             }
             return $cuil;
         }
-       
     } 
 }

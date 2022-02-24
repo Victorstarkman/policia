@@ -134,6 +134,10 @@ class PreoccupationalsController extends AppController
 		if ($this->request->is('post')) {
 			$data = $this->request->getData();
 			$preoccupational = $this->Preoccupationals->get($data['preoccupational_id']);
+			if($data['aptitud']==="1"){
+				$data['observations']='';
+				$preoccupational->observations=$data['observations'];
+			}
 			$data['aptitud_id'] = $data['aptitud'];
 			if ($this->Preoccupationals->needObservations($data['aptitud']) and empty($data['observations'])) {
 				$this->Flash->error(__('Ups, faltaron las observaciones. Intente nuevamente.'));
@@ -146,7 +150,6 @@ class PreoccupationalsController extends AppController
 					$this->Flash->error(__('Ups, hubo un problema al grabar, intente nuevamente.'));
 				}
 			}
-
 		}
 		return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
 	}
