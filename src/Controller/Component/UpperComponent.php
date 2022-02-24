@@ -35,8 +35,7 @@ class UpperComponent extends Component
         }
     }
     public function getCuil($string){
-       /*  echo var_dump($string);
-        exit; */
+         //echo var_dump($string);
         $cuil='';
         $arrayChar=[46,45,32];
         if((isset($string))){
@@ -49,8 +48,11 @@ class UpperComponent extends Component
                         $cuil.=$char;
                     }
                 } 
+                return $cuil; 
+            }else{
+                return $string;
             }
-            return $cuil;
+            
         }
     } 
 }
