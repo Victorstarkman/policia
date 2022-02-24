@@ -31,7 +31,7 @@ class CandidatesController extends AppController
 				]
             ],
         ];
-		$candidates = $this->Candidates->find();
+		$candidates = $this->Candidates->find();						
 		if (!empty($search)) {
 			$coincide= preg_match('/@/',$search);
 			if(!$coincide){
@@ -40,10 +40,13 @@ class CandidatesController extends AppController
 			$candidates->where(['OR' => ['cuil' => $search, 'email' => $search]]);
 		}
 		$settings= [
-			'order'=>['created'=>'desc']	
+			'order'=>['created'=>'desc'],
+			'limit'	=>10
 		];
 			
         $candidates = $this->paginate($candidates,$settings);
+		/* debug($candidates);
+		exit;	 */	
         $this->set(compact('candidates', 'search'));
     }
 
