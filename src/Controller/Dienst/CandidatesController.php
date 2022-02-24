@@ -23,7 +23,6 @@ class CandidatesController extends AppController
     public function index()
     {
 	    $search = $this->request->getQuery('search');
-
         $this->paginate = [
             'contain' => [
 				'Preoccupationals' => [
@@ -34,6 +33,10 @@ class CandidatesController extends AppController
         ];
 		$candidates = $this->Candidates->find();
 		if (!empty($search)) {
+			$coincide= preg_match('/@/',$search);
+			if(!$coincide){
+				$search=$this->Upper->getCuil($search);
+			}
 			$candidates->where(['OR' => ['cuil' => $search, 'email' => $search]]);
 		}
 		$settings= [
@@ -112,7 +115,6 @@ class CandidatesController extends AppController
 			$data = $this->request->getData();
 			$data['user_id'] = $this->Authentication->getIdentity()->id;
 			$candidateExistence = $this->Candidates->checkExistence($data, $id);
-
 			if (!$candidateExistence['exists']) {
 				$candidate = $this->Candidates->patchEntity($candidate, $data);
 				if ($this->Candidates->save($candidate)) {
@@ -175,7 +177,13 @@ class CandidatesController extends AppController
 						$lastname=isset($lastname)?$this->Upper->upper(trim($lastname)):'';
 						/* debug($cuil.' '.$lastname.' '.$name.' '.$keyGender.' '.$phone.' '.$email.' '.$created);
 						exit; */
+						$datacandidate= array('name'=>$name,'lastname'=>$lastname,'cuil'=>$cuil,'phone'=>$phone,'gender'=>$keyGender,'email'=>$email,'user_id'=>2);
 						//------------------query de guardado--------------------------------
+						$candidateExistence = $this->Candidates->checkExistence($datacandidate);
+						if($candidateExistence['exists']){
+							$this->Flash->error($candidateExistence['error'].' Su cuil es '.$datacandidate['cuil'].' y su mail '.$datacandidate['email']);
+							continue;
+						}
 						$query= $this->Candidates->query();
 						$query->insert(['name','lastname','cuil','phone','email','gender','created','modified','user_id'])
 						->values([
