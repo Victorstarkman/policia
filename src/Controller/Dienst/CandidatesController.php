@@ -207,11 +207,11 @@ class CandidatesController extends AppController
 					}
 				}//fin de for
 			}//fin de in array	
-			$this->setAction('index');
+			$this->redirect(['action' => 'index']);
 			return;
 		}//fin de isset files
 		else{
-			$this->setAction('index');
+			$this->redirect(['action' => 'index']);
 		}
 	}//fin de funcion
 }//fin de clase

@@ -185,7 +185,7 @@ return [
         'skipLog' => [],
         'log' => true,
         'trace' => true,
-        'ignoredDeprecationPaths' => [`src/Controller/Dienst/CandidatesController.php`],
+        'ignoredDeprecationPaths' => [],
     ],
 
     /*
