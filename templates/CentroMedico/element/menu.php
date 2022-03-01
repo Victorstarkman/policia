@@ -12,6 +12,9 @@
             <ul class="sub-menu">
                 <li>
                     <a href="<?= $this->Url->build(  DS . 'centro-medico/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Preocupacionales de hoy</a>
+
+                <li>
+                    <a href="<?= $this->Url->build(  DS . 'centro-medico/preocupacionales/sin-finalizar', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de presentes con falta de documentación.</a>
                 </li>
             </ul>
         </div>

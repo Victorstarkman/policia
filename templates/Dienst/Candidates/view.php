@@ -60,6 +60,7 @@
                         <th><?= $this->Paginator->sort('status', __('Estado')) ?></th>
                         <th><?= $this->Paginator->sort('preocuppationalsType_id', __('Tipo')) ?></th>
                         <th><?= $this->Paginator->sort('aptitude_id',  __('Apto')) ?></th>
+                        <?php if (!empty($preoccupational->observations)) { echo '<th>Observacion</th>'; } ?>
                     </tr>
                     </thead>
                     <tbody>
@@ -68,6 +69,7 @@
                             <td><?= h($preoccupational->presentOrAbsent('view')) ?></td>
                             <td><?= h($preoccupational->preocuppationalstype->name) ?></td>
                             <td><?= (!is_null($preoccupational->aptitude_id)) ? $preoccupational->aptitude->name : '-' ?></td>
+	                        <?php if (!empty($preoccupational->observations)) { echo '<td>' . $preoccupational->observations . '</td>'; } ?>
                         </tr>
                     </tbody>
                 </table>
@@ -137,10 +139,11 @@
 	        <?= $this->Form->control('aptitud', ['type'=> 'hidden', 'class' => 'form-control form-control-blue m-0 col-12',  'readonly', 'value' => 1]); ?>
             <div class="mx-auto form-group row col-lg-12 col-md-12">
                 <label for="observations">Observaciones</label>
-                <textarea id="observations" name="observations" class="form-control form-control-blue m-0 col-12">
-                    <?= (!empty($candidate->preoccupationals[$getPos]->observations)) ? $candidate->preoccupationals[$getPos]->observations : ''; ?>
-
-                </textarea>
+                <textarea id="observations" name="observations" class="form-control form-control-blue m-0 col-12"><?php
+                     if (!empty($candidate->preoccupationals[$getPos]->observations))  {
+                         echo  $candidate->preoccupationals[$getPos]->observations;
+                     }
+                     ?></textarea>
             </div>
             <div class="mx-auto form-group row col-lg-4 col-md-12">
                 <div class="pl-0 col-12">
@@ -149,6 +152,14 @@
             </div>
         </div>
 	    <?= $this->Form->end() ?>
+        <div class="col-12">
+            <p class="title-results">Nuevo turno</p>
+        </div>
+        <div class="row container mx-auto">
+            <div class="pl-0 col-12">
+	            <?= $this->Html->link('<i class="fa-solid fa-clock"></i> Asignar nuevo turno',   strtolower(DS . $this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id . '/f', ['fullBase' => true, 'escape' => false, 'class' => 'btn btn-outline-primary col-12']); ?>
+            </div>
+        </div>
         <?php else : ?>
             <?php
 		    if (empty($candidate->preoccupationals) ) {
@@ -158,8 +169,11 @@
 			    $presentorAbsentDate = $candidate->preoccupationals[$getPos]->presentOrAbsent();
 
 		    }
-
-            if (!empty($candidate->preoccupationals) and !$candidate->preoccupationals[$getPos]->isPresent() and !$needDate) : ?>
+            if (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->waitingResults()) : ?>
+                <div class="alert alert-info col-lg-12 text-center" role="alert">
+                    El aspirante esta esperando la carga de estudios/documentos.
+                </div>
+            <?php elseif (!empty($candidate->preoccupationals) and (!$candidate->preoccupationals[$getPos]->isPresent()) and !$needDate) : ?>
                 <div class="alert alert-info col-lg-12 text-center" role="alert">
                     El aspirante no esta marcado como presente.
                 </div>
@@ -174,6 +188,7 @@
                  <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
+
 </div>
 
 <?php $this->start('scriptBottom'); ?>

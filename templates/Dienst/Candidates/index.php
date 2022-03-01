@@ -30,9 +30,14 @@
 
 	    <?= $this->Flash->render() ?>
 	    <?= $this->Form->create(null, ['type' => 'GET', 'class' => 'col-lg-12 col-md-12 row']) ?>
-            <div class="pt-0 col-lg-6 col-sm-12">
+            <div class="pt-0 col-lg-3 col-sm-12">
                 <div class="form-group">
-                    <?= $this->Form->control('search', ['label'=> false, 'placeholder' => 'Buscar por CUIL o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => $search]); ?>
+                    <?= $this->Form->control('cuil', ['label'=> false, 'placeholder' => 'Buscar por CUIL o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => (isset($search['cuil'])) ? $search['cuil'] : '']); ?>
+                </div>
+            </div>
+            <div class="pt-0 col-lg-3 col-sm-12">
+                <div class="form-group">
+                    <?= $this->Form->control('preoccupationalStatus', ['options' => $preoccupationalStatusList, 'label'=> false, 'empty' => 'Estado', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => (isset($search['preoccupationalStatus'])) ? $search['preoccupationalStatus'] : '']); ?>
                 </div>
             </div>
             <div class="pl-0 col-6">

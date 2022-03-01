@@ -9,7 +9,11 @@
 
 <div class="mx-auto mt-5 col-12">
     <div class="col-12 title-section">
-        <h4>Asignación de fecha</h4>
+        <?php if (!$forzar) : ?>
+            <h4>Asignación de fecha</h4>
+        <?php else : ?>
+            <h4>Asignación de nueva fecha</h4>
+        <?php endif; ?>
     </div>
     <div class="results">
         <div class="container mx-auto row">

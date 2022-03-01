@@ -47,7 +47,7 @@
                 </div>
             </div>
 			<?= $this->Form->end() ?>
-            <?php if ($preoccupational->isPresent()) : ?>
+            <?php if ($preoccupational->waitingResults()) : ?>
             <div class="col-12">
                 <p class="title-results">Foto de aspirante(Máx. 1MB)</p>
             </div>
@@ -56,12 +56,24 @@
                 <p class="title-results">Archivos e imagenes (Máx. 10 Archivos hasta 10MB cada uno)</p>
             </div>
             <div id="fileuploader" class="col-12">Cargar</div>
+                <div class="alert alert-info col-lg-12 text-center mt-5" role="alert">
+                   Una vez que se suban todos los archivos/estudios aprete el boton finalizar.
+                </div>
+
+	            <?= $this->Form->create($preoccupational, ['class' => 'col-lg-12 col-md-12 row']) ?>
+	            <?= $this->Form->control('status', ['label'=> false, 'type' => 'hidden', 'value'=> $present, 'class' => 'form-control form-control-blue m-0 col-12', 'readonly']); ?>
+                <div class="mx-auto form-group row col-lg-12 col-md-12">
+                    <div class="pl-0 col-12">
+                        <button type="submit" class="btn btn-outline-primary col-12" name="guardar"><i class="fa-solid fa-square-check"></i> Finalizar </button>
+                    </div>
+                </div>
+	            <?= $this->Form->end() ?>
             <?php else : ?>
                 <div class="alert alert-info col-lg-12 text-center" role="alert">
                     Marcar aspirante como PRESENTE para subir documentos
                 </div>
 	            <?= $this->Form->create($preoccupational, ['class' => 'col-lg-12 col-md-12 row']) ?>
-	                 <?= $this->Form->control('status', ['label'=> false, 'type' => 'hidden', 'value'=> $present, 'class' => 'form-control form-control-blue m-0 col-12', 'readonly']); ?>
+	                 <?= $this->Form->control('status', ['label'=> false, 'type' => 'hidden', 'value'=> $waiting, 'class' => 'form-control form-control-blue m-0 col-12', 'readonly']); ?>
                 <div class="mx-auto form-group row col-lg-12 col-md-12">
                     <div class="pl-0 col-12">
                         <button type="submit" class="btn btn-outline-primary col-12" name="guardar"><i class="fa-solid fa-square-check"></i> MARCAR PRESENTE</button>
@@ -73,7 +85,7 @@
         </div>
     </div>
 </div>
-<?php if ($preoccupational->isPresent()) : ?>
+<?php if ($preoccupational->waitingResults()) : ?>
 <?php echo $this->Html->css('uploadFiles/styleUploadFile', ['block' => 'script']); ?>
 <?php echo $this->Html->script('uploadFiles/uploadFile', ['block' => 'script']); ?>
 <?php $this->start('scriptBottom'); ?>

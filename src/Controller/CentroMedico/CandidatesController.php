@@ -34,4 +34,21 @@ class CandidatesController extends AppController
         $this->set(compact('candidatesWithAppoitment', 'today', 'search'));
     }
 
+	/**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function waitingDocumentation()
+    {
+        $this->paginate = [
+            'contain' => ['Candidates'],
+        ];
+		$search = $this->request->getQuery('search');
+		$candidatesWithDocumentation = $this->Candidates->Preoccupationals->waitingResults($search);
+	    $candidatesWithDocumentation = $this->paginate($candidatesWithDocumentation);
+
+        $this->set(compact('candidatesWithDocumentation', 'search'));
+    }
+
 }

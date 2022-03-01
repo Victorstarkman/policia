@@ -22,7 +22,8 @@ class CandidatesController extends AppController
      */
     public function index()
     {
-	    $search = $this->request->getQuery('search');
+	    $search = $this->request->getQueryParams();
+
         $this->paginate = [
             'contain' => [
 				'Preoccupationals' => [
@@ -33,21 +34,27 @@ class CandidatesController extends AppController
         ];
 		$candidates = $this->Candidates->find();						
 		if (!empty($search)) {
-			$coincide= preg_match('/@/',$search);
-			if(!$coincide){
-				$search=$this->Upper->getCuil($search);
+			if (!empty($search['cuil'])) {
+				$coincide = preg_match('/@/', $search['cuil']);
+				if (!$coincide) {
+					$cuil = $this->Upper->getCuil($search['cuil']);
+					$candidates->where(['OR' => ['cuil' => $cuil, 'email' => $cuil]]);
+				}
 			}
-			$candidates->where(['OR' => ['cuil' => $search, 'email' => $search]]);
+
+			if (!empty($search['preoccupationalStatus'])) {
+				$candidatesIdWithSpecificStatus = $this->Candidates->Preoccupationals->getCandidatesID(['status' => $search['preoccupationalStatus']]);
+				$candidates->where(['id IN' => $candidatesIdWithSpecificStatus]);
+			}
 		}
 		$settings= [
-			'order'=>['created'=>'desc'],
-			'limit'	=>10
+			'order'=> ['created' => 'desc'],
+			'limit'	=> 10
 		];
 			
         $candidates = $this->paginate($candidates,$settings);
-		/* debug($candidates);
-		exit;	 */	
-        $this->set(compact('candidates', 'search'));
+		$preoccupationalStatusList = $this->Candidates->Preoccupationals->getStatusName();
+        $this->set(compact('candidates', 'search', 'preoccupationalStatusList'));
     }
 
 	public function toCheck()

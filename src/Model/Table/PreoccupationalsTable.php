@@ -39,9 +39,20 @@ class PreoccupationalsTable extends Table
 	const ABSENT = 2;
 	const CANCELLED = 3;
 	const PRESENT = 4;
+	const WAITING = 5;
 
 	const APTITUD_ID_NEED_OBSERVATION = [2, 3];
 	const APTO = 1;
+
+	const NAME_STATUS = [
+		self::ACTIVE => 'Esperando ser atendido',
+		self::ABSENT => 'Ausente',
+		self::CANCELLED => 'Cancelado',
+		self::PRESENT => 'Presente',
+		self::WAITING => 'Esperando documentacion'
+	];
+
+
     /**
      * Initialize method
      *
@@ -111,6 +122,10 @@ class PreoccupationalsTable extends Table
         return $rules;
     }
 
+	public function getStatusName() {
+		return static::NAME_STATUS;
+	}
+
 	public function activeStatus() {
 		return static::ACTIVE;
 	}
@@ -118,7 +133,8 @@ class PreoccupationalsTable extends Table
 	public function noNeedOtherDateStatus() {
 		return [
 			static::ACTIVE,
-			static::PRESENT
+			static::PRESENT,
+			static::WAITING,
 		];
 	}
 
@@ -174,6 +190,32 @@ class PreoccupationalsTable extends Table
 		return $toCheck;
 	}
 
+	public function waitingResults($search = null) {
+		$toCheck = $this->find()
+			->contain(['Candidates', 'Aptitudes', 'Preocuppationalstypes'])
+			->where(['status' => self::WAITING])
+			->where(['aptitude_id IS NULL']);
+
+		if (!is_null($search)) {
+			$toCheck->where(['OR' => ['Candidates.cuil' => $search, 'Candidates.email' => $search]]);
+		}
+
+		return $toCheck;
+	}
+
+	public function getCandidatesID($search) {
+		$candidatesID = $this->find()
+			->select(['candidate_id'])
+			->where($search)
+			->all()
+			->map(function ($row) {
+				return $row->candidate_id;
+			})
+			->toArray();
+
+		return $candidatesID;
+	}
+
 	public function absent($preoccupational) {
 		$preoccupational->status = self::ABSENT;
 		return $this->save($preoccupational);
@@ -181,6 +223,11 @@ class PreoccupationalsTable extends Table
 
 	public function present($preoccupational) {
 		$preoccupational->status = self::PRESENT;
+		return $this->save($preoccupational);
+	}
+
+	public function waiting($preoccupational) {
+		$preoccupational->status = self::WAITING;
 		return $this->save($preoccupational);
 	}
 
