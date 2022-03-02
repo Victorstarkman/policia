@@ -6,7 +6,7 @@
 ?>
 <div class="mx-auto mt-5 col-12">
 	<div class="col-12 title-section">
-		<h4>Lista de aspirantes</h4>
+		<h4>Lista de Aspirantes sin Diagnosticar</h4>
 	</div>
 	<div class="results">
 		<p class="title-results">Aspirantes</p>
