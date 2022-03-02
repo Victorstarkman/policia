@@ -95,3 +95,30 @@ button.btn {
 .big-checkbox label {
 	font-size: 1.2rem;
 }
+.custom-input-file{
+	position: relative;
+	display: inline-block;
+}
+.custom-input-file::before{
+	background-color:#0072bf;
+	width:750px;
+	height: 40px;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 3px;
+	content: 'Seleccionar un archivo excel'; /* texto por defecto */
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+
+}
+.custom-input-file input[type="file"]{
+	opacity: 0;
+	width: 600px;
+	height: 32px;
+	display: inline-block;
+}

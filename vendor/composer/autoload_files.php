@@ -50,4 +50,5 @@ return array(
     '5b0b8dd596fc4a21b07530ad8f418433' => $vendorDir . '/mirko-pagliai/me-tools/src/Core/global_functions.php',
     '7317fff51357ce585aa7b52f2f8376c9' => $vendorDir . '/mirko-pagliai/me-tools/src/Core/request_detectors.php',
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+    '2cffec82183ee1cea088009cef9a6fc3' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
 );

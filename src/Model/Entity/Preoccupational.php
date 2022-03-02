@@ -8,6 +8,7 @@ use App\Model\Table\PreoccupationalsTable;
 use Cake\ORM\Entity;
 use Cake\ORM\Locator\LocatorAwareTrait;
 use Cake\ORM\TableRegistry;
+use PhpParser\Node\Stmt\TraitUseAdaptation\Precedence;
 
 /**
  * Preoccupational Entity
@@ -50,6 +51,7 @@ class Preoccupational extends Entity
         'preocuppationals_type' => true,
         'observations' => true,
         'files' => true,
+        'aptitude_by' => true,
     ];
 
 	public function noNeedForNewDate() {
@@ -59,7 +61,9 @@ class Preoccupational extends Entity
 
 	public function presentOrAbsent($action = null) {
 		$text = false;
-		if ($this->status == PreoccupationalsTable::PRESENT) {
+		if ($this->status == PreoccupationalsTable::WAITING) {
+			$text = "Esperando resultados";
+		} elseif ($this->status == PreoccupationalsTable::PRESENT) {
 			$text = "Presente";
 		} elseif ($this->status == PreoccupationalsTable::ABSENT) {
 			$text = "Ausente";
@@ -82,6 +86,10 @@ class Preoccupational extends Entity
 
 	public function isPresent() {
 		return $this->status == PreoccupationalsTable::PRESENT;
+	}
+
+	public function waitingResults () {
+		return $this->status == PreoccupationalsTable::WAITING;
 	}
 
 	public function readyForAptitud() {

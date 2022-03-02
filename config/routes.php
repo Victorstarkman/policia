@@ -107,12 +107,18 @@ return static function (RouteBuilder $routes) {
 				->setPatterns([
 					'id' => '[0-9]+',
 				]);
+			$builder->connect('/preocupacionales/asignarTurno/{id}/{forzar}', ['controller' => 'Preoccupationals', 'action' => 'assignDate'])
+				->setPass(['id', 'forzar'])
+				->setPatterns([
+					'id' => '[0-9]+',
+			]);
 
 			$builder->connect('/preocupacionales/modificarTurno/{id}', ['controller' => 'Preoccupationals', 'action' => 'modifyDate'])
 				->setPass(['id'])
 				->setPatterns([
 					'id' => '[0-9]+',
 				]);
+
 
 			$builder->connect('/preocupacionales/ver/{id}', ['controller' => 'Candidates', 'action' => 'View'])
 				->setPass(['id'])
@@ -149,7 +155,14 @@ return static function (RouteBuilder $routes) {
 
 		$routes->scope('/', function (RouteBuilder $builder) {
 			$builder->connect('/', ['controller' => 'Candidates', 'action' => 'index']);
+			$builder->connect('/preocupacionales/sin-finalizar', ['controller' => 'Candidates', 'action' => 'waitingDocumentation']);
 			$builder->connect('/preocupacionales/presente/{id}', ['controller' => 'Preoccupationals', 'action' => 'edit'])
+				->setPass(['id'])
+				->setPatterns([
+					'id' => '[0-9]+',
+				]);
+
+			$builder->connect('/preocupacionales/ver/{id}', ['controller' => 'Preoccupationals', 'action' => 'view'])
 				->setPass(['id'])
 				->setPatterns([
 					'id' => '[0-9]+',

@@ -5,6 +5,7 @@ namespace App\Controller\Dienst;
 
 use App\Controller\AppController;
 use Cake\Routing\Router;
+use Authentication\Identity;
 
 /**
  * Preoccupationals Controller
@@ -41,17 +42,22 @@ class PreoccupationalsController extends AppController
 		$this->set(compact('lastAppointment', 'preocuppationalsTypes'));
 	}
 
-	public function assignDate($candidateID)
+	public function assignDate($candidateID, $forzar = false)
 	{
+
 		if (is_null($candidateID)) {
 			return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/aspirantes');
 		}
-		$checkPreviousPreoccupationals = $this->Preoccupationals->checkPreviousPreoccupationals($candidateID);
 
-		if ($checkPreviousPreoccupationals['exist']) {
-			$this->Flash->error(__('El aspirante ya cuenta con un turno vigente'));
-			return $this->redirect(DS .strtolower($this->request->getParam('prefix')) . '/aspirantes');
+		if (!$forzar) {
+			$checkPreviousPreoccupationals = $this->Preoccupationals->checkPreviousPreoccupationals($candidateID);
+
+			if ($checkPreviousPreoccupationals['exist']) {
+				$this->Flash->error(__('El aspirante ya cuenta con un turno vigente'));
+				return $this->redirect(DS .strtolower($this->request->getParam('prefix')) . '/aspirantes');
+			}
 		}
+
 		$preoccupational = $this->Preoccupationals->newEmptyEntity();
 		if ($this->request->is('post')) {
 			$data = $this->request->getData();
@@ -65,7 +71,7 @@ class PreoccupationalsController extends AppController
 			$this->Flash->error(__('Upps, hubo un problema. Intente nuevamente.'));
 		}
 		$preocuppationalsTypes = $this->Preoccupationals->Preocuppationalstypes->find('list', ['limit' => 200])->all();
-		$this->set(compact('preoccupational', 'candidateID', 'preocuppationalsTypes'));
+		$this->set(compact('preoccupational', 'candidateID', 'preocuppationalsTypes', 'forzar'));
 	}
 
 	public function assignDateMassive()
@@ -131,22 +137,32 @@ class PreoccupationalsController extends AppController
 	}
 
 	public function changeAptitud() {
+		$auth = $this->Authentication->getIdentity();
 		if ($this->request->is('post')) {
-			$data = $this->request->getData();
-			$preoccupational = $this->Preoccupationals->get($data['preoccupational_id']);
-			$data['aptitud_id'] = $data['aptitud'];
-			if ($this->Preoccupationals->needObservations($data['aptitud']) and empty($data['observations'])) {
-				$this->Flash->error(__('Ups, faltaron las observaciones. Intente nuevamente.'));
-			} else {
-				$preoccupational->aptitude_id = $data['aptitud'];
-				$preoccupational->observations = $data['observations'];
-				if ($this->Preoccupationals->save($preoccupational)) {
-					$this->Flash->success(__('Se grabo correctamente.'));
-				} else {
-					$this->Flash->error(__('Ups, hubo un problema al grabar, intente nuevamente.'));
+			if ($auth->group_id == 2) {
+				$data = $this->request->getData();
+				$preoccupational = $this->Preoccupationals->get($data['preoccupational_id']);
+				if($data['aptitud']==="1") {
+					$data['observations']='';
+					$preoccupational->observations=$data['observations'];
 				}
-			}
+				$data['aptitud_id'] = $data['aptitud'];
 
+				if ($this->Preoccupationals->needObservations($data['aptitud']) and empty($data['observations'])) {
+					$this->Flash->error(__('Ups, faltaron las observaciones. Intente nuevamente.'));
+				} else {
+					$preoccupational->aptitude_id = $data['aptitud'];
+					$preoccupational->observations = $data['observations'];
+					$preoccupational->aptitude_by = $auth->id;
+					if ($this->Preoccupationals->save($preoccupational)) {
+						$this->Flash->success(__('Se grabo correctamente.'));
+					} else {
+						$this->Flash->error(__('Ups, hubo un problema al grabar, intente nuevamente.'));
+					}
+				}
+			} else {
+				$this->Flash->error(__('Ups, no tenes permisos.'));
+			}
 		}
 		return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
 	}

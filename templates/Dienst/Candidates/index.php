@@ -13,17 +13,31 @@
             <div class="pl-0 col-6">
                 <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/agregar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Agregar aspirante</a>
             </div>
-            <div class="pl-0 col-6">
-                <a href="#<?php //echo $this->Url->build( DS . strtolower($this->request->getParam('prefix')).  '/aspirantes/importar', ['fullBase' => true]); ?>" class="btn btn-outline-primary col-12"><i class="mr-2 fas fa-info-circle" aria-hidden="true"></i>Subir excel</a>
+
+            <?= $this->Form->create(null,['type' => 'file','url' => [
+                                                                    'controller' => 'Candidates',
+                                                                    'action' => 'excelphp'
+        ]]  )?>
+                <div class="custom-input-file pl-0 col-6">
+                    <input  type="file" class="input-file form-control-blue" name="import file" > 
+                </div>
             </div>
-        </div>
+            <div class="mx-auto form-group col-lg-12 col-md-12 my-4">
+                <button type="submit" class="btn btn-outline-primary btn-block"><i class="mr-2 fas fa-save" aria-hidden="true"></i>Guardar excel</button>
+            </div>
+            <?= $this->Form->end()?>
         <p class="title-results">Aspirantes</p>
 
 	    <?= $this->Flash->render() ?>
 	    <?= $this->Form->create(null, ['type' => 'GET', 'class' => 'col-lg-12 col-md-12 row']) ?>
-            <div class="pt-0 col-lg-6 col-sm-12">
+            <div class="pt-0 col-lg-3 col-sm-12">
                 <div class="form-group">
-                    <?= $this->Form->control('search', ['label'=> false, 'placeholder' => 'Buscar por CUIL o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => $search]); ?>
+                    <?= $this->Form->control('cuil', ['label'=> false, 'placeholder' => 'Buscar por CUIL o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => (isset($search['cuil'])) ? $search['cuil'] : '']); ?>
+                </div>
+            </div>
+            <div class="pt-0 col-lg-3 col-sm-12">
+                <div class="form-group">
+                    <?= $this->Form->control('preoccupationalStatus', ['options' => $preoccupationalStatusList, 'label'=> false, 'empty' => 'Estado', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => (isset($search['preoccupationalStatus'])) ? $search['preoccupationalStatus'] : '']); ?>
                 </div>
             </div>
             <div class="pl-0 col-6">
@@ -71,14 +85,16 @@
                     <td class="actions">
 	                    <?= $this->Html->link('Editar',   DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/editar/' . $candidate->id, ['fullBase' => true]); ?>
                         |
-	                    <?php if (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->haveAptitudAssign()) : ?>
+	                    <?php if (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->haveAptitudAssign() and $auth->group_id == 2) : ?>
 		                    <?= $this->Html->link('Actualizar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
-	                    <?php elseif (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->readyForAptitud()) : ?>
+	                    <?php elseif (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->readyForAptitud()  and $auth->group_id == 2) : ?>
 	                        <?= $this->Html->link('Dar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
                         <?php else : ?>
 	                        <?= $this->Html->link('Ver',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
-		                    |
+                            <?php if (empty($candidate->preoccupationals)) : ?>
+                                |
 		                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $candidate->id], ['confirm' => __('Estas seguro que queres eliminar al apirante # {0}?', $candidate->id)]) ?>
+	                        <?php endif; ?>
 	                    <?php endif; ?>
                     </td>
                 </tr>

@@ -45,8 +45,10 @@
                     <td><?= $appoitment->showDate(); ?>
                     </td>
                     <td class="actions">
-                        <?php if ($appoitment->isPresent()) : ?>
+                        <?php if ($appoitment->waitingResults()) : ?>
 	                        <?= $this->Html->link('Subir Documentos',   '/centro-medico/preocupacionales/presente/' . $appoitment->id, [ 'escape' => false]); ?>
+                        <?php elseif ($appoitment->isPresent()) : ?>
+	                        <?= $this->Html->link('Ver',   '/centro-medico/preocupacionales/ver/' . $appoitment->candidate_id, [ 'escape' => false]); ?>
                         <?php else : ?>
 	                        <?= $this->Html->link('Presente',   '/centro-medico/preocupacionales/presente/' . $appoitment->id, [ 'escape' => false]); ?>
                             /

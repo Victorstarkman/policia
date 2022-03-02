@@ -41,7 +41,7 @@ class UsersTable extends Table
 			'api_access' => true,
 		],
 		2 => [
-			'name' => 'Dienst',
+			'name' => 'Dienst Medico',
 			'redirect' => '/dienst/',
 			'prefix' => 'Dienst',
 			'login_access' => true,
@@ -60,11 +60,18 @@ class UsersTable extends Table
 			'login_access' => false,
 			'api_access' => true,
 		],
+		5 => [
+			'name' => 'Dienst Administración',
+			'redirect' => '/dienst/',
+			'prefix' => 'Dienst',
+			'login_access' => true,
+			'api_access' => false,
+		],
 	];
 
 	const GENDERS = [
-		1 => 'Masculino',
-		2 => 'Femenino',
+		1 => 'Hombre',
+		2 => 'Mujer',
 		3 => 'Otro'
 	];
 

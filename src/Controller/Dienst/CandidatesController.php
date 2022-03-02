@@ -5,7 +5,8 @@ namespace App\Controller\Dienst;
 
 use App\Controller\AppController;
 use App\Model\Table\PreoccupationalsTable;
-
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 /**
  * Candidates Controller
  *
@@ -21,7 +22,7 @@ class CandidatesController extends AppController
      */
     public function index()
     {
-	    $search = $this->request->getQuery('search');
+	    $search = $this->request->getQueryParams();
 
         $this->paginate = [
             'contain' => [
@@ -31,16 +32,30 @@ class CandidatesController extends AppController
 				]
             ],
         ];
-		$candidates = $this->Candidates->find();
+		$candidates = $this->Candidates->find();						
 		if (!empty($search)) {
-			$candidates->where(['OR' => ['cuil' => $search, 'email' => $search]]);
+			if (!empty($search['cuil'])) {
+				$coincide = preg_match('/@/', $search['cuil']);
+				if (!$coincide) {
+					$cuil = $this->Upper->getCuil($search['cuil']);
+					$candidates->where(['OR' => ['cuil' => $cuil, 'email' => $cuil]]);
+				}
+			}
+
+			if (!empty($search['preoccupationalStatus'])) {
+				$candidatesIdWithSpecificStatus = $this->Candidates->Preoccupationals->getCandidatesID(['status' => $search['preoccupationalStatus']]);
+				$candidates->where(['id IN' => $candidatesIdWithSpecificStatus]);
+			}
 		}
 		$settings= [
-			'order'=>['created'=>'desc']	
+			'order'=> ['created' => 'desc'],
+			'limit'	=> 10
 		];
 			
         $candidates = $this->paginate($candidates,$settings);
-        $this->set(compact('candidates', 'search'));
+		$preoccupationalStatusList = $this->Candidates->Preoccupationals->getStatusName();
+	    $auth = $this->Authentication->getIdentity();
+        $this->set(compact('candidates', 'search', 'preoccupationalStatusList', 'auth'));
     }
 
 	public function toCheck()
@@ -66,12 +81,13 @@ class CandidatesController extends AppController
 	            'Preoccupationals' => [
 					'Preocuppationalstypes',
 		            'Aptitudes',
-		            'Files'
+		            'Files',
+		            'aptitudeBy'
 	            ]
             ],
         ]);
-
-        $this->set(compact('candidate'));
+	    $auth = $this->Authentication->getIdentity();
+        $this->set(compact('candidate', 'auth'));
     }
 
     /**
@@ -84,6 +100,8 @@ class CandidatesController extends AppController
         $candidate = $this->Candidates->newEmptyEntity();
         if ($this->request->is('post')) {
         	$data = $this->request->getData();
+			$cuil=$this->Upper->getCuil($data['cuil']);
+			$data['cuil']=$cuil;
         	$data['user_id'] = $this->Authentication->getIdentity()->id;
 			$candidateExistence = $this->Candidates->checkExistence($data);
 			if (!$candidateExistence['exists']) {
@@ -99,7 +117,7 @@ class CandidatesController extends AppController
         }
         $users = $this->Candidates->Users->find('list', ['limit' => 200])->all();
         $genders = $this->Candidates->Users->getGendersList();
-        $this->set(compact('candidate', 'users', 'genders'));
+        $this->set(compact('candidate', 'users', 'genders'));  
     }
 
 	public function edit($id) {
@@ -109,7 +127,6 @@ class CandidatesController extends AppController
 			$data = $this->request->getData();
 			$data['user_id'] = $this->Authentication->getIdentity()->id;
 			$candidateExistence = $this->Candidates->checkExistence($data, $id);
-
 			if (!$candidateExistence['exists']) {
 				$candidate = $this->Candidates->patchEntity($candidate, $data);
 				if ($this->Candidates->save($candidate)) {
@@ -120,6 +137,7 @@ class CandidatesController extends AppController
 			}
 			$this->Flash->error($candidateExistence['error'], ['escape' => false]);
 		}
+
 		$users = $this->Candidates->Users->find('list', ['limit' => 200])->all();
 		$genders = $this->Candidates->Users->getGendersList();
 		$this->set(compact('candidate', 'users', 'genders'));
@@ -145,4 +163,68 @@ class CandidatesController extends AppController
 
 		return $this->redirect(['action' => 'index']);
 	}
-}
+	public function excelphp(){
+		if(isset( $_FILES['import_file']['name'])){
+			$filename=$_FILES['import_file']['name'];
+			$file_ext= pathinfo($filename,PATHINFO_EXTENSION);
+			$allowed_files= array('xls','csv','xlsx');
+			if(in_array($file_ext,$allowed_files)){
+				$inputFileNamePath = $_FILES['import_file']['tmp_name'];
+				$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
+				$data= $spreadsheet->getActiveSheet()->toArray();
+				for($i=9;$i<count($data)-1;$i++){
+					if(isset($data[$i][1])){
+						$cuil=$data[$i][1];
+						$lastname=$data[$i][4];
+						$name= $data[$i][6];
+						$gender=$data[$i][8];
+						$phone=$data[$i][10];
+						$email=$data[$i][19];
+						//query 
+						$cuil=$this->Upper->getCuil($cuil);
+						$genders = $this->Candidates->Users->getGendersList();
+						$keyGender=intval(array_search($gender,$genders));
+						$t= time();
+						$created= date('Y-m-d H:m:s',$t);
+						$name=isset($name)?$this->Upper->upper(trim($name)):'';
+						$lastname=isset($lastname)?$this->Upper->upper(trim($lastname)):'';
+						/* debug($cuil.' '.$lastname.' '.$name.' '.$keyGender.' '.$phone.' '.$email.' '.$created);
+						exit; */
+						$datacandidate= array('name'=>$name,'lastname'=>$lastname,'cuil'=>$cuil,'phone'=>$phone,'gender'=>$keyGender,'email'=>$email,'user_id'=>2);
+						//------------------query de guardado--------------------------------
+						$candidateExistence = $this->Candidates->checkExistence($datacandidate);
+						if($candidateExistence['exists']){
+							$this->Flash->error($candidateExistence['error'].' Su cuil es '.$datacandidate['cuil'].' y su mail '.$datacandidate['email']);
+							continue;
+						}
+						$query= $this->Candidates->query();
+						$query->insert(['name','lastname','cuil','phone','email','gender','created','modified','user_id'])
+						->values([
+							'name' => $name,
+							'lastname' =>$lastname,
+							'cuil'=>$cuil,
+							'phone'=>$phone,
+							'email'=>$email,
+							'gender'=>$keyGender,
+							'created'=>$created,
+							'modified'=>$created,
+							'user_id'=>2
+	
+						])
+						->execute();
+						if($query){
+							$this->Flash->success(_('El archivo se actualizó; correctamente'));
+						}else{
+							$this->Flash->error(_('El archivo no se actualizó; correctamente'));
+							}   
+					}
+				}//fin de for
+			}//fin de in array	
+			$this->redirect(['action' => 'index']);
+			return;
+		}//fin de isset files
+		else{
+			$this->redirect(['action' => 'index']);
+		}
+	}//fin de funcion
+}//fin de clase

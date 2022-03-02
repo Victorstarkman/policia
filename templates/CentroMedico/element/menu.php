@@ -11,7 +11,10 @@
         <div class="card-body">
             <ul class="sub-menu">
                 <li>
-                    <a href="<?= $this->Url->build(  DS . 'centro-medico/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Preocupacionales de hoy</a>
+                    <a href="<?= $this->Url->build(  DS . 'centro-medico/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista diaria de aspirantes</a>
+
+                <li>
+                    <a href="<?= $this->Url->build(  DS . 'centro-medico/preocupacionales/sin-finalizar', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de presentes con estudios pendientes.</a>
                 </li>
             </ul>
         </div>

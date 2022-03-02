@@ -28,10 +28,33 @@ class CandidatesController extends AppController
         ];
 		$today = new FrozenTime();
 		$search = $this->request->getQuery('search');
+        if(!empty($search)){
+            $search= $this->Upper->getCuil($search);
+        }
 		$candidatesWithAppoitment = $this->Candidates->Preoccupationals->getThisDate($today, $search);
 	    $candidatesWithAppoitment = $this->paginate($candidatesWithAppoitment);
 
         $this->set(compact('candidatesWithAppoitment', 'today', 'search'));
+    }
+
+	/**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function waitingDocumentation()
+    {
+        $this->paginate = [
+            'contain' => ['Candidates'],
+        ];
+		$search = $this->request->getQuery('search');
+        if(!empty($search)){
+            $search= $this->Upper->getCuil($search);
+        }
+		$candidatesWithDocumentation = $this->Candidates->Preoccupationals->waitingResults($search);
+	    $candidatesWithDocumentation = $this->paginate($candidatesWithDocumentation);
+
+        $this->set(compact('candidatesWithDocumentation', 'search'));
     }
 
 }
