@@ -61,6 +61,7 @@
                         <th><?= $this->Paginator->sort('preocuppationalsType_id', __('Tipo')) ?></th>
                         <th><?= $this->Paginator->sort('aptitude_id',  __('Apto')) ?></th>
                         <?php if (!empty($preoccupational->observations)) { echo '<th>Observacion</th>'; } ?>
+                        <?php if (!empty($preoccupational->aptitudeBy)) { echo '<th>Médico</th>'; } ?>
                     </tr>
                     </thead>
                     <tbody>
@@ -70,6 +71,7 @@
                             <td><?= h($preoccupational->preocuppationalstype->name) ?></td>
                             <td><?= (!is_null($preoccupational->aptitude_id)) ? $preoccupational->aptitude->name : '-' ?></td>
 	                        <?php if (!empty($preoccupational->observations)) { echo '<td>' . $preoccupational->observations . '</td>'; } ?>
+	                        <?php if (!empty($preoccupational->aptitudeBy)) { echo '<td>' . $preoccupational->aptitudeBy->name . ' ' .$preoccupational->aptitudeBy->lastname . '</td>'; } ?>
                         </tr>
                     </tbody>
                 </table>
@@ -114,6 +116,7 @@
                 <?php endif; ?>
             </div>
         <?php endif; ?>
+        <?php if ($auth->group_id == 2) : ?>
 	    <?= $this->Form->create(null, ['url' =>  ['controller' => 'Preoccupationals', 'action' => 'changeAptitud'], 'class' => 'col-lg-12 col-md-12 row']) ?>
         <div class="col-12">
             <p class="title-results">Aptitud</p>
@@ -152,6 +155,7 @@
             </div>
         </div>
 	    <?= $this->Form->end() ?>
+        <?php endif; ?>
         <div class="col-12">
             <p class="title-results">Nuevo turno</p>
         </div>

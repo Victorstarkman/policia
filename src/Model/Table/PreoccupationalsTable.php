@@ -73,6 +73,13 @@ class PreoccupationalsTable extends Table
             'foreignKey' => 'candidate_id',
             'joinType' => 'INNER',
         ]);
+
+		$this->belongsTo('aptitudeBy', [
+            'foreignKey' => 'aptitude_by',
+            'propertyName' => 'aptitudeBy',
+			'className' => 'Users'
+        ]);
+
         $this->belongsTo('Aptitudes', [
             'foreignKey' => 'aptitude_id'
         ]);

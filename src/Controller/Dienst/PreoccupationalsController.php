@@ -5,6 +5,7 @@ namespace App\Controller\Dienst;
 
 use App\Controller\AppController;
 use Cake\Routing\Router;
+use Authentication\Identity;
 
 /**
  * Preoccupationals Controller
@@ -136,24 +137,31 @@ class PreoccupationalsController extends AppController
 	}
 
 	public function changeAptitud() {
+		$auth = $this->Authentication->getIdentity();
 		if ($this->request->is('post')) {
-			$data = $this->request->getData();
-			$preoccupational = $this->Preoccupationals->get($data['preoccupational_id']);
-			if($data['aptitud']==="1"){
-				$data['observations']='';
-				$preoccupational->observations=$data['observations'];
-			}
-			$data['aptitud_id'] = $data['aptitud'];
-			if ($this->Preoccupationals->needObservations($data['aptitud']) and empty($data['observations'])) {
-				$this->Flash->error(__('Ups, faltaron las observaciones. Intente nuevamente.'));
-			} else {
-				$preoccupational->aptitude_id = $data['aptitud'];
-				$preoccupational->observations = $data['observations'];
-				if ($this->Preoccupationals->save($preoccupational)) {
-					$this->Flash->success(__('Se grabo correctamente.'));
-				} else {
-					$this->Flash->error(__('Ups, hubo un problema al grabar, intente nuevamente.'));
+			if ($auth->group_id == 2) {
+				$data = $this->request->getData();
+				$preoccupational = $this->Preoccupationals->get($data['preoccupational_id']);
+				if($data['aptitud']==="1") {
+					$data['observations']='';
+					$preoccupational->observations=$data['observations'];
 				}
+				$data['aptitud_id'] = $data['aptitud'];
+
+				if ($this->Preoccupationals->needObservations($data['aptitud']) and empty($data['observations'])) {
+					$this->Flash->error(__('Ups, faltaron las observaciones. Intente nuevamente.'));
+				} else {
+					$preoccupational->aptitude_id = $data['aptitud'];
+					$preoccupational->observations = $data['observations'];
+					$preoccupational->aptitude_by = $auth->id;
+					if ($this->Preoccupationals->save($preoccupational)) {
+						$this->Flash->success(__('Se grabo correctamente.'));
+					} else {
+						$this->Flash->error(__('Ups, hubo un problema al grabar, intente nuevamente.'));
+					}
+				}
+			} else {
+				$this->Flash->error(__('Ups, no tenes permisos.'));
 			}
 		}
 		return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);

@@ -51,6 +51,7 @@ class Preoccupational extends Entity
         'preocuppationals_type' => true,
         'observations' => true,
         'files' => true,
+        'aptitude_by' => true,
     ];
 
 	public function noNeedForNewDate() {
