@@ -44,7 +44,12 @@ class CandidatesController extends AppController
 
 			if (!empty($search['preoccupationalStatus'])) {
 				$candidatesIdWithSpecificStatus = $this->Candidates->Preoccupationals->getCandidatesID(['status' => $search['preoccupationalStatus']]);
-				$candidates->where(['id IN' => $candidatesIdWithSpecificStatus]);
+
+				if (!empty($candidatesIdWithSpecificStatus)) {
+					$candidates->where(['id IN' => $candidatesIdWithSpecificStatus]);
+				} else {
+					$this->Flash->error(__('No hay ningún aspirante en estado: ' . PreoccupationalsTable::NAME_STATUS[$search['preoccupationalStatus']]));
+				}
 			}
 		}
 		$settings= [
@@ -63,8 +68,8 @@ class CandidatesController extends AppController
 		$search = $this->request->getQuery('search');
 		$candidatesToCheck = $this->Candidates->Preoccupationals->getToCheck($search);
 		$candidatesToCheck = $this->paginate($candidatesToCheck);
-
-		$this->set(compact('candidatesToCheck', 'search'));
+		$auth = $this->Authentication->getIdentity();
+		$this->set(compact('candidatesToCheck', 'search', 'auth'));
 	}
     /**
      * View method
