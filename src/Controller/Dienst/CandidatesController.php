@@ -54,7 +54,8 @@ class CandidatesController extends AppController
 			
         $candidates = $this->paginate($candidates,$settings);
 		$preoccupationalStatusList = $this->Candidates->Preoccupationals->getStatusName();
-        $this->set(compact('candidates', 'search', 'preoccupationalStatusList'));
+	    $auth = $this->Authentication->getIdentity();
+        $this->set(compact('candidates', 'search', 'preoccupationalStatusList', 'auth'));
     }
 
 	public function toCheck()
@@ -80,12 +81,13 @@ class CandidatesController extends AppController
 	            'Preoccupationals' => [
 					'Preocuppationalstypes',
 		            'Aptitudes',
-		            'Files'
+		            'Files',
+		            'aptitudeBy'
 	            ]
             ],
         ]);
-
-        $this->set(compact('candidate'));
+	    $auth = $this->Authentication->getIdentity();
+        $this->set(compact('candidate', 'auth'));
     }
 
     /**
@@ -135,6 +137,7 @@ class CandidatesController extends AppController
 			}
 			$this->Flash->error($candidateExistence['error'], ['escape' => false]);
 		}
+
 		$users = $this->Candidates->Users->find('list', ['limit' => 200])->all();
 		$genders = $this->Candidates->Users->getGendersList();
 		$this->set(compact('candidate', 'users', 'genders'));
