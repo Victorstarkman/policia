@@ -45,8 +45,11 @@
                     <td><?= $candidateToCheck->showDate(); ?>
                     <td><?= h($candidateToCheck->preocuppationalstype->name) ?></td>
                     <td>
-	                    <?= $this->Html->link('Dar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidateToCheck->candidate->id, ['fullBase' => true]); ?>
-
+                        <?php if ($auth->group_id == 2) : ?>
+	                        <?= $this->Html->link('Dar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidateToCheck->candidate->id, ['fullBase' => true]); ?>
+                        <?php else : ?>
+	                        <?= $this->Html->link('Ver',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidateToCheck->candidate->id, ['fullBase' => true]); ?>
+                        <?php endif; ?>
                     </td>
 				</tr>
 			<?php endforeach;?>

@@ -211,14 +211,16 @@ class PreoccupationalsTable extends Table
 	}
 
 	public function getCandidatesID($search) {
-		$candidatesID = $this->find()
-			->select(['candidate_id'])
-			->where($search)
-			->all()
-			->map(function ($row) {
-				return $row->candidate_id;
-			})
-			->toArray();
+		$candidatesID = [];
+		$candidates = $this->find()
+			->select(['candidate_id', 'status'])
+			->group('candidate_id')
+			->order(['id' => 'DESC']);
+		foreach ($candidates as $candidate) {
+			if ($candidate->status == $search['status']) {
+				$candidatesID[] = $candidate->id;
+			}
+		}
 
 		return $candidatesID;
 	}
