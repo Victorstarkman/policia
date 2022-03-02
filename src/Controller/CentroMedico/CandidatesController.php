@@ -28,6 +28,9 @@ class CandidatesController extends AppController
         ];
 		$today = new FrozenTime();
 		$search = $this->request->getQuery('search');
+        if(!empty($search)){
+            $search= $this->Upper->getCuil($search);
+        }
 		$candidatesWithAppoitment = $this->Candidates->Preoccupationals->getThisDate($today, $search);
 	    $candidatesWithAppoitment = $this->paginate($candidatesWithAppoitment);
 
@@ -45,6 +48,9 @@ class CandidatesController extends AppController
             'contain' => ['Candidates'],
         ];
 		$search = $this->request->getQuery('search');
+        if(!empty($search)){
+            $search= $this->Upper->getCuil($search);
+        }
 		$candidatesWithDocumentation = $this->Candidates->Preoccupationals->waitingResults($search);
 	    $candidatesWithDocumentation = $this->paginate($candidatesWithDocumentation);
 
