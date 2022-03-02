@@ -216,9 +216,10 @@ class PreoccupationalsTable extends Table
 			->select(['candidate_id', 'status'])
 			->group('candidate_id')
 			->order(['id' => 'DESC']);
+
 		foreach ($candidates as $candidate) {
-			if ($candidate->status == $search['status']) {
-				$candidatesID[] = $candidate->id;
+			if ($candidate->status == (int) $search['status']) {
+				$candidatesID[] = $candidate->candidate_id;
 			}
 		}
 
