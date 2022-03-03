@@ -70,4 +70,8 @@ class PagesController extends AppController
             throw new NotFoundException();
         }
     }
+    public function manual(){
+        $this->viewBuilder()->setLayout('ajax');
+        //die('hola');
+    }
 }
