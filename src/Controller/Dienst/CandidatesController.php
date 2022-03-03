@@ -59,6 +59,7 @@ class CandidatesController extends AppController
 			
         $candidates = $this->paginate($candidates,$settings);
 		$preoccupationalStatusList = $this->Candidates->Preoccupationals->getStatusName();
+	    $preoccupationalStatusList[0] = 'Todos';
 	    $auth = $this->Authentication->getIdentity();
         $this->set(compact('candidates', 'search', 'preoccupationalStatusList', 'auth'));
     }
