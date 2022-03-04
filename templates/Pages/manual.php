@@ -21,7 +21,7 @@
         <div class="head ">
             <div class="row ">
             <div class="logo col-2 col-md-2" >
-                <?= $this->Html->image('img2.jpg',['alt'=>"logoDienst"])?>
+                <?= $this->Html->image('img2.JPG',['alt'=>"logoDienst"])?>
             </div>
             <div class="col-10 col-md-10 text-center title">
                 <h1>Manual de Usuario Para la ejecuci&oacute;n de Preocupacionales a Polic&iacute;a de Buenos Aires </h1>
