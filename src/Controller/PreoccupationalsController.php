@@ -37,6 +37,7 @@ class PreoccupationalsController extends AppController
 				$this->Authentication->setIdentity($identity);
 				$payload = [
 					'user_id' => $user->id,
+					'sub' => $user->id,
 					'exp' => time() + 600,
 				];
 				$date = new FrozenTime($payload['exp']);

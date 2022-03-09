@@ -56,6 +56,7 @@ return static function (RouteBuilder $routes) {
          * ...and connect the rest of 'Pages' controller's URLs.
          */
         $builder->connect('/pages/*', 'Pages::display');
+        $builder->connect('/manual/*', 'Pages::manual');
 
         /*
          * Connect catchall routes for all controllers.
@@ -92,6 +93,7 @@ return static function (RouteBuilder $routes) {
 	$routes->prefix('dienst', function (RouteBuilder $routes) {
 
 		$routes->scope('/', function (RouteBuilder $builder) {
+			$builder->connect('/manual/*',  ['controller' =>'Pages', 'action' => 'manual', 'prefix' => null]);
 			$builder->connect('/', ['controller' => 'Candidates', 'action' => 'index']);
 			$builder->connect('/aspirantes', ['controller' => 'Candidates', 'action' => 'index']);
 			$builder->connect('/aspirantes/editar/{id}', ['controller' => 'Candidates', 'action' => 'edit'])
@@ -142,6 +144,8 @@ return static function (RouteBuilder $routes) {
 	$routes->prefix('Admin', function (RouteBuilder $routes) {
 
 		$routes->scope('/', function (RouteBuilder $builder) {
+			$builder->connect('/manual/*',  ['controller' =>'Pages', 'action' => 'manual', 'prefix' => null]);
+			$builder->connect('/', ['controller' => 'users', 'action' => 'index']);
 			$builder->connect('/usuarios', ['controller' => 'users', 'action' => 'index']);
 			$builder->connect('/usuarios/agregar', ['controller' => 'users', 'action' => 'add']);
 
@@ -154,6 +158,7 @@ return static function (RouteBuilder $routes) {
 	$routes->prefix('centroMedico', function (RouteBuilder $routes) {
 
 		$routes->scope('/', function (RouteBuilder $builder) {
+			$builder->connect('/manual/*',  ['controller' =>'Pages', 'action' => 'manual', 'prefix' => null]);
 			$builder->connect('/', ['controller' => 'Candidates', 'action' => 'index']);
 			$builder->connect('/preocupacionales/sin-finalizar', ['controller' => 'Candidates', 'action' => 'waitingDocumentation']);
 			$builder->connect('/preocupacionales/presente/{id}', ['controller' => 'Preoccupationals', 'action' => 'edit'])
