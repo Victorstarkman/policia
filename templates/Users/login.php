@@ -34,5 +34,5 @@
         <button type="submit" class="btn btn-outline-primary col-12"><i class="fas fa-sign-in-alt"></i> Ingresar</button>
     </div>
 </div>
-<a href="<?= $this->Url->build(  DS . '/manual', ['fullBase' => true]); ?>/manual">Ver manual de uso</a>
+<a href="<?= $this->Url->build(  DS . '/manual', ['fullBase' => true]); ?>">Ver manual de uso</a>
 <?= $this->Form->end() ?>

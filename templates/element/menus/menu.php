@@ -3,7 +3,7 @@
         <h2 class="mb-0">
             <button class="btn btn-link  btn-principal" type="button" data-toggle="collapse" data-target="#collapsePacientes" aria-expanded="true" aria-controls="collapsePacientes">
                 <i class="far fa-user"></i>
-                Usuarios
+                Centro médico
             </button>
         </h2>
     </div>
@@ -11,7 +11,10 @@
         <div class="card-body">
             <ul class="sub-menu">
                 <li>
-                    <a href="/" class="btn btn-link" data-togle="pill">Lista de Usuarios</a>
+                    <a href="<?= $this->Url->build(  DS . 'centro-medico/', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista diaria de aspirantes</a>
+
+                <li>
+                    <a href="<?= $this->Url->build(  DS . 'centro-medico/preocupacionales/sin-finalizar', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de presentes con estudios pendientes.</a>
                 </li>
             </ul>
         </div>
