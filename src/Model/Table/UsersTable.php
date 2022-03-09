@@ -35,7 +35,7 @@ class UsersTable extends Table
 	const GROUPS = [
 		1 => [
 			'name' => 'Admin',
-			'redirect' => '/admin/usuarios',
+			'redirect' => '/admin/',
 			'prefix' => 'Admin',
 			'login_access' => true,
 			'api_access' => true,

@@ -172,6 +172,7 @@ class AuthenticationComponent extends Component implements EventDispatcherInterf
             return;
         }
 
+	    $identity = $request->getAttribute($this->getConfig('identityAttribute'));
         $identity = $request->getAttribute($this->getConfig('identityAttribute'));
         if (!$identity) {
             throw new UnauthenticatedException($this->getConfig('unauthenticatedMessage', ''));

@@ -202,7 +202,6 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
 			]);
 		}
 
-
 		return $authenticationService;
 	}
 }
