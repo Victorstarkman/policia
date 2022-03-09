@@ -19,9 +19,6 @@
                 <li>
                     <a href="<?= $this->Url->build(  DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/sin-revisar', ['fullBase' => true]); ?>" class="btn btn-link" data-togle="pill">Lista de presentes sin diagnosticar</a>
                 </li>
-                <li>
-                    <a href="<?= $this->Url->build( '/Pages/manual'); ?>" class="btn btn-link" data-togle="pill">Manual de Instruccion</a>
-                </li>
             </ul>
         </div>
     </div>
