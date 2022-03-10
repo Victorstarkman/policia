@@ -11,7 +11,7 @@
         <div class="card-body">
             <ul class="sub-menu">
                 <li>
-                    <a href="/" class="btn btn-link" data-togle="pill">Lista de Usuarios</a>
+                    <a href="<?= $this->Url->build( '/', ['fullBase' => true]); ?>" class="btn btn-link">Lista de Usuarios</a>
                 </li>
             </ul>
         </div>

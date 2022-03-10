@@ -8,12 +8,13 @@
     <?php
         $isManual = ($this->request->getParam('action') == 'manual' && $this->request->getParam('controller') == 'Pages');
         $group = $this->Identity->get('groupIdentity');
-        $prefix = (!empty($group)) ?$group['redirect'] : '';
+        $prefix = (!empty($group['prefix'])) ? $group['prefix'] : 'default';
+        $redirect = (!empty($group)) ?$group['redirect'] : '';
     ?>
     <div class="mx-auto col-12 mt-5 pt-3 menu-left-column">
         <div class="menu" id="menuHome">
             <?php if (!empty($group)) : ?>
-			<?= $this->element('menu'); ?>
+			<?= $this->element('menus/' . $prefix, ['redirect' => $redirect]); ?>
             <?php endif;?>
             <div class="card">
                 <div class="card-header" id="manual-menu">
@@ -27,10 +28,10 @@
                 <div id="collapsePacientes" class="collapse <?= ($isManual) ? 'show' : 'hide"'; ?>" aria-labelledby="pacientes" data-parent="#menuHome">
                     <div class="card-body">
                         <ul class="sub-menu">
-                            <li><a href="<?= $this->Url->build($prefix . '/manual#general',['fullBase'=>true])?>" class="btn btn-link" >General</a></li>
-                            <li><a href="<?= $this->Url->build($prefix . '/manual#admin',['fullBase'=>true])?>" class="btn btn-link" >Administraci&oacute;n</a></li>
-                            <li><a href="<?= $this->Url->build($prefix . '/manual#centro_medico',['fullBase'=>true])?>" class="btn btn-link" >C.M&eacute;dico</a></li>
-                            <li><a href="<?= $this->Url->build($prefix . '/manual#policia',['fullBase'=>true])?>" class="btn btn-link" >Polic&iacute;a</a></li>
+                            <li><a href="<?= $this->Url->build('/manual#general',['fullBase'=>true])?>" class="btn btn-link" >General</a></li>
+                            <li><a href="<?= $this->Url->build('/manual#admin',['fullBase'=>true])?>" class="btn btn-link" >Administraci&oacute;n</a></li>
+                            <li><a href="<?= $this->Url->build('/manual#centro_medico',['fullBase'=>true])?>" class="btn btn-link" >C.M&eacute;dico</a></li>
+                            <li><a href="<?= $this->Url->build('/manual#policia',['fullBase'=>true])?>" class="btn btn-link" >Polic&iacute;a</a></li>
                         </ul>
                     </div>
                 </div>
