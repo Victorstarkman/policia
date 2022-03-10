@@ -1,3 +1,6 @@
+<?= $this->Html->css(
+	[  		'general/general_manual'
+	]) ?>
 <div class="mx-auto mt-5 col-12">
     <div class="col-12 title-section">
         <h4>Manual de Usuario Para la ejecuci&oacute;n de Preocupacionales a Polic&iacute;a de Buenos Aires </h4>
@@ -40,11 +43,11 @@
                     </div>
                     <p>Una vez ingrese a la p&aacute;gina encontrar&aacute; las siguientes funcionalidades</p>
                     <div class="row">
-                        <div class="col-4 col-md-4">
-						    <?= $this->Html->image('Menu_admin.png',['alt'=>'menu','class'=>'admin_menu'])?>
+                        <div class="col-4 col-xs-12">
+						    <?= $this->Html->image('Menu_admin.png',['alt'=>'menu','class'=>'admin_menu', 'style' => 'width:100%'])?>
                             <p><small class="text-center">Fig 2</small></p>
                         </div>
-                        <div class="col-8">
+                        <div class="col-8 col-xs-12">
                             <p><span class="subtitulo">Lista de Aspirantes:</span> Es el listado de los aspirantes desde donde se puede dar turnos;ver datos personales y modificarlos y <strong>si el aspirante aun no tiene turno otorgado</strong> puede ser eliminado de la lista.<br>
                                 En el caso de pertenecer al personal m&eacute;dico y tener su contrase&ntilde;a podr&aacute; ingresar a la p&aacute;gina de diagn&oacute;stico .<br>
                                 <span>Asignaci&oacute;n Grupal de turnos:</span> Es el acceso a la p&aacute;gina de asignaciones de turnos en forma grupal; en el caso de que varios aspirantes tengan el mismo
@@ -68,11 +71,11 @@
                         en la figura 1. Entonces tendr&aacute; a su disposicion el siguiente menu.
                     </p>
                     <div class="row">
-                        <div class="col-4 col-md-4">
-						    <?= $this->Html->image('centro_medico.png',['alt'=>'menu_centro_medico','class'=>'menu_centro_medico'])?>
+                        <div class="col-4">
+						    <?= $this->Html->image('centro_medico.png',['alt'=>'menu_centro_medico','class'=>'menu_centro_medico', 'style' => 'width:100%'])?>
                             <p><small>Fig 3</small></p>
                         </div>
-                        <div class="col-8 col-md-8">
+                        <div class="col-8">
                             <p>
                                 <span>Lista diaria de aspirante:</span> Esta es la lista que diariamente recibe el centro m&eacute;dico donde puede dar Presente o Ausente al aspirante.<br>
                                 En el caso de que este este presente se abre una p&aacute;gina donde puede cargarse la foto y los documentos del aspirante.
