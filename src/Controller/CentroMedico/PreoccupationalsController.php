@@ -50,7 +50,7 @@ class PreoccupationalsController extends AppController
 			} elseif ($this->request->getData('status') == PreoccupationalsTable::PRESENT) {
 				if ($this->Preoccupationals->present($preoccupational)) {
 					$this->Flash->success(__('Marcado como finalizado.'));
-					return $this->redirect('centro-medico/preocupacionales/ver/' . $preoccupational->candidate_id);
+					return $this->redirect('/centro-medico/preocupacionales/ver/' . $preoccupational->candidate_id);
 				} else {
 					$this->Flash->error(__('Ups, hubo un problema y no se pudo marcar como finalizado. Intente nuevamente.'));
 				}
