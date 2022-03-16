@@ -57,7 +57,12 @@ class PreoccupationalsController extends AppController
 				return $this->redirect(DS .strtolower($this->request->getParam('prefix')) . '/aspirantes');
 			}
 		}
-
+		if(!is_null($candidateID)){
+			$candidates= $this->getTableLocator()->get('Candidates');
+			$candidate = $candidates->get($candidateID);
+			$nombre_completo= $candidate['lastname'].' '.$candidate['name'];
+		}
+		
 		$preoccupational = $this->Preoccupationals->newEmptyEntity();
 		if ($this->request->is('post')) {
 			$data = $this->request->getData();
@@ -71,7 +76,7 @@ class PreoccupationalsController extends AppController
 			$this->Flash->error(__('Upps, hubo un problema. Intente nuevamente.'));
 		}
 		$preocuppationalsTypes = $this->Preoccupationals->Preocuppationalstypes->find('list', ['limit' => 200])->all();
-		$this->set(compact('preoccupational', 'candidateID', 'preocuppationalsTypes', 'forzar'));
+		$this->set(compact('preoccupational', 'candidateID', 'preocuppationalsTypes', 'forzar','nombre_completo'));
 	}
 
 	public function assignDateMassive()
