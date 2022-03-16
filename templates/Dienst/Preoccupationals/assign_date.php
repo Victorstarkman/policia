@@ -6,13 +6,12 @@
  * @var \Cake\Collection\CollectionInterface|string[] $aptitudes
  */
 ?>
-
 <div class="mx-auto mt-5 col-12">
     <div class="col-12 title-section">
         <?php if (!$forzar) : ?>
-            <h4>Asignación de fecha</h4>
+            <h4>Asignación de fecha:  <?= $nombre_completo?></h4>
         <?php else : ?>
-            <h4>Asignación de nueva fecha</h4>
+            <h4>Asignación de nueva fecha:  <?= $nombre_completo?></h4>
         <?php endif; ?>
     </div>
     <div class="results">
@@ -71,8 +70,10 @@
                 $msg += "El tipo de preocupacional es obligatorio."
             }
             $('.msg').show();
+            $('#guardar').css('disabled',true);
             e.preventDefault();
         }
+        
         $('.msg').html($msg);
     });
 </script>

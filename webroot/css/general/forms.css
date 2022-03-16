@@ -101,7 +101,7 @@ button.btn {
 }
 .custom-input-file::before{
 	background-color:#0072bf;
-	width:750px;
+	width:630px;
 	height: 40px;
 	color: white;
 	display: flex;
@@ -121,4 +121,24 @@ button.btn {
 	width: 600px;
 	height: 32px;
 	display: inline-block;
+}
+
+@media (max-width: 1400px) { 
+	.custom-input-file::before{
+		margin-top:10px;
+		margin-bottom:10px;
+		width:400px;
+	}
+	.custom-input-file input[type="file"]{
+		width: 400px;
+	}
+
+}
+@media (max-width: 1600px) { 
+	.custom-input-file::before{
+		width:500px;
+	}
+	.custom-input-file input[type="file"]{
+		width: 500px;
+	}
 }
