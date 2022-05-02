@@ -18,7 +18,7 @@
                                                                     'controller' => 'Candidates',
                                                                     'action' => 'excelphp'
         ]]  )?>
-                <div class="custom-input-file pl-0 col-6">
+                <div class="custom-input-file pl-0 ">
                     <input  type="file" class="input-file form-control-blue" name="import file" > 
                 </div>
             </div>
