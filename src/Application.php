@@ -103,6 +103,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // using it's second constructor argument:
             // `new RoutingMiddleware($this, '_cake_routes_')`
             ->add(new RoutingMiddleware($this))
+	        ->add(new \Cake\Http\Middleware\BodyParserMiddleware())
 	        ->add(new AuthenticationMiddleware($this))
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()

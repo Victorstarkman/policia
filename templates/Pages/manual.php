@@ -94,14 +94,28 @@
                         <h2>Polic&iacute;a</h2>
                     </header>
                     <p>
-                        La polic&iacute;a recibir&aacute; un usuario y contrase&ntilde;a. Con estos generar&aacute; un pedido de post a la siguiente direcci&oacute;n y destino. <br>
-                        url: "https://www.dienstpreos.com.ar"  destino= "policiabsas" <br/>
-                        <strong>direccion completa de POST</strong> {{url}}/{{destino}}/api/login. y keys: email:usuario y password:contrase&ntilde;a. <br>
-                        Este post generar&aacute; un token el cual dar&aacute; acceso a dos ordenes GET<br>
-                        Un GET {{url}}/{{destino}}/api/preocupacionales que incluye al token y este devolvera toda la base de datos disponible de los aspirantes en formato JSON. <br>
-                        Tambien tendran a disposicion un segundo GET que les permitir&aacute; realizar consultas a la base de datos de acuerdo a fecha de inicio y fecha de finalizaci&oacute;n.<br>
-                        Este GET tendr&aacute; el siguiente url {{{url}}/{{destino}}/api/preocupacionales?begin_date={{fecha de inicio}}&end_date={{fecha de final}} <br>
-                        donde el formato de fechas deber&aacute; responder a "YY-mm-dd"
+                        <?php $apiUrl = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'] . '/policiabsas/api';?>
+                        La polic&iacute;a recibir&aacute; un usuario y contrase&ntilde;a.<br/><br/>
+                        Con estos generar&aacute; una petici&oacute;n POST a la siguiente URL:<br/>
+                        <strong><?php echo $apiUrl ?>/login</strong> <br/>
+                        el body de la petici&oacute;n debe contener un json con los siguientes datos:<br/><br/>
+                        {<br/>
+                            email: {{email}},<br/>
+                            password: {{contraseña}}<br/>
+                        }<br/><br/>
+                        Esta petici&oacute;n genera un token para poder comunicarse con la API. Este Token deber&aacute; viajar en el header de Authorization en todas las proximas peticiones<br/><br/><br/>
+                        Ejemplo de respuesta:<br/>
+	                    <?= $this->Html->image('examples/token.png',['alt'=>'menu_centro_medico','class'=>'menu_centro_medico', 'style' => 'width:100%'])?><br/><br/>
+
+                        Endpoints disponibles para consultas:<br/>
+                        1. <?= $apiUrl;?>/preocupacionales<br/>
+                        La patici&oacute;n deber&aacute; viajar con el header: Authorization Bearer {{token}}<br/><br/>
+                        Este devolerdeber&aacute; toda la baser de datos disponible de los aspirantes en formato JSON.<br/><br/>
+                        2. <?= $apiUrl;?>/preocupacionales?begin_date={{fecha de inicio}}&end_date={{fecha de final}}<br/>
+                        Se puede indicar una fecha de inicio y una de final en formato "YYYY-mm-dd". Este endpoint devolver&aacute; los datos
+                        disponibles entre esas fechas.<br/><br/>
+                        Ejemplo de respuesta:<br/>
+	                    <?= $this->Html->image('examples/preocupacionales.png',['alt'=>'menu_centro_medico','class'=>'menu_centro_medico', 'style' => 'width:100%'])?>
 
                     </p>
                     <div class="float-right mt-4"><span><a href="<?= $this->Url->build('#general',['fullBase'=>true])?>">⏫Volver</a></span></div>
