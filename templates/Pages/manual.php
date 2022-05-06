@@ -103,7 +103,7 @@
                             email: {{email}},<br/>
                             password: {{contraseña}}<br/>
                         }<br/><br/>
-                        Esta petici&oacute;n genera un token para poder comunicarse con la API. Este Token deber&aacute; viajar en el header de Authorization en todas las proximas peticiones<br/><br/><br/>
+                        Esta petici&oacute;n genera un token para poder comunicarse con la API. Este Token deber&aacute; viajar en el header de Authorization en todas las pr&oacute;ximas peticiones<br/><br/><br/>
                         Ejemplo de respuesta:<br/>
 	                    <?= $this->Html->image('examples/token.png',['alt'=>'menu_centro_medico','class'=>'menu_centro_medico', 'style' => 'width:100%'])?><br/><br/>
 
