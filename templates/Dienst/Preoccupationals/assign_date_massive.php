@@ -32,7 +32,7 @@
 				<th><?= $this->Paginator->sort('id', __('#')) ?></th>
 				<th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
 				<th><?= $this->Paginator->sort('lastname', __('Apellido')) ?></th>
-				<th><?= $this->Paginator->sort('cuil', __('CUIL')) ?></th>
+				<th><?= $this->Paginator->sort('cuil', __('DNI')) ?></th>
 				<th class="actions"><?= __('Seleccione') ?></th>
 			</tr>
 			</thead>

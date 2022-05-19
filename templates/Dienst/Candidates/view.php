@@ -28,7 +28,7 @@
             </div>
             <div class="pt-0 col-lg-6 col-sm-12">
                 <div class="form-group">
-					<?= $this->Form->control('cuil', ['label'=> 'CUIL', 'class' => 'form-control form-control-blue m-0 col-12', 'readonly']); ?>
+					<?= $this->Form->control('cuil', ['label'=> 'DNI', 'class' => 'form-control form-control-blue m-0 col-12', 'readonly']); ?>
                 </div>
             </div>
 

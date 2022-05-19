@@ -32,7 +32,7 @@
 	    <?= $this->Form->create(null, ['type' => 'GET', 'class' => 'col-lg-12 col-md-12 row']) ?>
             <div class="pt-0 col-lg-3 col-sm-12">
                 <div class="form-group">
-                    <?= $this->Form->control('cuil', ['label'=> false, 'placeholder' => 'Buscar por CUIL o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => (isset($search['cuil'])) ? $search['cuil'] : '']); ?>
+                    <?= $this->Form->control('cuil', ['label'=> false, 'placeholder' => 'Buscar por DNI o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => (isset($search['cuil'])) ? $search['cuil'] : '']); ?>
                 </div>
             </div>
             <div class="pt-0 col-lg-3 col-sm-12">
@@ -51,7 +51,7 @@
                 <th><?= $this->Paginator->sort('id', __('#')) ?></th>
                 <th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
                 <th><?= $this->Paginator->sort('lastname', __('Apellido')) ?></th>
-                <th><?= $this->Paginator->sort('cuil', __('CUIL')) ?></th>
+                <th><?= $this->Paginator->sort('cuil', __('DNI')) ?></th>
                 <th><?= $this->Paginator->sort('appoitment', __('Turno')) ?></th>
                 <th><?= $this->Paginator->sort('preocuppationalstype_id', __('Tipo')) ?></th>
                 <th><?= $this->Paginator->sort('aptitude_id', __('Apto')) ?></th>
