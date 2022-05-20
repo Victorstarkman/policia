@@ -178,7 +178,7 @@ class CandidatesController extends AppController
 				$inputFileNamePath = $_FILES['import_file']['tmp_name'];
 				$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
 				$data= $spreadsheet->getActiveSheet()->toArray();
-				for($i=1;$i<count($data)-1;$i++){
+				for($i=0;$i<count($data);$i++){
 					if(isset($data[$i][0])){
 						$cuil=$data[$i][0];
 						$lastname=$data[$i][2];
