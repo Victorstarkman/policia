@@ -96,6 +96,7 @@ class CandidatesController extends AppController
         $this->set(compact('candidate', 'auth'));
     }
 
+
     /**
      * Add method
      *

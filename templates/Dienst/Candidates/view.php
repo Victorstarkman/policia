@@ -139,7 +139,7 @@
         </div>
         <div class="mx-auto form-group row col-lg-3 col-md-12">
             <div class="pl-0 col-12">
-                <button type="button" class="btn btn-outline-success col-12" id="otro" data-id="4"><i class="fa-solid fa-square-check"></i> OTRO</button>
+                <button type="button" class="btn btn-outline-success col-12" id="otro" data-id="4"><i class="fa-solid fa-square-check"></i> CIVIL</button>
             </div>
         </div>
         <div id="observaciones" class="pl-0 col-12" style="display:none;">
