@@ -215,6 +215,7 @@
     $("#otro").on("click", function (){
         $("#observaciones").hide();
         $("#aptitud").val($(this).attr('data-id'));
+        $("#sendApto").trigger('click');
     });
 
     $('#sendApto').on('click', function (e){
