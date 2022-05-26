@@ -43,7 +43,8 @@ class PreoccupationalsTable extends Table
 
 	const APTITUD_ID_NEED_OBSERVATION = [2, 3];
 	const APTO = 1;
-
+	const OTRO = 4;
+	
 	const NAME_STATUS = [
 		self::ACTIVE => 'Esperando ser atendido',
 		self::ABSENT => 'Ausente',

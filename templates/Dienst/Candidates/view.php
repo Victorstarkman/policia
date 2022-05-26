@@ -121,20 +121,25 @@
         <div class="col-12">
             <p class="title-results">Aptitud</p>
         </div>
-        <div class="mx-auto form-group row col-lg-4 col-md-12">
+        <div class="mx-auto form-group row col-lg-3 col-md-12">
             <div class="pl-0 col-12">
                 <button type="button" class="btn btn-outline-danger col-12" id="noApto" data-id="3"><i class="fa-solid fa-circle-xmark"></i> NO APTO</button>
             </div>
         </div>
-        <div class="mx-auto form-group row col-lg-4 col-md-12">
+        <div class="mx-auto form-group row col-lg-3 col-md-12">
             <div class="pl-0 col-12">
                 <button type="button" class="btn btn-outline-info col-12" id="aptoConPrexistencia" data-id="2">APTO CON PREEXISTENCIA
                 </button>
             </div>
         </div>
-        <div class="mx-auto form-group row col-lg-4 col-md-12">
+        <div class="mx-auto form-group row col-lg-3 col-md-12">
             <div class="pl-0 col-12">
                 <button type="button" class="btn btn-outline-success col-12" id="apto" data-id="1"><i class="fa-solid fa-square-check"></i> APTO</button>
+            </div>
+        </div>
+        <div class="mx-auto form-group row col-lg-3 col-md-12">
+            <div class="pl-0 col-12">
+                <button type="button" class="btn btn-outline-success col-12" id="otro" data-id="4"><i class="fa-solid fa-square-check"></i> OTRO</button>
             </div>
         </div>
         <div id="observaciones" class="pl-0 col-12" style="display:none;">
@@ -206,6 +211,10 @@
         $("#observaciones").hide();
         $("#aptitud").val($(this).attr('data-id'));
         $("#sendApto").trigger('click');
+    });
+    $("#otro").on("click", function (){
+        $("#observaciones").hide();
+        $("#aptitud").val($(this).attr('data-id'));
     });
 
     $('#sendApto').on('click', function (e){
