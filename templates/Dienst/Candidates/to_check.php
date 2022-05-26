@@ -46,7 +46,7 @@
                     <td><?= h($candidateToCheck->preocuppationalstype->name) ?></td>
                     <td>
                         <?php if ($auth->group_id == 2) : ?>
-	                        <?= $this->Html->link('Dar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidateToCheck->candidate->id, ['fullBase' => true]); ?>
+	                        <?= $this->Html->link('Aptitud',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidateToCheck->candidate->id, ['fullBase' => true]); ?>
                         <?php else : ?>
 	                        <?= $this->Html->link('Ver',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidateToCheck->candidate->id, ['fullBase' => true]); ?>
                         <?php endif; ?>
