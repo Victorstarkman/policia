@@ -172,5 +172,37 @@ class PreoccupationalsController extends AppController
 		return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $preoccupational->candidate_id);
 	}
 
+	public function unsuscribe($candidateId=null)
+    {
+		$this->request->allowMethod(['get']);
+		$preoccupationCandidate=$this->Preoccupationals->find()->where(['candidate_id'=> $candidateId])->order(['appointment'=>'DESC'])->first();
+		$success=FALSE;
 
+		if(!empty($preoccupationCandidate)){
+
+			if ($this->Preoccupationals->unsubscribe($preoccupationCandidate)) {
+				
+				$success=TRUE;
+			}
+		}else{
+			$preoccupational = $this->Preoccupationals->newEmptyEntity();
+			  
+				$data = [];
+				$data['candidate_id'] = $candidateId;
+				$data['preocuppationalsType_id'] = 1;
+				$data['status'] = $this->Preoccupationals->unSubscribeStatus();
+				$preoccupational = $this->Preoccupationals->patchEntity($preoccupational, $data);
+				if ($this->Preoccupationals->save($preoccupational)) {
+					$success=TRUE;
+					
+				}
+				
+		}
+		if($success){
+			$this->Flash->success(__('El aspirante fue marcado como baja.'));
+		} else {
+			$this->Flash->error(__('Ups, hubo un problema al intentar modificar el turno. Intente nuevamente.'));
+		}
+		return $this->redirect(DS . strtolower($this->request->getParam('prefix')) . '/aspirantes');
+	}
 }

@@ -40,16 +40,19 @@ class PreoccupationalsTable extends Table
 	const CANCELLED = 3;
 	const PRESENT = 4;
 	const WAITING = 5;
+	const UNSUBSCRIBE = 6;
 
 	const APTITUD_ID_NEED_OBSERVATION = [2, 3];
 	const APTO = 1;
-
+	const CIVIL = 4;
+	
 	const NAME_STATUS = [
 		self::ACTIVE => 'Esperando ser atendido',
 		self::ABSENT => 'Ausente',
 		self::CANCELLED => 'Cancelado',
 		self::PRESENT => 'Presente',
-		self::WAITING => 'Esperando documentacion'
+		self::WAITING => 'Esperando documentacion',
+		self::UNSUBSCRIBE =>'Dado de baja por Administraci&oacute;n'
 	];
 
 
@@ -136,6 +139,9 @@ class PreoccupationalsTable extends Table
 	public function activeStatus() {
 		return static::ACTIVE;
 	}
+	public function unSubscribeStatus() {
+		return static::UNSUBSCRIBE;
+	}
 
 	public function noNeedOtherDateStatus() {
 		return [
@@ -148,7 +154,8 @@ class PreoccupationalsTable extends Table
 	public function inactiveStatuses() {
 		return [
 			static::ABSENT,
-			static::CANCELLED
+			static::CANCELLED,
+			static::UNSUBSCRIBE
 		];
 	}
 
@@ -230,7 +237,11 @@ class PreoccupationalsTable extends Table
 		$preoccupational->status = self::ABSENT;
 		return $this->save($preoccupational);
 	}
-
+	public function unsubscribe($preoccupational){
+		
+		$preoccupational->status = self::UNSUBSCRIBE;
+		return $this->save($preoccupational);
+	}
 	public function present($preoccupational) {
 		$preoccupational->status = self::PRESENT;
 		return $this->save($preoccupational);

@@ -32,7 +32,7 @@
 	    <?= $this->Form->create(null, ['type' => 'GET', 'class' => 'col-lg-12 col-md-12 row']) ?>
             <div class="pt-0 col-lg-3 col-sm-12">
                 <div class="form-group">
-                    <?= $this->Form->control('cuil', ['label'=> false, 'placeholder' => 'Buscar por CUIL o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => (isset($search['cuil'])) ? $search['cuil'] : '']); ?>
+                    <?= $this->Form->control('cuil', ['label'=> false, 'placeholder' => 'Buscar por DNI o Email', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => (isset($search['cuil'])) ? $search['cuil'] : '']); ?>
                 </div>
             </div>
             <div class="pt-0 col-lg-3 col-sm-12">
@@ -51,7 +51,7 @@
                 <th><?= $this->Paginator->sort('id', __('#')) ?></th>
                 <th><?= $this->Paginator->sort('name', __('Nombre')) ?></th>
                 <th><?= $this->Paginator->sort('lastname', __('Apellido')) ?></th>
-                <th><?= $this->Paginator->sort('cuil', __('CUIL')) ?></th>
+                <th><?= $this->Paginator->sort('cuil', __('DNI')) ?></th>
                 <th><?= $this->Paginator->sort('appoitment', __('Turno')) ?></th>
                 <th><?= $this->Paginator->sort('preocuppationalstype_id', __('Tipo')) ?></th>
                 <th><?= $this->Paginator->sort('aptitude_id', __('Apto')) ?></th>
@@ -69,12 +69,21 @@
 	                    $getPos = count($candidate->preoccupationals) - 1;
                         if (empty($candidate->preoccupationals) ) {
 		                    $needDate = true;
+                            $unsubscribe = FALSE;
                         } else {
 		                    $needDate = $candidate->preoccupationals[$getPos]->noNeedForNewDate();
 		                    $presentorAbsentDate = $candidate->preoccupationals[$getPos]->presentOrAbsent();
+		                    $unsubscribe = $candidate->preoccupationals[$getPos]->unsubscribe();
 
                         }  ?>
+                        <?php if(($auth->group_id == 5 and (!$unsubscribe))):?>
+                        
                         <?= ($needDate) ? $this->Html->link(__('Asignar turno'),   DS .  strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id, ['fullBase' => true]) : (($presentorAbsentDate) ? $presentorAbsentDate : $candidate->preoccupationals[$getPos]->showDate()); ?>
+                        <?php elseif($unsubscribe):?>
+                            Dado de Baja
+                        <?php else:?>
+                            <?= (!empty($candidate->preoccupationals) and !is_null($candidate->preoccupationals[$getPos]->preocuppationalstype)) ? $candidate->preoccupationals[$getPos]->showDate() : 'Sin Turno' ?>
+                        <?php endif;?>
                     </td>
                     <td>
                         <?= (!empty($candidate->preoccupationals) and !is_null($candidate->preoccupationals[$getPos]->preocuppationalstype)) ? $candidate->preoccupationals[$getPos]->preocuppationalstype->name : '-' ?>
@@ -82,20 +91,33 @@
                     <td>
                         <?= (!empty($candidate->preoccupationals) and !is_null($candidate->preoccupationals[$getPos]->aptitude_id)) ? $candidate->preoccupationals[$getPos]->aptitude->name : '-' ?>
                     </td>
+                    <!-- ---------------- Acciones -------------------------------- -->
                     <td class="actions">
+                        <?php if(!$unsubscribe):?>
 	                    <?= $this->Html->link('Editar',   DS . strtolower($this->request->getParam('prefix')) . '/aspirantes/editar/' . $candidate->id, ['fullBase' => true]); ?>
                         |
 	                    <?php if (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->haveAptitudAssign() and $auth->group_id == 2) : ?>
-		                    <?= $this->Html->link('Actualizar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
-	                    <?php elseif (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->readyForAptitud()  and $auth->group_id == 2) : ?>
-	                        <?= $this->Html->link('Dar apto',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
-                        <?php else : ?>
-	                        <?= $this->Html->link('Ver',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
-                            <?php if (empty($candidate->preoccupationals)) : ?>
+		                    <?= $this->Html->link('Actualizar Aptitud',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
                                 |
+	                    <?php elseif (!empty($candidate->preoccupationals) and $candidate->preoccupationals[$getPos]->readyForAptitud()  and $auth->group_id == 2) : ?>
+	                        <?= $this->Html->link('Aptitud',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
+
+                        <?php elseif(!empty($candidate->preoccupationals) and !$candidate->preoccupationals[$getPos]->haveAptitudAssign() and $auth->group_id == 5) : ?>
+	                        
+                            <?= $this->Html->link('Baja ',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/darBaja/' . $candidate->id, ['fullBase' => true]);?>
+                                |
+                            <?php elseif(!$presentorAbsentDate and $auth->group_id == 5) : ?>
+                                <?= $this->Html->link('Baja ',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/darBaja/' . $candidate->id, ['fullBase' => true]);?>
+                                |    
 		                    <?= $this->Form->postLink(__('Eliminar'), ['action' => 'delete', $candidate->id], ['confirm' => __('Estas seguro que queres eliminar al apirante # {0}?', $candidate->id)]) ?>
+                                |
+                            
 	                        <?php endif; ?>
+                            <?= $this->Html->link('Ver ',   DS . strtolower($this->request->getParam('prefix')) . '/preocupacionales/ver/' . $candidate->id, ['fullBase' => true]); ?>
+                            <?php if (empty($candidate->preoccupationals)) : ?>
 	                    <?php endif; ?>
+	                    <?php endif; ?>
+
                     </td>
                 </tr>
 			<?php endforeach;?>
