@@ -127,6 +127,11 @@ return static function (RouteBuilder $routes) {
 				->setPatterns([
 					'id' => '[0-9]+',
 				]);
+			$builder->connect('/preocupacionales/darBaja/{id}', ['controller' => 'Preoccupationals', 'action' => 'unsuscribe'])
+				->setPass(['id'])
+				->setPatterns([
+					'id' => '[0-9]+',
+				]);
 			$builder->connect('/preocupacionales/borrar/{id}', ['controller' => 'Candidates', 'action' => 'Delete'])
 				->setPass(['id'])
 				->setPatterns([

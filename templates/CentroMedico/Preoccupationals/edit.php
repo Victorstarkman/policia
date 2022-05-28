@@ -27,7 +27,7 @@
             </div>
             <div class="pt-0 col-lg-6 col-sm-12">
                 <div class="form-group">
-					<?= $this->Form->control('cuil', ['label'=> 'CUIL', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => $preoccupational->candidate->cuil, 'readonly']); ?>
+					<?= $this->Form->control('cuil', ['label'=> 'DNI', 'class' => 'form-control form-control-blue m-0 col-12', 'value' => $preoccupational->candidate->cuil, 'readonly']); ?>
                 </div>
             </div>
 
@@ -233,7 +233,7 @@
             },
             onError: function(files,status,errMsg,pd)
             {
-                console.log('a');
+                //console.log('a');
                 //files: list of files
                 //status: error status
                 //errMsg: error message

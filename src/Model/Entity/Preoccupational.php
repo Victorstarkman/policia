@@ -108,4 +108,7 @@ class Preoccupational extends Entity
 	public function haveObservations() {
 		return in_array($this->aptitude_id, PreoccupationalsTable::APTITUD_ID_NEED_OBSERVATION);
 	}
+	public function unsubscribe(){
+		return $this->status == PreoccupationalsTable::UNSUBSCRIBE;
+	}
 }

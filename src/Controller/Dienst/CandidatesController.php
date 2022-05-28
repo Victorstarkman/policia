@@ -96,6 +96,7 @@ class CandidatesController extends AppController
         $this->set(compact('candidate', 'auth'));
     }
 
+
     /**
      * Add method
      *
@@ -178,14 +179,14 @@ class CandidatesController extends AppController
 				$inputFileNamePath = $_FILES['import_file']['tmp_name'];
 				$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
 				$data= $spreadsheet->getActiveSheet()->toArray();
-				for($i=9;$i<count($data)-1;$i++){
-					if(isset($data[$i][1])){
-						$cuil=$data[$i][1];
-						$lastname=$data[$i][4];
-						$name= $data[$i][6];
-						$gender=$data[$i][8];
-						$phone=$data[$i][10];
-						$email=$data[$i][19];
+				for($i=0;$i<count($data);$i++){
+					if(isset($data[$i][0])){
+						$cuil=$data[$i][0];
+						$lastname=$data[$i][2];
+						$name= $data[$i][3];
+						$gender=$data[$i][4];
+						$phone=$data[$i][5];
+						$email=$data[$i][6];
 						//query 
 						$cuil=$this->Upper->getCuil($cuil);
 						$genders = $this->Candidates->Users->getGendersList();
@@ -195,7 +196,7 @@ class CandidatesController extends AppController
 						$name=isset($name)?$this->Upper->upper(trim($name)):'';
 						$lastname=isset($lastname)?$this->Upper->upper(trim($lastname)):'';
 						/* debug($cuil.' '.$lastname.' '.$name.' '.$keyGender.' '.$phone.' '.$email.' '.$created);
-						exit; */
+						exit;  */
 						$datacandidate= array('name'=>$name,'lastname'=>$lastname,'cuil'=>$cuil,'phone'=>$phone,'gender'=>$keyGender,'email'=>$email,'user_id'=>2);
 						//------------------query de guardado--------------------------------
 						$candidateExistence = $this->Candidates->checkExistence($datacandidate);

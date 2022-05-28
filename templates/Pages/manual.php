@@ -103,14 +103,14 @@
                             email: {{email}},<br/>
                             password: {{contraseña}}<br/>
                         }<br/><br/>
-                        Esta petici&oacute;n genera un token para poder comunicarse con la API. Este Token deber&aacute; viajar en el header de Authorization en todas las proximas peticiones<br/><br/><br/>
+                        Esta petici&oacute;n genera un token para poder comunicarse con la API. Este Token deber&aacute; viajar en el header de Authorization en todas las pr&oacute;ximas peticiones<br/><br/><br/>
                         Ejemplo de respuesta:<br/>
 	                    <?= $this->Html->image('examples/token.png',['alt'=>'menu_centro_medico','class'=>'menu_centro_medico', 'style' => 'width:100%'])?><br/><br/>
 
                         Endpoints disponibles para consultas:<br/>
                         1. <?= $apiUrl;?>/preocupacionales<br/>
-                        La patici&oacute;n deber&aacute; viajar con el header: Authorization Bearer {{token}}<br/><br/>
-                        Este devolerdeber&aacute; toda la baser de datos disponible de los aspirantes en formato JSON.<br/><br/>
+                        La petici&oacute;n deber&aacute; viajar con el header: Authorization Bearer {{token}}<br/><br/>
+                        Este deber&aacute; devolver toda la base de datos disponible de los aspirantes en formato JSON.<br/><br/>
                         2. <?= $apiUrl;?>/preocupacionales?begin_date={{fecha de inicio}}&end_date={{fecha de final}}<br/>
                         Se puede indicar una fecha de inicio y una de final en formato "YYYY-mm-dd". Este endpoint devolver&aacute; los datos
                         disponibles entre esas fechas.<br/><br/>

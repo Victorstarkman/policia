@@ -99,6 +99,13 @@ class PreoccupationalsController extends AppController
 		return $this->redirect('/centro-medico/');
 
 	}
-
+	public function unsuscribe($candidateId=null)
+    {
+		$this->request->allowMethod(['post']);
+		$preoccupationCandidate=$this->Preoccupationals->find()->where(['candidate_id'=> $candidateId]);
+		//$preoccupationCandidate = $this->Preoccupationals->get($id);
+		debug($preoccupationCandidate);
+		exit;
+	}
 
 }
