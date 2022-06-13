@@ -85,7 +85,7 @@
                             <tr>
                                 <th><?= __('Nombre') ?></th>
                                 <th><?= __('Documentos') ?></th>
-                                <th><?= __('Descargar') ?></th>
+                                <th><?= __('Acciones') ?></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -95,7 +95,11 @@
                                 <td><?= h($file->name) ?></td>
                                 <td><img src="<?= $file->getUrl(); ?>" height="100px"/></td>
                                 <td>
-	                                <?= $this->Html->link(__('Descargar'),   DS . 'files/' . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
+                                <?= $this->Html->link(__('Descargar'),  DS.  'files'.DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
+                                    |
+                                    <?= $this->Html->link(__('Borrar'),  DS.  'files'.DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
+                                    |
+	                                <?= $this->Html->link(__('Cargar'),  DS. 'files'.DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>

@@ -70,6 +70,7 @@
                         if (empty($candidate->preoccupationals) ) {
 		                    $needDate = true;
                             $unsubscribe = FALSE;
+                            $presentorAbsentDate = FALSE;
                         } else {
 		                    $needDate = $candidate->preoccupationals[$getPos]->noNeedForNewDate();
 		                    $presentorAbsentDate = $candidate->preoccupationals[$getPos]->presentOrAbsent();
