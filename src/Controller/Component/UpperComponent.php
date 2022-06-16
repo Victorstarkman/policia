@@ -39,6 +39,7 @@ class UpperComponent extends Component
         $cuil='';
         $arrayChar=[46,45,32];
         if((isset($string))){
+            $string=strval($string);
             $coincidencia=preg_match('/[-.\s]/',$string);
             if ($coincidencia){
                 $stringarray=str_split($string);
