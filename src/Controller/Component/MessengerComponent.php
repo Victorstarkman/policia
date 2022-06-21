@@ -51,7 +51,7 @@ class MessengerComponent extends Component
 			'date' => $preocupational->appointment->i18nFormat('dd-MM-yyyy HH:mm'),
 			'type' => $preocuppationalstype->name
 		];
-		$subject = 'TURNO ' . $values['date']. ' para examen Preocupacional a ' . $values['type'] .' de la Ciudad';
+		$subject = 'TURNO ' . $values['date']. ' para examen Preocupacional a PERSONAL CIVIL ADMINISTRATIVO de la Ciudad';
 		$template = 'cadetes';
 
 		$this->sendEmail($to, $subject, $template, $values);
