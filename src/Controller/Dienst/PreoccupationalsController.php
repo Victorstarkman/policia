@@ -34,7 +34,11 @@ class PreoccupationalsController extends AppController
 			$lastAppointment = $this->Preoccupationals->patchEntity($lastAppointment, $data);
 			if ($this->Preoccupationals->save($lastAppointment)) {
 				$this->loadComponent('Messenger');
-				$this->Messenger->sentToCandidates($lastAppointment);
+				if ($lastAppointment->preocuppationalsType_id == 5) {
+					$this->Messenger->sentToCivil($lastAppointment);
+				} else {
+					$this->Messenger->sentToCandidates($lastAppointment);
+				}
 				$this->Flash->success(__('Se le modifico el turno correctamente.'));
 				return $this->redirect('/dienst/preocupacionales/ver/' . $candidateID);
 			}
@@ -73,7 +77,12 @@ class PreoccupationalsController extends AppController
 			$preoccupational = $this->Preoccupationals->patchEntity($preoccupational, $data);
 			if ($this->Preoccupationals->save($preoccupational)) {
 				$this->loadComponent('Messenger');
-				$this->Messenger->sentToCandidates($preoccupational);
+				if ($preoccupational->preocuppationalsType_id == 5) {
+					$this->Messenger->sentToCivil($preoccupational);
+				} else {
+					$this->Messenger->sentToCandidates($preoccupational);
+				}
+
 				$this->Flash->success(__('Se le asigno correctamente el turno.'));
 				return $this->redirect('/dienst/aspirantes/');
 			}
@@ -125,7 +134,11 @@ class PreoccupationalsController extends AppController
 					$preoccupational = $this->Preoccupationals->patchEntity($preoccupational, $data);
 					if ($this->Preoccupationals->save($preoccupational)) {
 						$this->loadComponent('Messenger');
-						$this->Messenger->sentToCandidates($preoccupational);
+						if ($preoccupational->preocuppationalsType_id == 5) {
+							$this->Messenger->sentToCivil($preoccupational);
+						} else {
+							$this->Messenger->sentToCandidates($preoccupational);
+						}
 						$arrayOfInfo['quantities']['success']++;
 					} else {
 						$arrayOfInfo['quantities']['errors']++;
