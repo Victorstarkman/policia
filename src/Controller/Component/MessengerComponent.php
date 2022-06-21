@@ -12,7 +12,7 @@ class MessengerComponent extends Component
 		'email' => 'administracion@dienstpreos.com.ar',
 		'name' => 'Turnos Preocupacionales'
 	];
-	private $testEmail = 'dev@dienstpreos.com.ar';
+	private $testEmail = 'dev.administracion@dienstpreos.com.ar';
 
 	public function initialize(array $config): void
 	{
