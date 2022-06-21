@@ -87,7 +87,7 @@ class MessengerComponent extends Component
 	}
 	public function sentToCenter($number=0,$date=null){
 		//$to= ["analia.zalazar@cmnogoya.com","melisa.paronetto@dienst.com.ar","jesicanunez@dienst.com.ar","barbara.sitjar@colonia-suiza.com"];
-		$to= "victorstarkman@gmail.com";
+		$to= ["victorstarkman@gmail.com"];
 		$values =['count'=> $number, 'date'=> $date];
 		$subject= "Turnos  para PREOS POLICIA";
 		$template = 'centros';
