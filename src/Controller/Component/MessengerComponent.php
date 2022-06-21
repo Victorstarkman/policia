@@ -57,10 +57,18 @@ class MessengerComponent extends Component
 		$this->sendEmail($to, $subject, $template, $values);
 	}
 
-	public function sentToCivil($user) {
-		$subject = 'Turno LUNES 23-05 08:00HS. para examen Preocupacional PERSONAL CIVIL ADMINISTRATIVO Policía de la Ciudad';
+	public function sentToCivil($preocupational) {
+		$candidates= $this->getController()->getTableLocator()->get('Candidates');
+		$preocuppationalstypes = $this->getController()->getTableLocator()->get('Preocuppationalstypes');
+		$candidate = $candidates->get($preocupational->candidate_id);
+		$preocuppationalstype = $preocuppationalstypes->get($preocupational->preocuppationalsType_id);
+		$to = $candidate['email'];
+		$values = [
+			'date' => $preocupational->appointment->i18nFormat('dd-MM-yyyy HH:mm'),
+			'type' => $preocuppationalstype->name
+		];
+		$subject = 'TURNO ' . $values['date']. ' para examen Preocupacional a ' . $values['type'] .' de la Ciudad';
 		$template = 'civil';
-		$to = '';
 		$this->sendEmail($to, $subject, $template, $values);
 	}
 }
