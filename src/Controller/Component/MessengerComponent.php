@@ -17,6 +17,7 @@ class MessengerComponent extends Component
 	public function initialize(array $config): void
 	{
 		parent::initialize($config);
+		
 	}
 
 	private function sendEmail($to, $subject = 'Test',$template = 'default', $values = []) {
@@ -58,9 +59,21 @@ class MessengerComponent extends Component
 	}
 
 	public function sentToCivil($user) {
-		$subject = 'Turno LUNES 23-05 08:00HS. para examen Preocupacional PERSONAL CIVIL ADMINISTRATIVO Policía de la Ciudad';
+		$candidates= $this->getController()->getTableLocator()->get('Candidates');
+		$preocuppationalstypes = $this->getController()->getTableLocator()->get('Preocuppationalstypes');
+		$candidate = $candidates->get($user->candidate_id);
+		$preocuppationalstype = $preocuppationalstypes->get($user->preocuppationalsType_id);
+		$to = $candidate['email'];
+		$values = [
+			'date' => $user->appointment->i18nFormat('dd-MM-yyyy HH:mm'),
+			'type' => $preocuppationalstype->name
+		];
+		$subject = 'Turno '.$values['date'].' para examen Preocupacional PERSONAL CIVIL ADMINISTRATIVO Policía de la Ciudad';
 		$template = 'civil';
 		$to = '';
 		$this->sendEmail($to, $subject, $template, $values);
+	}
+	public function sentToCenter($number=0){
+		echo $number;
 	}
 }
