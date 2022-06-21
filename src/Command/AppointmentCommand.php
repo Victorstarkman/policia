@@ -55,14 +55,19 @@ class AppointmentCommand extends Command
             $time= new FrozenTime();
             $time=$time->i18nFormat('yyyy-MM-dd').' 08:00:00';
             $time_in_advance=new FrozenTime("+1 day");
-            $time_in_advance= $time_in_advance->i18nFormat('yyyy-MM-dd').' 08:00:00';
+            $time_in_advance= $time_in_advance->i18nFormat('yyyy-MM-dd').' 23:00:00';
                 return $exp->between('appointment',$time,$time_in_advance);
             }) 
             ->andWhere(function(QueryExpression $exp,Query $q){
                 return $exp->isNotNull('appointment');
             })
             -> count();
-            $this->MessengerComponent->sentToCivil($get_candidates_number);
+            $time_in_advance=new FrozenTime("+1 day");
+            $time_in_advance= $time_in_advance->i18nFormat('yyyy-MM-dd');
+            if ($get_candidates_number > 0){
+                $this->MessengerComponent->sentToCenter($get_candidates_number,$time_in_advance);
+            }
+            
         return null;
     }
 }       

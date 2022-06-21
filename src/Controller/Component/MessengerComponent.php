@@ -26,10 +26,23 @@ class MessengerComponent extends Component
 		if ($environment != 'prod') {
 			$to = $this->testEmail;
 		}
+	
+		$bcc = [];
+		if (is_array($to)) {
+			$bcc = $to;
+			$to = array_shift($bcc);;
+		}
+
 		$mailer = new Mailer($this->transport);
 		$mailer
 			->setFrom([$this->setFrom['email'] => $this->setFrom['name']])
-			->setTo($to)
+			->setTo($to);
+			if (!empty($bcc)) {
+				foreach ($bcc as $email) {
+					$mailer->addBcc($email);
+				}
+			}
+		$mailer
 			->setSubject($subject)
 			->setViewVars($values)
 			->viewBuilder()
@@ -72,7 +85,11 @@ class MessengerComponent extends Component
 		$template = 'civil';
 		$this->sendEmail($to, $subject, $template, $values);
 	}
-	public function sentToCenter($number=0){
-		echo $number;
+	public function sentToCenter($number=0,$date=null){
+		$to= ["analia.zalazar@cmnogoya.com","melisa.paronetto@dienst.com.ar","jesicanunez@dienst.com.ar","barbara.sitjar@colonia-suiza.com"];
+		$values =['count'=> $number, 'date'=> $date];
+		$subject= "Turnos  para PREOS POLICIA";
+		$template = 'centros';
+		$this->sendEmail($to, $subject, $template, $values);
 	}
 }
