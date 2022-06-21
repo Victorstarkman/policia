@@ -2,18 +2,29 @@
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
+use Cake\Core\Configure;
 use Cake\Mailer\Mailer;
 
 class MessengerComponent extends Component
 {
 	private $transport = 'default';
-	private $setFrom = ['email' => 'administracion@dienstpreos.com.ar', 'name' => 'Turnos Preocupacionales'];
+	private $setFrom = [
+		'email' => 'administracion@dienstpreos.com.ar',
+		'name' => 'Turnos Preocupacionales'
+	];
+	private $testEmail = 'dev@dienstpreos.com.ar';
+
 	public function initialize(array $config): void
 	{
 		parent::initialize($config);
 	}
 
 	private function sendEmail($to, $subject = 'Test',$template = 'default', $values = []) {
+		$environment = Configure::read('environment');
+		// Si no es prod, envia al test email.
+		if ($environment != 'prod') {
+			$to = $this->testEmail;
+		}
 		$mailer = new Mailer($this->transport);
 		$mailer
 			->setFrom([$this->setFrom['email'] => $this->setFrom['name']])
@@ -22,8 +33,11 @@ class MessengerComponent extends Component
 			->setViewVars($values)
 			->viewBuilder()
 			->setTemplate($template);
+		// Si es local, no hace el deliver.
+		if ($environment != 'local') {
+			$mailer->deliver();
+		}
 
-		$mailer->deliver();
 	}
 
 	public function sentToCandidates($preocupational) {
