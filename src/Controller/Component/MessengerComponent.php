@@ -19,9 +19,9 @@ class MessengerComponent extends Component
 			->setFrom([$this->setFrom['email'] => $this->setFrom['name']])
 			->setTo($to)
 			->setSubject($subject)
+			->setViewVars($values)
 			->viewBuilder()
-			->setTemplate($template)
-			->setViewVars($values);
+			->setTemplate($template);
 
 		$mailer->deliver();
 	}
