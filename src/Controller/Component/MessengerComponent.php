@@ -65,7 +65,7 @@ class MessengerComponent extends Component
 			'date' => $preocupational->appointment->i18nFormat('dd-MM-yyyy HH:mm'),
 			'type' => $preocuppationalstype->name
 		];
-		$subject = 'TURNO ' . $values['date']. ' para examen Preocupacional a PERSONAL CIVIL ADMINISTRATIVO de la Ciudad';
+		$subject = 'TURNO ' . $values['date']. ' para examen Preocupacional a Cadetes/Bomberos Policia de la Ciudad';
 		$template = 'cadetes';
 
 		$this->sendEmail($to, $subject, $template, $values);
@@ -81,7 +81,7 @@ class MessengerComponent extends Component
 			'date' => $user->appointment->i18nFormat('dd-MM-yyyy HH:mm'),
 			'type' => $preocuppationalstype->name
 		];
-		$subject = 'Turno '.$values['date'].' para examen Preocupacional PERSONAL CIVIL ADMINISTRATIVO Policía de la Ciudad';
+		$subject = 'Turno '.$values['date'].' para examen Preocupacional Personal Civil  Policía de la Ciudad';
 		$template = 'civil';
 		$this->sendEmail($to, $subject, $template, $values);
 	}

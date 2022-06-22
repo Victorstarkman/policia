@@ -22,5 +22,5 @@ Para la correcta realización de los estudios requeridos deberá de tener en cue
 
 Ante cualquier duda o consulta nuestro horario de atención es de lunes a viernes de 08:00 a 17:00 a través de este canal  o telefónicamente al 11-2241-4601.
 
-Es importante  confirmar asistencia respondiendo este mail a preopoliciadelaciudad@gmai.com
+Es importante  confirmar asistencia respondiendo este mail a preopoliciadelaciudad@gmail.com
 Desde ya muchas gracias.

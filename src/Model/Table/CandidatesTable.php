@@ -118,7 +118,7 @@ class CandidatesTable extends Table
 	{
 		$candidatesWithAppoitment = $this->Preoccupationals->find()->select(['candidate_id'])
 			->where(['OR' => ['appointment > NOW()', 'status NOT IN' => $this->Preoccupationals->inactiveStatuses()]]);
-
+        
 		$candidatesWithAppoitmentID = [];
 
 		foreach ($candidatesWithAppoitment as $candidateWithAppoitment) {

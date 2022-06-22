@@ -52,7 +52,7 @@ class PreoccupationalsTable extends Table
 		self::CANCELLED => 'Cancelado',
 		self::PRESENT => 'Presente',
 		self::WAITING => 'Esperando documentacion',
-		self::UNSUBSCRIBE =>'Dado de baja por Administraci&oacute;n'
+		self::UNSUBSCRIBE =>'Dado de baja por Administración'
 	];
 
 
@@ -153,9 +153,9 @@ class PreoccupationalsTable extends Table
 
 	public function inactiveStatuses() {
 		return [
-			static::ABSENT,
+			//static::ABSENT,
 			static::CANCELLED,
-			static::UNSUBSCRIBE
+			//static::UNSUBSCRIBE
 		];
 	}
 

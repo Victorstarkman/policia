@@ -78,8 +78,7 @@
 
                         }  ?>
                         <?php if(($auth->group_id == 5 and (!$unsubscribe))):?>
-                        
-                        <?= ($needDate) ? $this->Html->link(__('Asignar turno'),   DS .  strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id, ['fullBase' => true]) : (($presentorAbsentDate) ? $presentorAbsentDate : $candidate->preoccupationals[$getPos]->showDate()); ?>
+                        <?= (($needDate) && (!$presentorAbsentDate)) ? $this->Html->link(__('Asignar turno'),   DS .  strtolower($this->request->getParam('prefix')) . '/preocupacionales/asignarTurno/' . $candidate->id, ['fullBase' => true]) : (($presentorAbsentDate) ? $presentorAbsentDate : $candidate->preoccupationals[$getPos]->showDate()); ?>
                         <?php elseif($unsubscribe):?>
                             Dado de Baja
                         <?php else:?>
