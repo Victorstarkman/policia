@@ -17,6 +17,7 @@ class MessengerComponent extends Component
 	public function initialize(array $config): void
 	{
 		parent::initialize($config);
+		
 	}
 
 	private function sendEmail($to, $subject = 'Test',$template = 'default', $values = []) {
@@ -25,10 +26,23 @@ class MessengerComponent extends Component
 		if ($environment != 'prod') {
 			$to = $this->testEmail;
 		}
+	
+		$bcc = [];
+		if (is_array($to)) {
+			$bcc = $to;
+			$to = array_shift($bcc);
+		}
+
 		$mailer = new Mailer($this->transport);
 		$mailer
 			->setFrom([$this->setFrom['email'] => $this->setFrom['name']])
-			->setTo($to)
+			->setTo($to);
+			if (!empty($bcc)) {
+				foreach ($bcc as $email) {
+					$mailer->addBcc($email);
+				}
+			}
+		$mailer
 			->setSubject($subject)
 			->setViewVars($values)
 			->viewBuilder()
@@ -57,18 +71,26 @@ class MessengerComponent extends Component
 		$this->sendEmail($to, $subject, $template, $values);
 	}
 
-	public function sentToCivil($preocupational) {
+	public function sentToCivil($user) {
 		$candidates= $this->getController()->getTableLocator()->get('Candidates');
 		$preocuppationalstypes = $this->getController()->getTableLocator()->get('Preocuppationalstypes');
-		$candidate = $candidates->get($preocupational->candidate_id);
-		$preocuppationalstype = $preocuppationalstypes->get($preocupational->preocuppationalsType_id);
+		$candidate = $candidates->get($user->candidate_id);
+		$preocuppationalstype = $preocuppationalstypes->get($user->preocuppationalsType_id);
 		$to = $candidate['email'];
 		$values = [
-			'date' => $preocupational->appointment->i18nFormat('dd-MM-yyyy HH:mm'),
+			'date' => $user->appointment->i18nFormat('dd-MM-yyyy HH:mm'),
 			'type' => $preocuppationalstype->name
 		];
-		$subject = 'TURNO ' . $values['date']. ' para examen Preocupacional a ' . $values['type'] .' de la Ciudad';
+		$subject = 'Turno '.$values['date'].' para examen Preocupacional PERSONAL CIVIL ADMINISTRATIVO Policía de la Ciudad';
 		$template = 'civil';
+		$this->sendEmail($to, $subject, $template, $values);
+	}
+	public function sentToCenter($number=0,$date=null){
+		$to= ["analia.zalazar@cmnogoya.com","policiadelaciudad@dienst.com.ar","melisa.paronetto@dienst.com.ar","jesicanunez@dienst.com.ar","barbara.sitjar@colonia-suiza.com"];
+		//$to= ["victorstarkman@gmail.com"];
+		$values =['count'=> $number, 'date'=> $date];
+		$subject= "Turnos  para PREOS POLICIA";
+		$template = 'centros';
 		$this->sendEmail($to, $subject, $template, $values);
 	}
 }

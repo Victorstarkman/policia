@@ -1,29 +1,26 @@
 Buenos dias,
-Dicha información también será notificada por teléfono, se lo agregara a un  grupo de  WhatsApp con el resto de los aspirantes
-que se presentarán el mismo día. El objetivo del grupo es para poder evacuar cualquier duda sobre la preparación de los estudios que
-se mencionan en este mail. Una vez que se presenten al día del examen, se corrobora el presentismo para comunicar a Incorporaciones de Policía de la ciudad y el grupo se disolverá.
 
-IMPORTANTE LUEGO DE LEER ESTE MENSAJE, RESPONDA SI ASISTE O NO ASISTE AL TURNO BRINDADO RESPONDIENTO ESTE CORREO.
+Se le comunica que el día <?= $date ?> Usted tiene un turno asignado para la realización de examen Pre ocupacional para el área de incorporaciones de Policía de la Ciudad. Por favor se ruega puntualidad ya que es por orden de llegada y así  evitar atrasos en el cronograma de los estudios a realizar. Dirección: Centro Médico Nogoyá, sito La Rioja Nª 682 entre las calles México y Venezuela, Balvanera CABA. 
 
-Se le comunica que el día <?= $date ?>. tiene turno asignado para la realización de examen Preocupacional para el área de incorporaciones de Policía de la Ciudad Cadete/Bomberos.
+Para la correcta realización de los estudios requeridos deberá de tener en cuenta:
 
-Por favor se ruega puntualidad ya que es por orden de llegada y así  evitar atrasos en el cronograma de los estudios a realizar.
+1) Presentar DNI físico, en caso de ser menor a 18  años, presentarse con su tutor legal. 
 
-Dirección: Centro Médico Nogoya, sito La Rioja N° 682 entre las calles México y Venezuela, Balvanera CABA.
+2) Para la correcta extracción de sangre y recolección de Orina, respetar 12 hs. de ayuno previo y una  retención mínima  de 3 hs. La recolección  de la muestra es realizada en el centro médico donde se le suministrará un recipiente estéril. En el caso que una mujer se encuentre  en su periodo, utilizar tampón a la hora de realizar el examen para evitar la contaminación de la muestra.
 
-Importante: Para la correcta realización de los estudios requeridos deberá de tener en cuenta:
+3) Para la correcta  realización del estudio de electroencefalograma presentarse  con el cabello lavado únicamente con shampoo, no utilizar  Gel, crema de peinar ni ceras. No aplicar cremas corporales.
 
-1) DNI. (en caso de pérdida o trámite, presentar fotocopia de partida de nacimiento y app Mi Argentina)
-2) 12 hs. de ayuno previo y retención de 3 hs. de orina. (La recolección  de la muestra es realizada en el centro médico donde le suministrarán un recipiente estéril)
-3) Cabello lavado únicamente con shampoo, no utilizar el día del estudio Gel, crema de peinar ni ceras. (esto puede ocasionar distorsión en el estudio de electroencefalograma)
-4) Reposo auditivo previo de 48 hs. (no utilizar auriculares).
-5) Ropa interior deportiva en mujeres. (se solicita así para evitar metales al momento de realizar placas)
-6) En el caso de las mujeres si están en su periodo menstrual, utilizar tampón a la hora de realizar el examen de orina.
-7) El día del estudio no concurrir con aros y piercing. (se solicita así para evitar metales al momento de realizar placas)
-8) No haber tomado aspirinas dentro de las 24 hs.
-9) Traer toalla de mano.
-10) Presentarse a la realización de los exámenes con ropa cómoda (deportiva, zapatillas y remera extra ) para la realización de la ergometría. (NO ROPA FORMAL PARA AGILIZAR LOS EXÁMENES)
-11) En caso de utilizar lentes con algún tipo de graduación, por favor presentarse con ellos para poder realizar el examen ocular correctamente, si tiene lente de contacto también traerlos y traer los medios higiénicos que se necesitan para extraer los lentes de contacto ya que el estudio se realiza sin y con correcciòn.
-12) Para la realización del examen de encefalograma tener en cuenta lo que se menciona en el punto 3 y no aplicar cremas corporales y estar descansado.
+4) Para la realización correcta de la audiometría tener un reposo auditivo previo de 48 hs. (no utilizar auriculares en volúmenes altos).
 
+5) Para la realización correcta de Radiografías, concurrir sin aros y piercing y con  ropa interior deportiva en mujeres, sin metales.
+
+6) No tomar aspirinas dentro de las 24 hs.
+
+7)  Para la realización correcta del estudio de Ergometría,  presentarse con ropa cómoda deportiva y con zapatillas. Traer remera extra  y una toalla de mano para su higiene.
+
+8) Para la realización correcta de agudeza visual en caso de utilizar lentes con algún tipo de graduación,  presentarse con ellos.  En caso de utilizar lentes de contacto, traer los insumos necesarios para poder realizar la extracción del  mismo.
+
+Ante cualquier duda o consulta nuestro horario de atención es de lunes a viernes de 08:00 a 17:00 a través de este canal  o telefónicamente al 11-2241-4601.
+
+Es importante  confirmar asistencia respondiendo este mail a preopoliciadelaciudad@gmai.com
 Desde ya muchas gracias.
