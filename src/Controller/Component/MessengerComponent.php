@@ -30,7 +30,7 @@ class MessengerComponent extends Component
 		$bcc = [];
 		if (is_array($to)) {
 			$bcc = $to;
-			$to = array_shift($bcc);;
+			$to = array_shift($bcc);
 		}
 
 		$mailer = new Mailer($this->transport);
@@ -86,8 +86,8 @@ class MessengerComponent extends Component
 		$this->sendEmail($to, $subject, $template, $values);
 	}
 	public function sentToCenter($number=0,$date=null){
-		//$to= ["analia.zalazar@cmnogoya.com","melisa.paronetto@dienst.com.ar","jesicanunez@dienst.com.ar","barbara.sitjar@colonia-suiza.com"];
-		$to= ["victorstarkman@gmail.com"];
+		$to= ["analia.zalazar@cmnogoya.com","policiadelaciudad@dienst.com.ar","melisa.paronetto@dienst.com.ar","jesicanunez@dienst.com.ar","barbara.sitjar@colonia-suiza.com"];
+		//$to= ["victorstarkman@gmail.com"];
 		$values =['count'=> $number, 'date'=> $date];
 		$subject= "Turnos  para PREOS POLICIA";
 		$template = 'centros';
