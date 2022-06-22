@@ -1,30 +1,20 @@
-Buenos días.
-Dicha información también será notificada por teléfono, se lo agregara a un  grupo de  WhatsApp con el resto de los aspirantes
-que se presentarán el mismo día. El objetivo del grupo es para poder evacuar cualquier duda sobre la preparación de los estudios que
-se mencionan en este mail. Una vez que se presenten al día del examen, se corrobora el presentismo para comunicar a Incorporaciones de Policía de la ciudad y el grupo se disolverá.
+Buenos dias,
 
-IMPORTANTE LUEGO DE LEER ESTE CORREO, ES INDISPENSABLE LA CONFIRMACIÓN DE ASISTENCIA DE LO QUE SE LE ESTA NOTIFICANDO RESPONDIEDO ESTE CORREO.
+Se le comunica que el día <?= $date ?> Usted tiene un turno asignado para la realización de examen Pre ocupacional para el área de incorporaciones de Policía de la Ciudad. Por favor se ruega puntualidad ya que es por orden de llegada y así  evitar atrasos en el cronograma de los estudios a realizar. Dirección: Centro Médico Nogoyá, sito La Rioja Nª 682 entre las calles México y Venezuela, Balvanera CABA. 
 
-Se le comunica que el día <?= $date ?>. tiene turno asignado para la realización de examen Preocupacional para el área de incorporaciones de Policía de la Ciudad.
+Para la correcta realización de los estudios requeridos deberá de tener en cuenta:
 
-PERSONAL CIVIL ADMINISTRATIVO.
+1) Presentar DNI físico. 
 
-Por favor se ruega puntualidad ya que es por orden de llegada y así  evitar atrasos en el cronograma de los estudios a realizar.
+2) Para la correcta extracción de sangre y recolección de Orina, respetar 12 Hs. de ayuno previo y una  retención mínima  de 3 Hs. La recolección  de la muestra es realizada en el centro médico donde se le suministrará un recipiente estéril. En el caso que una mujer se encuentre  en su periodo, utilizar tampón a la hora de realizar el examen para evitar la contaminación de la muestra.
 
-Dirección: Centro Médico Nogoya, sito La Rioja N° 682 entre las calles México y Venezuela, Balvanera CABA.
+3) Para la realización correcta de la audiometría tener un reposo auditivo previo de 48 hs. (no utilizar auriculares en volúmenes altos).
 
+4) Para la realización correcta de Radiografías, concurrir sin aros y piercing y con  ropa interior deportiva en mujeres, sin metales.
 
-Importante: Para la correcta realización de los estudios requeridos deberá de tener en cuenta:
+5) Para la realización correcta de agudeza visual en caso de utilizar lentes con algún tipo de graduación,  presentarse con ellos.  En caso de utilizar lentes de contacto, traer los insumos necesarios para poder realizar la extracción del  mismo.
 
+Ante cualquier duda o consulta nuestro horario de atención es de lunes a viernes de 08:00 a 17:00 a través de este canal  o telefónicamente al 11-2241-4601.
 
-1) Traer DNI. (en caso de pérdida o trámite, presentar fotocopia de partida de nacimiento y app Mi Argentina)
-2) 12 hs. de ayuno previo y retención de 3 hs. de orina. (La recolección  de la muestra es realizada en el centro médico donde le suministrarán un recipiente estéril)
-3) Reposo auditivo previo de 48 hs. (no utilizar auriculares).
-4) Ropa interior deportiva en mujeres. (para la realización de RX)
-5) En el caso de las mujeres si están en su periodo menstrual, utilizar tampón a la hora de realizar el examen de orina.
-6) El día del estudio no concurrir con aros y piercing.
-7) En caso de utilizar lentes con algún tipo de graduación, por favor presentarse con ellos para poder realizar el examen ocular correctamente.
-
-
-
+Es importante  confirmar asistencia respondiendo este mail a preopoliciadelaciudad@gmai.com
 Desde ya muchas gracias.
