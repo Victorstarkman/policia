@@ -59,7 +59,9 @@ class AppointmentCommand extends Command
                 return $exp->between('appointment',$time,$time_in_advance);
             }) 
             ->andWhere(function(QueryExpression $exp,Query $q){
-                return $exp->isNotNull('appointment');
+                return $exp
+                ->isNotNull('appointment')
+                ->eq('status',1);
             })
             -> count();
             $time_in_advance=new FrozenTime("+1 day");
