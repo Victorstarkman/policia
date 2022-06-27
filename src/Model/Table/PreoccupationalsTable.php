@@ -45,7 +45,7 @@ class PreoccupationalsTable extends Table
 	const APTITUD_ID_NEED_OBSERVATION = [2, 3];
 	const APTO = 1;
 	const CIVIL = 4;
-	
+
 	const NAME_STATUS = [
 		self::ACTIVE => 'Esperando ser atendido',
 		self::ABSENT => 'Ausente',
@@ -222,6 +222,7 @@ class PreoccupationalsTable extends Table
 		$candidatesID = [];
 		$candidates = $this->find()
 			->select(['candidate_id', 'status'])
+			->where(['status' => $search['status']])
 			->group('candidate_id')
 			->order(['id' => 'DESC']);
 
@@ -239,7 +240,7 @@ class PreoccupationalsTable extends Table
 		return $this->save($preoccupational);
 	}
 	public function unsubscribe($preoccupational){
-		
+
 		$preoccupational->status = self::UNSUBSCRIBE;
 		return $this->save($preoccupational);
 	}
