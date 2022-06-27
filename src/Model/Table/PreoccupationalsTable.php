@@ -7,7 +7,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-
+use Cake\ORM\Rule\IsUnique;
 /**
  * Preoccupationals Model
  *
@@ -129,6 +129,7 @@ class PreoccupationalsTable extends Table
     {
         $rules->add($rules->existsIn('candidate_id', 'Candidates'), ['errorField' => 'candidate_id']);
         $rules->add($rules->existsIn('aptitude_id', 'Aptitudes'), ['errorField' => 'aptitude_id']);
+		$rules->add($rules->isUnique(['candidate_id','appointment'], ['errorField' => 'appointment']));
         return $rules;
     }
 
@@ -153,9 +154,9 @@ class PreoccupationalsTable extends Table
 
 	public function inactiveStatuses() {
 		return [
-			//static::ABSENT,
+			static::ABSENT,
 			static::CANCELLED,
-			//static::UNSUBSCRIBE
+			static::UNSUBSCRIBE
 		];
 	}
 

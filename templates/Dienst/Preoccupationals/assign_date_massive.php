@@ -25,6 +25,12 @@
 				<button href="javascript:void(0)" class="btn btn-outline-primary col-12 assignDate" disabled><i class="mr-2 fas fa-clock" aria-hidden="true"></i>Asignar Turnos</button>
 			</div>
 		</div>
+        <div class="mx-auto form-group row col-lg-12 col-md-12">
+            <div class="col-3 offset-md-9   d-flex">
+                <label for="selectall" class="ml-5"> Seleccionar Todos</label>
+                <input type="checkbox" class="form-control big-checkbox  align-items-center selectall" name="selectall" id="selectall" style="width:25px;height:25px;margin-left: 50px">
+            </div>
+        </div>
 		<?= $this->Flash->render() ?>
 		<table class="table table-bordered" id="tabla_actualizaciones">
 			<thead>
@@ -59,7 +65,7 @@ let candidateID = [];
 $('input.appointment').change(function(){
     if ($(this).is(':checked')) {
         candidateID.push($(this).attr('data-id'))
-    } else {
+    } else {  
         candidateID.pop($(this).attr('data-id'))
     }
 
@@ -69,6 +75,9 @@ $('input.appointment').change(function(){
         $(".assignDate").attr("disabled", true)
     }
 });
+$('input.selectall').change(function(){
+   $('.appointment').prop('checked',this.checked);
+})
 $(".assignDate").on("click", function(){
     dateInput = $(".dateToAssign").val();
     preocuppationalstype_id = $(".preocuppationalstype_id option").filter(':selected').val();
