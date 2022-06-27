@@ -180,6 +180,7 @@ class CandidatesController extends AppController
 				$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($inputFileNamePath);
 				$data= $spreadsheet->getActiveSheet()->toArray();
 				for($i=0;$i<count($data);$i++){
+					$count=$i+1;
 					if(isset($data[$i][0])){
 						$cuil=$data[$i][0];
 						$lastname=$data[$i][2];
@@ -220,7 +221,9 @@ class CandidatesController extends AppController
 						])
 						->execute();
 						if($query){
-							$this->Flash->success(_('El archivo se actualizó; correctamente'));
+							$this->Flash->success(_('El archivo se actualizó; correctamente.La cantidad de aspirantes es '.$count));
+
+
 						}else{
 							$this->Flash->error(_('El archivo no se actualizó; correctamente'));
 							}   
