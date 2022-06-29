@@ -117,8 +117,8 @@ class CandidatesTable extends Table
 	public function findWithoutAppoitment(Query $query, array $options)
 	{
 		$candidatesWithAppoitment = $this->Preoccupationals->find()->select(['candidate_id'])
-			->where(['OR' => ['appointment > NOW()', 'status NOT IN' => $this->Preoccupationals->inactiveStatuses()]]);
-        
+			->where(['OR' => ['OR' => ['appointment > NOW()', 'appointment IS NULL'], 'status NOT IN' => $this->Preoccupationals->inactiveStatuses()]]);
+
 		$candidatesWithAppoitmentID = [];
 
 		foreach ($candidatesWithAppoitment as $candidateWithAppoitment) {
