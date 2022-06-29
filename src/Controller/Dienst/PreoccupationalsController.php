@@ -94,7 +94,7 @@ class PreoccupationalsController extends AppController
 
 	public function assignDateMassive()
 	{
-		$candidatesWithoutDate = $this->Preoccupationals->Candidates->find('withoutAppoitment')->order(['id'=>'DESC']);
+		$candidatesWithoutDate = $this->Preoccupationals->Candidates->find('withoutAppoitmentForMassive')->order(['id'=>'DESC']);
 		$preocuppationalsTypes = $this->Preoccupationals->Preocuppationalstypes->find('list', ['limit' => 200])->all();
 		$this->set(compact('candidatesWithoutDate', 'preocuppationalsTypes'));
 	}
