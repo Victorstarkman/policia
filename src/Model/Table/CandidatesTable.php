@@ -57,6 +57,24 @@ class CandidatesTable extends Table
         ]);
     }
 
+	public function findWithoutAppoitmentForMassive(Query $query, array $options)
+	{
+		$candidatesWithAppoitment = $this->Preoccupationals->find()->select(['candidate_id'])
+			->where(['OR' => ['OR' => ['appointment > NOW()', 'appointment IS NULL'], 'status NOT IN' => $this->Preoccupationals->statusNotNeedNewMassiveDate()]]);
+
+		$candidatesWithAppoitmentID = [];
+
+		foreach ($candidatesWithAppoitment as $candidateWithAppoitment) {
+			$candidatesWithAppoitmentID[$candidateWithAppoitment->candidate_id] = $candidateWithAppoitment->candidate_id;
+		}
+
+		if (!empty($candidatesWithAppoitmentID)) {
+			$query->where(['id not in' => $candidatesWithAppoitmentID]);
+		}
+
+		return $query;
+	}
+
     /**
      * Default validation rules.
      *
@@ -114,23 +132,7 @@ class CandidatesTable extends Table
         return $rules;
     }
 
-	public function withoutAppoitmentForMassive(Query $query, array $options)
-	{
-		$candidatesWithAppoitment = $this->Preoccupationals->find()->select(['candidate_id'])
-			->where(['OR' => ['OR' => ['appointment > NOW()', 'appointment IS NULL'], 'status NOT IN' => $this->Preoccupationals->statusNotNeedNewMassiveDate()]]);
 
-		$candidatesWithAppoitmentID = [];
-
-		foreach ($candidatesWithAppoitment as $candidateWithAppoitment) {
-			$candidatesWithAppoitmentID[$candidateWithAppoitment->candidate_id] = $candidateWithAppoitment->candidate_id;
-		}
-
-		if (!empty($candidatesWithAppoitmentID)) {
-			$query->where(['id not in' => $candidatesWithAppoitmentID]);
-		}
-
-		return $query;
-	}
 
 	public function checkExistence($data, $id = null) {
 		$userExistence = [
