@@ -114,10 +114,10 @@ class CandidatesTable extends Table
         return $rules;
     }
 
-	public function findWithoutAppoitment(Query $query, array $options)
+	public function withoutAppoitmentForMassive(Query $query, array $options)
 	{
 		$candidatesWithAppoitment = $this->Preoccupationals->find()->select(['candidate_id'])
-			->where(['OR' => ['OR' => ['appointment > NOW()', 'appointment IS NULL'], 'status NOT IN' => $this->Preoccupationals->inactiveStatuses()]]);
+			->where(['OR' => ['OR' => ['appointment > NOW()', 'appointment IS NULL'], 'status NOT IN' => $this->Preoccupationals->statusNotNeedNewMassiveDate()]]);
 
 		$candidatesWithAppoitmentID = [];
 

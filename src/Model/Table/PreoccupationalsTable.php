@@ -160,6 +160,12 @@ class PreoccupationalsTable extends Table
 		];
 	}
 
+	public function statusNotNeedNewMassiveDate() {
+		return [
+			static::CANCELLED,
+		];
+	}
+
 
 
 	public function checkPreviousPreoccupationals($candidateID) {
