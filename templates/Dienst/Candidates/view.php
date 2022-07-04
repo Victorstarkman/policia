@@ -231,7 +231,9 @@
             </div>
         </div>
     </div>
-<?php $this->start('scriptBottom'); ?>
+<?php $this->start('scriptBottom');          $group = $this->Identity->get('groupIdentity');
+$prefix = (!empty($group['prefix'])) ? $group['prefix'] : 'default';
+$redirect = (!empty($group)) ? $group['redirect'] : ''; ?>
 <script>
     $(".tablaFiles").on("click", '.loadNewFile', function (){
         var fileID = $(this).data('id');
@@ -252,7 +254,7 @@
             data.append(input.name,input.value);
         });
         $.ajax({
-            url: "/dienst/files/replaceFile",
+            url: '<?= $this->Url->build($redirect . 'files/replaceFile/', ['fullBase' => true]); ?>',
             type: "POST",
             dataType: "json",
             data: data,
@@ -269,7 +271,7 @@
                 $('#formFileLg').change();
                 var preoccupation_id = res.data.preoccupational_id
                 $.ajax({
-                    url: "/dienst/files/viewFiles/" + preoccupation_id,
+                    url: '<?= $this->Url->build($redirect . 'files/viewFiles/', ['fullBase' => true]); ?>' +  preoccupation_id,
                     type: "GET"
                 })
                 .done(function(res) {
