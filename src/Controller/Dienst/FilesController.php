@@ -76,4 +76,41 @@ class FilesController extends AppController
 		$files = $this->Files->find('all')->where(['preoccupational_id' => $preoccupationalID])->toArray();
 		$this->set(compact('preoccupationalID', 'files'));
 	}
+
+	public function delete($id = null)
+	{
+		$this->viewBuilder()->setLayout('ajax');
+		$this->request->allowMethod(['post', 'delete']);
+		try {
+			if (!$this->request->allowMethod(['post', 'delete'])) { throw new \Exception('El request debe ser POST o DELETE.'); }
+			$data = $this->request->getData();
+			if (empty($data["deleteID"]) ) {  throw new \Exception('ID no presente.');}
+			$photo = $this->Files->get((int) $data["deleteID"],[
+				'contain' => [
+					'Preoccupationals'
+				]
+			]);
+			if (empty($photo)) { throw new \Exception("Imagen no existe.");}
+			$output_dir = 'files/';
+			$pathToProperty = WWW_ROOT . $output_dir  . $photo->preoccupational->id . DS . $photo->name;
+			$preoccupationID = $photo->preoccupational->id;
+			if (!$this->Files->delete($photo)) { throw new \Exception("Se presento un problema al eliminar la imagen."); }
+			unlink($pathToProperty);
+			$response = [
+				'error' => false,
+				'data' => [
+					'id' => $data["deleteID"],
+					'preoccupational_id' => $preoccupationID,
+				]
+			];
+
+		} catch (\Exception $e) {
+			$response = [
+				'error' => true,
+				'message' => $e->getMessage(),
+			];
+		}
+		$this->set(compact('response'));
+	}
+
 }

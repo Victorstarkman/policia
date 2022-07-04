@@ -98,7 +98,7 @@
                                         <td>
 					                        <?= $this->Html->link(__('Descargar'),  DS.  'files'. DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
                                             |
-					                        <?= $this->Html->link(__('Borrar'),  DS.  'files'. DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
+					                        <?= $this->Html->link(__('Borrar'),   'javascript:void(0)', ['fullBase' => true, 'class' => 'text-center deleteFile', 'data-id' => $file->id]); ?>
                                             |
 					                        <?= $this->Html->link(__('Reemplazar'),  'javascript:void(0)', ['class' => 'text-center loadNewFile', 'data-id' => $file->id]); ?>
                                         </td>
@@ -240,6 +240,38 @@ $redirect = (!empty($group)) ? $group['redirect'] : ''; ?>
         $('.modal').modal('show');
         $('.modal #fileID').val(fileID);
     });
+
+    $(".tablaFiles").on("click", '.deleteFile', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        var fileID = $(this).data('id');
+        console.log(fileID);
+        if(confirm("Esta acción eliminara el archivo del servidor, desea continuar?")){
+            $.ajax({
+                url: '<?= $this->Url->build($redirect . 'files/delete/', ['fullBase' => true]); ?>',
+                type: "POST",
+                dataType: "json",
+                data: {deleteID: fileID}
+            })
+            .done(function(res) {
+                if (res.error == true) {
+                    alert(res.message);
+                } else {
+                    var preoccupation_id = res.data.preoccupational_id
+                    $.ajax({
+                        url: '<?= $this->Url->build($redirect . 'files/viewFiles/', ['fullBase' => true]); ?>' +  preoccupation_id,
+                        type: "GET"
+                    })
+                    .done(function(res) {
+                        $('#table-files-preoccupational-' + preoccupation_id).html(res);
+                    });
+                }
+            });
+        }
+
+    });
+
 
     $(".reemplazo-archivo-submit").on("click", function (e) {
         e.preventDefault();
