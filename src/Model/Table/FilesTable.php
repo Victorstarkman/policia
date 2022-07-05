@@ -88,9 +88,14 @@ class FilesTable extends Table
         return $rules;
     }
 
-	public function checkDocument($filename, $preocupationalID) {
+	public function checkDocument($filename, $preocupationalID, $extraParams = []) {
 
-		$countOfFiles = $this->find()->where(['name' => $filename, 'preoccupational_id' => $preocupationalID])->all()->count();
+		$countOfFiles = $this->find()->where(['name' => $filename, 'preoccupational_id' => $preocupationalID]);
+		if ($extraParams['exclude_id']) {
+			$countOfFiles->where(['id NOT IN' => $extraParams['exclude_id']]);
+		}
+
+		$countOfFiles = $countOfFiles->all()->count();
 		return $countOfFiles > 0;
 	}
 }

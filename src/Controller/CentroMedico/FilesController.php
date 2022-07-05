@@ -22,7 +22,7 @@ class FilesController extends AppController
 		$ret['success'] = false;
 		$receivedData = $this->request->getData();
 		if (isset($receivedData['preoccupationFile']) && !empty($receivedData['preoccupationFile'])) {
-			$attachment =$receivedData['preoccupationFile'];
+			$attachment = $receivedData['preoccupationFile'];
 
 			$data = [
 				'preoccupational_id' => $preoccupationID,
@@ -206,4 +206,5 @@ class FilesController extends AppController
 
 		$this->set(compact('response'));
 	}
+
 }

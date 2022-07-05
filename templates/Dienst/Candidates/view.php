@@ -76,35 +76,38 @@
                     </tbody>
                 </table>
                     <?php if (!empty($preoccupational->files)) : ?>
-                    <div class="container row">
+                    <div class="col-12 p-0">
                         <div class="col-12">
                             <p class="title-results">Archivos para preocupacional </p>
                         </div>
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th><?= __('Nombre') ?></th>
-                                <th><?= __('Documentos') ?></th>
-                                <th><?= __('Acciones') ?></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php foreach ($preoccupational->files as $file) :?>
-                            <tr>
+                        <div id="table-files-preoccupational-<?= $preoccupational->id; ?>" class="col-12 tablaFiles">
+                            <table class="table table-bordered col-12" >
+                                <thead>
+                                <tr>
+                                    <th><?= __('Nombre') ?></th>
+                                    <th><?= __('Documentos') ?></th>
+                                    <th><?= __('Acciones') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+		                        <?php foreach ($preoccupational->files as $file) :?>
+                                    <tr id="file-<?= $file->id; ?>">
 
-                                <td><?= h($file->name) ?></td>
-                                <td><img src="<?= $file->getUrl(); ?>" height="100px"/></td>
-                                <td>
-                                <?= $this->Html->link(__('Descargar'),  DS.  'files'.DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
-                                    |
-                                    <?= $this->Html->link(__('Borrar'),  DS.  'files'.DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
-                                    |
-	                                <?= $this->Html->link(__('Cargar'),  DS. 'files'.DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
-                                </td>
-                            </tr>
-                            <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                                        <td><?= h($file->name) ?></td>
+                                        <td><img src="<?= $file->getUrl(); ?>" height="100px"/></td>
+                                        <td>
+					                        <?= $this->Html->link(__('Descargar'),  DS.  'files'. DS . $preoccupational->id . DS . $file->name, ['fullBase' => true, 'class' => 'text-center', 'target' => '_blank']); ?>
+                                            |
+					                        <?= $this->Html->link(__('Borrar'),   'javascript:void(0)', ['fullBase' => true, 'class' => 'text-center deleteFile', 'data-id' => $file->id]); ?>
+                                            |
+					                        <?= $this->Html->link(__('Reemplazar'),  'javascript:void(0)', ['class' => 'text-center loadNewFile', 'data-id' => $file->id]); ?>
+                                        </td>
+                                    </tr>
+		                        <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+
 
                     </div>
                     <?php endif; ?>
@@ -201,11 +204,115 @@
                  <?php endif; ?>
             <?php endif; ?>
         <?php endif; ?>
-
 </div>
-
-<?php $this->start('scriptBottom'); ?>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reemplazo de archivo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" id="form-reemplazo-archivo" method="post">
+                        <input class="form-control form-control-lg" id="fileID" name="fileID" type="hidden">
+                        <div>
+                            <label for="formFileLg" class="form-label">Seleccione el nuevo archivo</label>
+                            <input class="form-control form-control-lg" id="formFileLg" type="file" name="newFile">
+                        </div>
+                    </form>
+                    <div class="msg alert alert-danger mt-4" style="display: none;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary reemplazo-archivo-submit">Reemplazar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php $this->start('scriptBottom');          $group = $this->Identity->get('groupIdentity');
+$prefix = (!empty($group['prefix'])) ? $group['prefix'] : 'default';
+$redirect = (!empty($group)) ? $group['redirect'] : ''; ?>
 <script>
+    $(".tablaFiles").on("click", '.loadNewFile', function (){
+        var fileID = $(this).data('id');
+        $('.modal').modal('show');
+        $('.modal #fileID').val(fileID);
+    });
+
+    $(".tablaFiles").on("click", '.deleteFile', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        var fileID = $(this).data('id');
+        console.log(fileID);
+        if(confirm("Esta acción eliminara el archivo del servidor, desea continuar?")){
+            $.ajax({
+                url: '<?= $this->Url->build($redirect . 'files/delete/', ['fullBase' => true]); ?>',
+                type: "POST",
+                dataType: "json",
+                data: {deleteID: fileID}
+            })
+            .done(function(res) {
+                if (res.error == true) {
+                    alert(res.message);
+                } else {
+                    var preoccupation_id = res.data.preoccupational_id
+                    $.ajax({
+                        url: '<?= $this->Url->build($redirect . 'files/viewFiles/', ['fullBase' => true]); ?>' +  preoccupation_id,
+                        type: "GET"
+                    })
+                    .done(function(res) {
+                        $('#table-files-preoccupational-' + preoccupation_id).html(res);
+                    });
+                }
+            });
+        }
+
+    });
+
+
+    $(".reemplazo-archivo-submit").on("click", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        var data = new FormData();
+        jQuery.each($('#form-reemplazo-archivo input[type=file]')[0].files, function(i, file) {
+            data.append('file-'+i, file);
+        });
+        var other_data = $('#form-reemplazo-archivo').serializeArray();
+        $.each(other_data,function(key,input){
+            data.append(input.name,input.value);
+        });
+        $.ajax({
+            url: '<?= $this->Url->build($redirect . 'files/replaceFile/', ['fullBase' => true]); ?>',
+            type: "POST",
+            dataType: "json",
+            data: data,
+            processData: false,
+            contentType: false
+        })
+        .done(function(res) {
+            if (res.error == true) {
+                $('.modal .msg').html(res.message).show();
+            } else {
+                $('.modal .msg').html('').hide();
+                $('.modal').modal('hide');
+                $('#formFileLg').attr("value", '');
+                $('#formFileLg').change();
+                var preoccupation_id = res.data.preoccupational_id
+                $.ajax({
+                    url: '<?= $this->Url->build($redirect . 'files/viewFiles/', ['fullBase' => true]); ?>' +  preoccupation_id,
+                    type: "GET"
+                })
+                .done(function(res) {
+                    $('#table-files-preoccupational-' + preoccupation_id).html(res);
+                });
+            }
+        });
+    });
+
     $("#noApto, #aptoConPrexistencia").on("click", function (){
         $("#observaciones").show();
         $("#aptitud").val($(this).attr('data-id'));
