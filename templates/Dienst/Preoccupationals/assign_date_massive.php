@@ -62,22 +62,29 @@
 <?php $this->start('scriptBottom'); ?>
 <script>
 let candidateID = [];
-$('input.appointment').change(function(){
-    if ($(this).is(':checked')) {
-        candidateID.push($(this).attr('data-id'))
-    } else {  
-        candidateID.pop($(this).attr('data-id'))
-    }
 
+function checkIfCandidateIsEmpty () {
     if (candidateID.length > 0) {
         $(".assignDate").attr("disabled", false)
     } else {
         $(".assignDate").attr("disabled", true)
     }
+}
+
+$('input.appointment').change(function(){
+    if ($(this).is(':checked')) {
+        if (!candidateID.includes($(this).attr('data-id'))) {
+            candidateID.push($(this).attr('data-id'));
+        }
+    } else {
+        candidateID.splice( $.inArray($(this).attr('data-id'), candidateID), 1 );
+    }
+    checkIfCandidateIsEmpty();
 });
-$('input.selectall').change(function(){
-   $('.appointment').prop('checked',this.checked);
-})
+$('input.selectall').change(function() {
+    $('.appointment').prop('checked',this.checked).change();
+});
+
 $(".assignDate").on("click", function(){
     dateInput = $(".dateToAssign").val();
     preocuppationalstype_id = $(".preocuppationalstype_id option").filter(':selected').val();
