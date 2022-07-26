@@ -43,7 +43,7 @@ class PreoccupationalsController extends AppController
 				'telefono' => $preoccupational->candidate->phone,
 				'email' => $preoccupational->candidate->email,
 				'genero' => $preoccupational->candidate->getGender(),
-				'foto_perfil' => $actualLink . '/img/candidates/' . $preoccupational->candidate->id . DS . $preoccupational->candidate->photo,
+				'foto_perfil' => $actualLink . 'policiabsas/img/candidates/' . $preoccupational->candidate->id . DS . $preoccupational->candidate->photo,
 				'preocupacional' => [
 					'turno' => $preoccupational->appointment->format('d/m/Y H:m'),
 					'tipo' => $preoccupational->preocuppationalstype->name,
@@ -58,7 +58,7 @@ class PreoccupationalsController extends AppController
 			foreach($preoccupational->files as $file) {
 				$data[$key]['archivos'][] = [
 					'nombre' => $file->name,
-					'url' => $actualLink . $file->getUrl()
+					'url' => $actualLink . 'policiabsas/files/' . $preoccupational->candidate->id.'/'.$file->name
 				];
 			}
 			$key++;

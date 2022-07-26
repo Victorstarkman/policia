@@ -1,0 +1,145 @@
+{
+	"info": {
+		"_postman_id": "363fc1f3-77b7-4dde-b8ba-625b58d818f1",
+		"name": "API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19590131"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "{{email}}",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "{{password}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/{{destino}}/api/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{destino}}",
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET preocupacionales",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{destino}}/api/preocupacionales",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{destino}}",
+						"api",
+						"preocupacionales"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET preocupacionales With Filter",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/{{destino}}/api/preocupacionales?begin_date=2022-02-10&end_date=2022-02-16",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"{{destino}}",
+						"api",
+						"preocupacionales"
+					],
+					"query": [
+						{
+							"key": "begin_date",
+							"value": "2022-02-10"
+						},
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"disabled": true
+						},
+						{
+							"key": "end_date",
+							"value": "2022-02-16"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
