@@ -121,6 +121,7 @@ class PreoccupationalsController extends AppController
 			];
 			$key = 0;
 			$actualLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+			$actualdir=   isset($_SERVER['PHP_SELF'])?'/'.explode('/',$_SERVER['PHP_SELF'])[1]:'';
 			foreach($preoccupationals as $preoccupational) {
 				$json['data'][$key] = [
 					'nombre' => $preoccupational->candidate->name,
@@ -129,7 +130,7 @@ class PreoccupationalsController extends AppController
 					'telefono' => $preoccupational->candidate->phone,
 					'email' => $preoccupational->candidate->email,
 					'genero' => $preoccupational->candidate->getGender(),
-					'foto_perfil' => $actualLink . '/policiabsas/img/candidates/' . $preoccupational->candidate->id . DS . $preoccupational->candidate->photo,
+					'foto_perfil' => $actualLink . $actualdir.'/img/candidates/' . $preoccupational->candidate->id . DS . $preoccupational->candidate->photo,
 					'preocupacional' => [
 						'turno' => $preoccupational->appointment->format('d/m/Y H:m'),
 						'tipo' => $preoccupational->preocuppationalstype->name,
@@ -144,7 +145,7 @@ class PreoccupationalsController extends AppController
 				foreach($preoccupational->files as $file) {
 					$json['data'][$key]['archivos'][] = [
 						'nombre' => $file->name,
-						'url' => $actualLink . '/policiabsas/files/' . $preoccupational->candidate->id.'/'.$file->name
+						'url' => $actualLink . $actualdir.'/files/' . $preoccupational->candidate->id.'/'.$file->name
 					];
 				}
 				$key++;
